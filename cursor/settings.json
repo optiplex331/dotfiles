@@ -1,608 +1,205 @@
 {
+  // ============================================================
+  // 编辑器基础
+  // ============================================================
+  "editor.fontSize": 15, // 字体大小
+  "editor.fontFamily": "JetBrains Mono, Monaco, monospace", // 字体，JetBrains Mono 为主，Monaco 兜底
+  "editor.fontLigatures": false, // 关闭连字符（如 => 不合并显示）
+  "editor.tabCompletion": "on", // Tab 键触发补全
+  "editor.wordWrap": "on", // 超出窗口宽度自动换行
+  "editor.lineNumbers": "relative", // 相对行号，配合跳转快捷键使用
+  "editor.cursorBlinking": "phase", // 光标呼吸式闪烁
+  "editor.cursorSmoothCaretAnimation": "on", // 光标移动平滑动画
+  "editor.linkedEditing": true, // HTML 标签同步编辑（改开标签自动改闭标签）
+  "editor.largeFileOptimizations": false, // 关闭大文件优化（避免功能被自动禁用）
+  "editor.accessibilitySupport": "off", // 关闭无障碍模式（可提升性能）
+
+  // ============================================================
+  // 格式化
+  // ============================================================
+  "editor.defaultFormatter": "esbenp.prettier-vscode", // 默认使用 Prettier 格式化
+  "editor.formatOnSave": true, // 保存时自动格式化
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit", // 保存时修复所有可自动修复的问题
+    "source.organizeImports": "explicit", // 保存时自动整理 import 顺序
+  },
+  "[python]": {
+    "editor.defaultFormatter": "charliermarsh.ruff", // Python 使用 Ruff 格式化（比 Black 快）
+    "editor.formatOnSave": true,
+  },
+  "[terraform]": {
+    "editor.defaultFormatter": "hashicorp.terraform", // Terraform 使用官方插件格式化
+  },
+  "[terraform-vars]": {
+    "editor.defaultFormatter": "hashicorp.terraform",
+  },
+  "[dockerfile]": {
+    "editor.quickSuggestions": {
+      "strings": true, // Dockerfile 字符串中也启用补全建议
+    },
+  },
+
+  // ============================================================
+  // 文件
+  // ============================================================
+  "files.autoSave": "onFocusChange", // 切换焦点时自动保存
+  "files.autoSaveDelay": 500, // 自动保存延迟 500ms
+
+  // ============================================================
+  // 工作区 & 外观
+  // ============================================================
+  "workbench.colorTheme": "IntelliJ Neo Dark", // 主题
+  "workbench.iconTheme": "material-icon-theme", // 文件图标主题
+  "workbench.activityBar.orientation": "vertical", // 活动栏垂直排列（左侧竖排图标）
+  "workbench.editor.empty.hint": "hidden", // 隐藏空编辑器的提示文字
+  "workbench.tree.indent": 20, // 文件树缩进宽度（px），层级更清晰
+  "window.zoomLevel": 1, // 窗口缩放级别
+  "window.newWindowProfile": "默认", // 新窗口使用默认配置文件
+  "window.commandCenter": true, // 顶部显示命令中心搜索框
+
+  // ============================================================
+  // 终端
+  // ============================================================
+  "terminal.integrated.inheritEnv": false, // 不继承父进程环境变量，避免污染
+  "terminal.integrated.commandsToSkipShell": ["language-julia.interrupt"], // Julia 中断命令由插件处理，不传给 shell
   "terminal.integrated.env.osx": {
     "Q_NEW_SESSION": "1"
   },
-  "extensions.experimental.affinity": {
-    "asvetliakov.vscode-neovim": 1
+  "terminal.external.osxExec": "Kitty.app", // 外部终端使用 Kitty
+
+  // ============================================================
+  // Python
+  // ============================================================
+  "cursorpyright.analysis.inlayHints.callArgumentNames": true, // 函数调用时显示参数名
+  "cursorpyright.analysis.inlayHints.functionReturnTypes": true, // 显示函数返回值类型
+  "cursorpyright.analysis.inlayHints.genericTypes": true, // 显示泛型类型推断结果
+  "cursorpyright.analysis.inlayHints.variableTypes": true, // 显示变量类型推断结果
+  "cursorpyright.analysis.typeCheckingMode": "standard", // 类型检查级别：standard（介于 off 和 strict 之间）
+
+  // ============================================================
+  // Java
+  // ============================================================
+  "java.configuration.runtimes": [
+    {
+      "name": "JavaSE-1.8",
+      "path": "/Library/Java/JavaVirtualMachines/zulu-8.jdk/Contents/Home",
+      "default": false,
+    },
+    {
+      "name": "JavaSE-11",
+      "path": "/Library/Java/JavaVirtualMachines/zulu-11.jdk/Contents/Home",
+      "default": true, // 默认使用 Java 11
+    },
+    {
+      "name": "JavaSE-17",
+      "path": "/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home",
+      "default": false,
+    },
+  ],
+
+  // ============================================================
+  // Git
+  // ============================================================
+  "git.confirmSync": false, // 同步时不弹出确认框
+  "git.enableSmartCommit": true, // 没有暂存文件时直接提交所有更改
+  "git.autofetch": true, // 定期自动 fetch 远程分支
+  "gitlens.ai.model": "github:DeepSeek-R1", // GitLens AI 功能使用 DeepSeek-R1 模型
+
+  // ============================================================
+  // 代码运行 (Code Runner)
+  // ============================================================
+  "code-runner.executorMap": {
+    "javascript": "node",
+    "java": "cd $dir && javac $fileName && java $fileNameWithoutExt",
+    "c": "cd $dir && gcc $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
+    "cpp": "cd $dir && g++ $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
+    "python": "python3 -u", // -u 禁用输出缓冲，实时显示 print
+    "go": "go run",
+    "rust": "cd $dir && rustc $fileName && $dir$fileNameWithoutExt",
+    "typescript": "ts-node",
+    "swift": "swift",
+    "ruby": "ruby",
+    "lua": "lua",
+    "r": "Rscript",
+    "julia": "julia",
+    "shellscript": "bash",
+    "dart": "dart",
+    "scala": "scala",
+    "kotlin": "kotlinc $fileName -include-runtime -d $fileNameWithoutExt.jar && java -jar $fileNameWithoutExt.jar",
+    "php": "php",
+    "perl": "perl",
+    "haskell": "runhaskell",
+    "applescript": "osascript",
   },
-  "window.commandCenter": true,
-  "editor.fontFamily": "JetBrains Mono",
-  "markdown.preview.lineHeight": 0.9,
-  "workbench.colorTheme": "Default Dark Modern",
-  "terminal.external.osxExec": "Kitty.app",
-  "editor.lineNumbers": "relative",
-  // Do not enable .vimrc file, otherwise, vscode vim will encounter some strange problems
-  // "vim.vimrc.enable": true,
-  // leader key 设置为空格
-  "vim.leader": "<space>",
-  // 使用系统剪贴板
-  "vim.useSystemClipboard": true,
-  "vim.highlightedyank.enable": true,
-  // cnoremap
-  "vim.commandLineModeKeyBindingsNonRecursive": [],
-  // imap
-  "vim.insertModeKeyBindings": [],
-  "vim.visualModeKeyBindingsNonRecursive": [
-    {
-      "before": [
-        "<C-j>",
-      ],
-      "after": [
-        "5",
-        "j"
-      ]
-    },
-    {
-      "before": [
-        "<C-k>",
-      ],
-      "after": [
-        "5",
-        "k"
-      ]
-    },
-  ],
-  // nnoremap
-  "vim.normalModeKeyBindingsNonRecursive": [
-    {
-      "before": [
-        "V",
-      ],
-      "after": [
-        "<C-v>"
-      ]
-    },
-    {
-      "before": [
-        "<C-v>",
-      ],
-      "after": [
-        "V"
-      ]
-    },
-    {
-      "before": [
-        "<C-j>",
-      ],
-      "after": [
-        "5",
-        "j"
-      ]
-    },
-    {
-      "before": [
-        "<C-k>",
-      ],
-      "after": [
-        "5",
-        "k"
-      ]
-    },
-    {
-      "before": [
-        "<C-h>",
-      ],
-      "after": [
-        "^",
-      ]
-    },
-    {
-      "before": [
-        "<C-l>",
-      ],
-      "after": [
-        "$",
-      ]
-    },
-    {
-      "before": [
-        "s",
-        "l",
-      ],
-      "commands": [
-        ":vsp",
-      ]
-    },
-    {
-      "before": [
-        "s",
-        "j",
-      ],
-      "commands": [
-        ":sp",
-      ]
-    },
-    {
-      "before": [
-        "<leader>",
-        "h",
-      ],
-      "after": [
-        "<C-w>",
-        "h",
-      ]
-    },
-    {
-      "before": [
-        "<leader>",
-        "j",
-      ],
-      "after": [
-        "<C-w>",
-        "j",
-      ]
-    },
-    {
-      "before": [
-        "<leader>",
-        "k",
-      ],
-      "after": [
-        "<C-w>",
-        "k",
-      ]
-    },
-    {
-      "before": [
-        "<leader>",
-        "l",
-      ],
-      "after": [
-        "<C-w>",
-        "l",
-      ]
-    },
-    {
-      "before": [
-        "J",
-      ],
-      "after": [
-        "5",
-        "<C-e>"
-      ]
-    },
-    {
-      "before": [
-        "K",
-      ],
-      "after": [
-        "5",
-        "<C-y>"
-      ]
-    },
-    {
-      "before": [
-        "H",
-      ],
-      "after": [
-        "2",
-        "0",
-        "z",
-        "h"
-      ]
-    },
-    {
-      "before": [
-        "L",
-      ],
-      "after": [
-        "20zl"
-      ]
-    },
-    // Toggle case
-    {
-      "before": [
-        "`",
-      ],
-      "after": [
-        "~"
-      ]
-    },
-    // Redo
-    {
-      "before": [
-        "U",
-      ],
-      "after": [
-        "<C-r>"
-      ]
-    },
-    // Format codes
-    {
-      "before": [
-        "<leader>",
-        "c",
-        "f"
-      ],
-      "commands": [
-        "editor.action.formatDocument"
-      ]
-    },
-    // Copy
-    {
-      "before": [
-        "Y",
-      ],
-      "after": [
-        "v",
-        "$",
-        "h",
-        "y"
-      ]
-    },
-    {
-      "before": [
-        "v",
-        "<C-l>",
-      ],
-      "after": [
-        "v",
-        "$",
-        "h",
-      ]
-    },
-    {
-      "before": [
-        "v",
-        "<C-h>",
-      ],
-      "after": [
-        "v",
-        "^",
-      ]
-    },
-    {
-      "before": [
-        "v",
-        "i",
-        "e",
-      ],
-      "after": [
-        "g",
-        "g",
-        "V",
-        "G",
-      ]
-    },
-    {
-      "before": [
-        "*"
-      ],
-      "after": [
-        "*",
-        "z",
-        "z",
-      ]
-    },
-    {
-      "before": [
-        "#"
-      ],
-      "after": [
-        "#",
-        "z",
-        "z",
-      ]
-    },
-    {
-      "before": [
-        "n"
-      ],
-      "after": [
-        "n",
-        "z",
-        "z",
-      ]
-    },
-    {
-      "before": [
-        "N"
-      ],
-      "after": [
-        "N",
-        "z",
-        "z",
-      ]
-    },
-    {
-      "before": [
-        "<leader>",
-        ";"
-      ],
-      "after": [
-        "A",
-        ";",
-        "<esc>"
-      ]
-    },
-    // Set s no any action
-    {
-      "before": [
-        "s"
-      ],
-      "after": [
-        "<nop>"
-      ]
-    },
-    // Set s no any action
-    {
-      "before": [
-        "\\",
-        "s"
-      ],
-      "after": [
-        ""
-      ]
-    },
-    // Rename
-    {
-      "before": [
-        "<leader>",
-        "r",
-        "n"
-      ],
-      "commands": [
-        "editor.action.rename"
-      ]
-    },
-    // Hover
-    {
-      "before": [
-        "<leader>",
-        "e"
-      ],
-      "commands": [
-        "editor.action.showHover"
-      ]
-    },
-    // Quick open
-    {
-      "before": [
-        "<leader>",
-        "<leader>"
-      ],
-      "commands": [
-        "workbench.action.quickOpen"
-      ]
-    },
-    // Keyword search
-    {
-      "before": [
-        "<leader>",
-        "/"
-      ],
-      "commands": [
-        "workbench.action.findInFiles"
-      ]
-    },
-    // Previous tab
-    {
-      "before": [
-        "E"
-      ],
-      "commands": [
-        "workbench.action.previousEditorInGroup"
-      ]
-    },
-    // Next tab
-    {
-      "before": [
-        "R"
-      ],
-      "commands": [
-        "workbench.action.nextEditorInGroup"
-      ]
-    },
-    // First tab
-    {
-      "before": [
-        "W"
-      ],
-      "commands": [
-        "workbench.action.firstEditorInGroup"
-      ]
-    },
-    // Last tab
-    {
-      "before": [
-        "T"
-      ],
-      "commands": [
-        "workbench.action.lastEditorInGroup"
-      ]
-    },
-    // Recent projects
-    {
-      "before": [
-        "t",
-        "p"
-      ],
-      "commands": [
-        "workbench.action.openRecent"
-      ]
-    },
-    // Reveal in explorer view
-    {
-      "before": [
-        "s",
-        "s"
-      ],
-      "commands": [
-        "workbench.files.action.showActiveFileInExplorer"
-      ]
-    },
-    // Go back
-    {
-      "before": [
-        "<ctrl-o>",
-      ],
-      "commands": [
-        "workbench.action.navigateBack"
-      ]
-    },
-    // Go forward
-    {
-      "before": [
-        "<ctrl-i>",
-      ],
-      "commands": [
-        "workbench.action.navigateForward"
-      ]
-    },
-    // Git annotations
-    {
-      "before": [
-        "<leader>",
-        "a",
-      ],
-      "commands": [
-        "gitlens.toggleFileBlame"
-      ]
-    },
-    // Git next chagne
-    {
-      "before": [
-        "g",
-        "j",
-      ],
-      "commands": [
-        "gitlens.annotations.nextChange"
-      ]
-    },
-    // Git previous chagne
-    {
-      "before": [
-        "g",
-        "k",
-      ],
-      "commands": [
-        "gitlens.annotations.previousChange"
-      ]
-    },
-    // File history
-    {
-      "before": [
-        "g",
-        "h",
-      ],
-      "commands": [
-        "gitlens.showQuickFileHistory"
-      ]
-    },
-    // Git discard changes
-    {
-      "before": [
-        "<leader>",
-        "r",
-        "b",
-      ],
-      "commands": [
-        "git.clean"
-      ]
-    },
-    // 保存文件
-    {
-      "before": [
-        "S"
-      ],
-      "commands": [
-        "workbench.action.files.save"
-      ]
-    },
-    // 关闭当前标签页
-    {
-      "before": [
-        "q"
-      ],
-      "commands": [
-        "workbench.action.closeActiveEditor"
-      ]
-    },
-    // Close other tabs
-    {
-      "before": [
-        "c",
-        "o"
-      ],
-      "commands": [
-        "workbench.action.closeOtherEditors"
-      ]
-    },
-    // Close all editors in group
-    {
-      "before": [
-        "c",
-        "g"
-      ],
-      "commands": [
-        "workbench.action.closeEditorsInGroup"
-      ]
-    },
-    // Close left editors
-    {
-      "before": [
-        "c",
-        "h"
-      ],
-      "commands": [
-        "workbench.action.closeEditorsToTheLeft"
-      ]
-    },
-    // Comment
-    {
-      "before": [
-        "<ctrl-/>",
-      ],
-      "commands": [
-        "editor.action.commentLine"
-      ]
-    },
-    // Close right editors
-    {
-      "before": [
-        "c",
-        "l"
-      ],
-      "commands": [
-        "workbench.action.closeEditorsToTheRight"
-      ]
-    },
-    // Code action
-    {
-      "before": [
-        "<leader>",
-        "c",
-        "a"
-      ],
-      "commands": [
-        "editor.action.quickFix"
-      ]
-    },
-    // Close window
-    {
-      "before": [
-        "Q"
-      ],
-      "commands": [
-        "workbench.action.closeFolder"
-      ]
-    },
-  ],
-  "vim.commandLineModeKeyBindings": [],
-  "dotnetAcquisitionExtension.proxyUrl": "http://127.0.0.1:7890",
-  "git.autofetch": true,
-  "http.proxy": "http://127.0.0.1:7890",
-  "editor.formatOnSave": true,
-  "explorer.confirmDelete": false,
-  "editor.accessibilitySupport": "on",
-  "vim.autoSwitchInputMethod.defaultIM": "com.apple.keylayout.ABC",
-  "vim.autoSwitchInputMethod.obtainIMCmd": "/opt/homebrew/bin/im-select ",
-  "vim.autoSwitchInputMethod.switchIMCmd": "/opt/homebrew/bin/im-select {im}",
-  "vim.autoSwitchInputMethod.enable": true,
-  "editor.fontSize": 12,
-  "notebook.multiCursor.enabled": true,
+
+  // ============================================================
+  // Markdown
+  // ============================================================
+  "markdown.preview.lineHeight": 0.9, // 预览行高略紧凑
   "markdown.copyFiles.destination": {
-    "**/*": "${documentDirName}/"
+    "**/*": "${documentDirName}/", // 粘贴图片时保存到与 md 文件同目录
   },
-  "workbench.tree.indent": 20
+
+  // ============================================================
+
+  // ============================================================
+  // 其他
+  // ============================================================
+  "security.workspace.trust.untrustedFiles": "open", // 不信任的文件夹也直接打开，不弹提示
+  "explorer.confirmDragAndDrop": false, // 拖拽移动文件不需要确认
+  "explorer.confirmDelete": false, // 删除文件不需要确认
+  "update.showReleaseNotes": false, // 更新后不自动弹出版本说明
+  "update.releaseTrack": "prerelease", // 使用预发布版本（体验最新功能）
+  "liveServer.settings.donotShowInfoMsg": true, // 关闭 Live Server 信息提示
+  "liveServer.settings.donotVerifyTags": true, // 关闭 Live Server 标签校验
+  "redhat.telemetry.enabled": false, // 关闭 Red Hat 插件遥测
+  "lean4.alwaysAskBeforeInstallingLeanVersions": true, // 安装 Lean 版本前询问
+  "notebook.multiCursor.enabled": true, // Notebook 支持多光标
+  "cursor.cpp.disabledLanguages": ["markdown"], // Markdown 中关闭 Cursor AI 补全（避免干扰写作）
+
+  // ============================================================
+  // 拼写检查
+  // ============================================================
+  "cSpell.userWords": [
+    "addnumbers",
+    "ADMINPASSWORD",
+    "ADMINUSERNAME",
+    "agentchat",
+    "alertmanager",
+    "autogen",
+    "blockinfile",
+    "bootcamp",
+    "boto",
+    "clusterrole",
+    "clusterrolebinding",
+    "cursorignore",
+    "cursorrules",
+    "dotenv",
+    "ehthumbs",
+    "hostnames",
+    "INITDB",
+    "kubeconfig",
+    "lineinfile",
+    "mkdocs",
+    "mkdocstrings",
+    "mosquitto",
+    "myapp",
+    "mypy",
+    "nanajanashia",
+    "ndarray",
+    "ntlp",
+    "pycache",
+    "pydocstyle",
+    "pyproject",
+    "Qdrant",
+    "serviceaccount",
+    "sonatype",
+    "sshagent",
+    "tfstate",
+    "usermod",
+    "venv",
+    "webservers",
+    "zengqhh",
+    "zqhh",
+  ],
 }
