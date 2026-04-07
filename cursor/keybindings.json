@@ -1,40 +1,35 @@
-// Place your key bindings in this file to override the defaults
+// 将键绑定放在此文件中以覆盖默认值
 [
-    {
-        "key": "cmd+i",
-        "command": "composerMode.agent"
-    },
-    {
-        "key": "shift+cmd+.",
-        "command": "workbench.action.moveEditorRightInGroup"
-    },
-    {
-        "key": "shift+cmd+,",
-        "command": "workbench.action.moveEditorLeftInGroup"
-    },
-    {
-        "key": "ctrl+/",
-        "command": "runCommands",
-        "args": {
-            "commands": [
-                "editor.action.commentLine",
-                "cursorDown"
-            ]
-        },
-        "when": "editorTextFocus && !editorReadonly"
-    },
-    {
-        "key": "cmd+/",
-        "command": "-editor.action.commentLine",
-        "when": "editorTextFocus && !editorReadonly"
-    },
-    {
-        "key": "ctrl+n",
-        "command": "editor.action.addSelectionToNextFindMatch",
-        "when": "editorFocus"
-    },
-    {
-        "key": "ctrl+n",
-        "command": "explorer.newFile"
+  {
+    "key": "cmd+i",
+    "command": "composerMode.agent"
+  },
+  {
+    "key": "shift+alt+l",
+    "command": "editor.action.selectHighlights",
+    "when": "editorFocus"
+  },
+  {
+    "key": "shift+cmd+l",
+    "command": "-editor.action.selectHighlights",
+    "when": "editorFocus"
+  },
+  {
+    "key": "cmd+g cmd+g",
+    "command": "runCommands",
+    "args": {
+      "commands": [
+        "workbench.action.files.save",
+        "git.stageAll",
+        "cursor.generateGitCommitMessage",
+        "git.commit"
+        //"git push"
+      ]
     }
+  },
+  {
+    "key": "alt+cmd+s",
+    "command": "workbench.action.toggleUnifiedSidebarFromKeyboard",
+    "when": "!isAuxiliaryWindowFocusedContext"
+  }
 ]
