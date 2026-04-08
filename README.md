@@ -6,7 +6,7 @@
 
 git clone git@github.com:optiplex331/dotfiles.git ~/Code/
 
-ln -sf ~/Code/dotfiles/kitty ~/.config/kitty
+ln -sf ~/Code/dotfiles/kitty/kitty.conf ~/.config/kitty/kitty.conf
 ln -sf ~/Code/dotfiles/tmux/.tmux.conf.local ~/.tmux.conf.local
 ln -sf ~/Code/dotfiles/vim/.vimrc ~/.vimrc
 ln -sf ~/Code/dotfiles/nvim ~/.config/nvim
