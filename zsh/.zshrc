@@ -101,6 +101,7 @@ alias l='ll'                            # 快捷方式
 alias la='l -a'                         # 显示隐藏文件
 alias lh='l -h'                         # 人类可读大小
 alias lha='l -ha'                       # 隐藏文件 + 大小
+alias lt='eza -T -L 2'                 # 树状显示
 
 # 文件管理器
 alias y='yazi'                         # 打开 Yazi 文件管理器
