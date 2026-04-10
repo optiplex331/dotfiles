@@ -1,49 +1,43 @@
 # dotfiles
 
-Managed with [chezmoi](https://www.chezmoi.io/).
+Personal macOS development environment configuration managed with symlinks.
+
+## Structure
+
+| Directory | Target | Description |
+|-----------|--------|-------------|
+| `zsh/` | `~/.zshrc` | Zsh shell configuration |
+| `vim/` | `~/.vimrc` | Vim configuration |
+| `nvim/` | `~/.config/nvim` | Neovim (LazyVim) |
+| `kitty/` | `~/.config/kitty` | Kitty terminal emulator |
+| `tmux/` | `~/.tmux.conf.local` | Tmux configuration |
+| `git/` | `~/.gitconfig`, `~/.config/git/ignore` | Git configuration |
+| `starship/` | `~/.config/starship.toml` | Starship prompt |
+| `lazygit/` | `~/.config/lazygit` | Lazygit configuration |
+| `lazydocker/` | `~/Library/Application Support/lazydocker` | Lazydocker configuration |
+| `yazi/` | `~/.config/yazi` | Yazi file manager |
+| `cursor/` | `~/Library/Application Support/Cursor/User` | Cursor editor settings |
 
 ## Install
 
-```bash
-brew install chezmoi
-
-git clone git@github.com:optiplex331/dotfiles.git ~/Code/dotfiles
-
-mkdir -p ~/.config/chezmoi
-echo 'sourceDir = "/Users/$USER/Code/dotfiles"' > ~/.config/chezmoi/chezmoi.toml
-
-chezmoi apply
-```
-
-## Daily Usage
+On a fresh macOS machine:
 
 ```bash
-# Edit a dotfile (opens in $EDITOR, auto-updates source)
-chezmoi edit ~/.zshrc
-
-# Preview pending changes
-chezmoi diff
-
-# Apply changes from source to home
-chezmoi apply
-
-# Check which files chezmoi manages
-chezmoi managed
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/optiplex331/dotfiles/main/scripts/setup.sh)"
 ```
 
-## Source Layout
+On an existing machine with the repo already cloned:
 
-Files in this repo mirror the home directory structure using chezmoi naming conventions:
+```bash
+bash ~/Code/dotfiles/scripts/restore.sh
+```
 
-| Source path | Target path |
-|---|---|
-| `dot_zshrc` | `~/.zshrc` |
-| `dot_vimrc` | `~/.vimrc` |
-| `dot_tmux.conf.local` | `~/.tmux.conf.local` |
-| `dot_config/kitty/kitty.conf` | `~/.config/kitty/kitty.conf` |
-| `dot_config/nvim/` | `~/.config/nvim/` |
-| `dot_config/yazi/` | `~/.config/yazi/` |
-| `dot_config/starship.toml` | `~/.config/starship.toml` |
-| `dot_config/lazygit/config.yml` | `~/.config/lazygit/config.yml` |
-| `Library/Application Support/Cursor/User/` | `~/Library/Application Support/Cursor/User/` |
-| `Library/Application Support/lazydocker/` | `~/Library/Application Support/lazydocker/` |
+## Tools
+
+- **Shell:** Zsh + [Starship](https://starship.rs) prompt + [zoxide](https://github.com/ajeetdsouza/zoxide)
+- **Terminal:** [Kitty](https://sw.kovidgoyal.net/kitty/)
+- **Multiplexer:** [Tmux](https://github.com/tmux/tmux)
+- **Editor:** [Neovim](https://neovim.io) (LazyVim) + [Cursor](https://cursor.sh)
+- **Git UI:** [Lazygit](https://github.com/jesseduffield/lazygit)
+- **File Manager:** [Yazi](https://github.com/sxyazi/yazi)
+- **Docker UI:** [Lazydocker](https://github.com/jesseduffield/lazydocker)
