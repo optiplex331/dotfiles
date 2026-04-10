@@ -1,20 +1,49 @@
 # dotfiles
 
+Managed with [chezmoi](https://www.chezmoi.io/).
+
 ## Install
 
 ```bash
+brew install chezmoi
 
-git clone git@github.com:optiplex331/dotfiles.git ~/Code/
+git clone git@github.com:optiplex331/dotfiles.git ~/Code/dotfiles
 
-ln -sf ~/Code/dotfiles/kitty/kitty.conf ~/.config/kitty/kitty.conf
-ln -sf ~/Code/dotfiles/tmux/.tmux.conf.local ~/.tmux.conf.local
-ln -sf ~/Code/dotfiles/vim/.vimrc ~/.vimrc
-ln -sf ~/Code/dotfiles/nvim ~/.config/nvim
-ln -sf ~/Code/dotfiles/zsh/.zshrc ~/.zshrc
-ln -sf ~/Code/dotfiles/cursor/settings.json ~/Library/Application\ Support/Cursor/User/settings.json
-ln -sf ~/Code/dotfiles/cursor/keybindings.json ~/Library/Application\ Support/Cursor/User/keybindings.json
-ln -sf ~/Code/dotfiles/yazi ~/.config/yazi
-ln -sf ~/Code/dotfiles/starship/starship.toml ~/.config/starship.toml
-ln -sf ~/Code/dotfiles/lazygit ~/.config/lazygit
-ln -sf ~/Code/dotfiles/lazydocker ~/Library/Application\ Support/lazydocker
+mkdir -p ~/.config/chezmoi
+echo 'sourceDir = "/Users/$USER/Code/dotfiles"' > ~/.config/chezmoi/chezmoi.toml
+
+chezmoi apply
 ```
+
+## Daily Usage
+
+```bash
+# Edit a dotfile (opens in $EDITOR, auto-updates source)
+chezmoi edit ~/.zshrc
+
+# Preview pending changes
+chezmoi diff
+
+# Apply changes from source to home
+chezmoi apply
+
+# Check which files chezmoi manages
+chezmoi managed
+```
+
+## Source Layout
+
+Files in this repo mirror the home directory structure using chezmoi naming conventions:
+
+| Source path | Target path |
+|---|---|
+| `dot_zshrc` | `~/.zshrc` |
+| `dot_vimrc` | `~/.vimrc` |
+| `dot_tmux.conf.local` | `~/.tmux.conf.local` |
+| `dot_config/kitty/kitty.conf` | `~/.config/kitty/kitty.conf` |
+| `dot_config/nvim/` | `~/.config/nvim/` |
+| `dot_config/yazi/` | `~/.config/yazi/` |
+| `dot_config/starship.toml` | `~/.config/starship.toml` |
+| `dot_config/lazygit/config.yml` | `~/.config/lazygit/config.yml` |
+| `Library/Application Support/Cursor/User/` | `~/Library/Application Support/Cursor/User/` |
+| `Library/Application Support/lazydocker/` | `~/Library/Application Support/lazydocker/` |
