@@ -1,3 +1,9 @@
 .DS_Store
 *.backup
 *.backup.*
+
+# Neovim runtime state
+nvim/lazy-lock.json
+
+# Kitty example/generated files
+kitty/kitty.conf.example
