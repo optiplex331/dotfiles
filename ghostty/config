@@ -3,68 +3,34 @@
 # ==============================
 
 # ===== 字体设置 =====
-font-family = Maple Mono Normal NF
+font-family = Maple Mono NF CN
 font-size = 14
 
 # ===== 复制设置 =====
-# kitty: copy_on_select yes
 copy-on-select = clipboard
 
 # ===== 颜色设置 =====
-background = #282c34
-foreground = #ffffff
+# background = #282c34
+# foreground = #ffffff
 
 # 光标
-cursor-color = #ffffff
-cursor-text = #282c34
+# cursor-color = #ffffff
+# cursor-text = #282c34
 cursor-style = block
-cursor-style-blink = false
-# kitty: cursor_trail — ghostty 无光标轨迹功能
-
-# 选区 - 跟随主题自动配色（ghostty 默认行为，无需额外配置）
-# kitty: selection_background none / selection_foreground none
-
-# ANSI 颜色
-palette = 0=#1d1f21
-palette = 1=#cc6666
-palette = 2=#b5bd68
-palette = 3=#f0c674
-palette = 4=#81a2be
-palette = 5=#b294bb
-palette = 6=#8abeb7
-palette = 7=#c5c8c6
-palette = 8=#666666
-palette = 9=#d54e53
-palette = 10=#b9ca4a
-palette = 11=#e7c547
-palette = 12=#7aa6da
-palette = 13=#c397d8
-palette = 14=#70c0b1
-palette = 15=#eaeaea
+cursor-style-blink = true
 
 # ===== 窗口设置 =====
 window-padding-x = 2
 window-padding-y = 2
-# kitty: macos_titlebar_color background → transparent 最接近
-macos-titlebar-style = transparent
 
 # ===== macOS 优化 =====
 quit-after-last-window-closed = true
-# kitty: share_connections yes (SSH 连接复用) — ghostty 无对应项
-
-# ===== Tab 设置 =====
-# macOS 上 ghostty 使用原生 tab bar，无法像 kitty 那样配置位置/样式/分隔符
-# kitty: tab_bar_edge bottom / tab_bar_style separator / tab_separator " ┃ "
-
-# ===== 启动设置 =====
-# kitty: startup_session workspace.conf — ghostty 无对应项
 
 # ===== 快捷键设置 =====
 
 #: Tab 操作
 keybind = super+t=new_tab
 keybind = super+w=close_surface
-# kitty: cmd+shift+i set_tab_title — ghostty 不支持动态设置 tab 标题
 keybind = ctrl+shift+right_bracket=next_tab
 keybind = ctrl+shift+left_bracket=previous_tab
 keybind = ctrl+shift+period=move_tab:+1
@@ -78,7 +44,6 @@ keybind = super+six=goto_tab:6
 keybind = super+seven=goto_tab:7
 keybind = super+eight=goto_tab:8
 keybind = super+nine=goto_tab:9
-# kitty: cmd+0 goto_tab 10 (被下方 reset_font_size 覆盖，保持一致)
 keybind = super+p=last_tab
 
 #: 分屏操作（ghostty 用 split 替代 kitty 的 window 概念）
@@ -87,23 +52,7 @@ keybind = super+shift+n=new_window
 keybind = super+shift+w=close_surface
 keybind = super+shift+right_bracket=goto_split:next
 keybind = super+shift+left_bracket=goto_split:previous
-# kitty: move_window_forward/backward — ghostty 无对应项
 
-#: 布局切换 — ghostty 无 kitty 布局系统，以下快捷键取消绑定
-# kitty: cmd+shift+= toggle_layout stack
-# kitty: cmd+shift+t goto_layout tall
-# kitty: cmd+shift+f goto_layout fat
-# kitty: cmd+shift+g goto_layout grid
-# kitty: cmd+shift+- goto_layout vertical
-# kitty: cmd+shift+\ goto_layout horizontal
-# kitty: cmd+shift+l next_layout
-
-#: 调整分屏大小
-keybind = ctrl+alt+right=resize_split:right:10
-keybind = ctrl+alt+left=resize_split:left:10
-keybind = ctrl+alt+up=resize_split:up:10
-keybind = ctrl+alt+down=resize_split:down:10
-# kitty: ctrl+opt+r resize_window reset — ghostty 无重置分屏大小
 
 #: 字号调整
 keybind = super+equal=increase_font_size:1
@@ -112,6 +61,3 @@ keybind = super+zero=reset_font_size
 
 #: 重新加载配置
 keybind = ctrl+super+comma=reload_config
-
-#: 广播 — ghostty 无 kitten broadcast 对应功能
-# kitty: f1 launch --allow-remote-control kitty +kitten broadcast
