@@ -44,4 +44,4 @@ brew "lazydocker"
 
 # ── Fonts ─────────────────────────────────────────────────────────────────
 cask "font-symbols-only-nerd-font"
-cask "font-maple-mono-nf-cn"
+cask "font-maple-mono-normal-nf-cn"
