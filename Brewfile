@@ -7,6 +7,7 @@ brew "starship"
 
 # ── Terminal ──────────────────────────────────────────────────────────────
 brew "tmux"
+cask "ghostty"
 
 # ── Editors ───────────────────────────────────────────────────────────────
 brew "neovim"
@@ -43,3 +44,4 @@ brew "lazydocker"
 
 # ── Fonts ─────────────────────────────────────────────────────────────────
 cask "font-symbols-only-nerd-font"
+cask "font-maple-mono-normal-nf"
