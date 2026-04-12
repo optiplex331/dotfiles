@@ -12,12 +12,6 @@
 [[ -f "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.pre.zsh" ]] && \
   builtin source "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.pre.zsh"
 
-# VS Code / Cursor 内置终端：提前退出，避免重复加载配置
-# 这些编辑器自带终端会继承父 Shell 的环境，无需再次初始化
-if [[ "$TERM_PROGRAM" == "vscode" || "$TERM_PROGRAM" == "cursor" ]]; then
-  return
-fi
-
 # 加载 .zprofile（login shell 的环境变量，非 login shell 不会自动加载）
 [[ -f ~/.zprofile ]] && source ~/.zprofile
 
