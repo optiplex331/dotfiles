@@ -4,7 +4,7 @@
 
 # ===== 字体设置 =====
 font-family = Maple Mono Normal NF CN
-font-size = 14
+font-size = 15
 
 # ===== 复制设置 =====
 copy-on-select = clipboard
@@ -20,8 +20,8 @@ cursor-style = block
 cursor-style-blink = true
 
 # ===== 窗口设置 =====
-window-padding-x = 2
-window-padding-y = 2
+# window-padding-x = 2
+# window-padding-y = 2
 
 # ===== macOS 优化 =====
 quit-after-last-window-closed = true
@@ -46,7 +46,7 @@ keybind = super+eight=goto_tab:8
 keybind = super+nine=goto_tab:9
 keybind = super+p=last_tab
 
-#: 分屏操作（ghostty 用 split 替代 kitty 的 window 概念）
+#: 分屏操作
 keybind = super+shift+enter=new_split:right
 keybind = super+shift+n=new_window
 keybind = super+shift+w=close_surface
