@@ -66,6 +66,8 @@
     "Q_NEW_SESSION": "1"
   },
   "terminal.external.osxExec": "Kitty.app", // 外部终端使用 Kitty
+  "terminal.integrated.fontFamily": "Maple Mono Normal NF CN, monospace", // Nerd Font，与 kitty 一致，支持 starship 图标
+  "terminal.integrated.fontSize": 14, // 与 kitty 保持一致
 
   // ============================================================
   // Python
