@@ -112,8 +112,8 @@ if [ -n "$five_pct" ]; then
   bar=$(make_bar "$five_pct" 8)
   five_refresh=""
   if [ -n "$five_resets_at" ] && [ "$five_resets_at" != "null" ]; then
-    five_age=$(( now - (five_resets_at - 18000) ))
-    five_refresh=" ${DIM}$(format_age "$five_age")${DIM_RESET}"
+    five_remaining=$(( five_resets_at - now ))
+    five_refresh=" ${DIM}$(format_age "$five_remaining")${DIM_RESET}"
   fi
   quota_part="${quota_part}5h [${bar}] $(printf '%.0f' "$five_pct")%${five_refresh}"
 fi
@@ -121,8 +121,8 @@ if [ -n "$week_pct" ]; then
   bar=$(make_bar "$week_pct" 8)
   week_refresh=""
   if [ -n "$week_resets_at" ] && [ "$week_resets_at" != "null" ]; then
-    week_age=$(( now - (week_resets_at - 604800) ))
-    week_refresh=" ${DIM}$(format_age "$week_age")${DIM_RESET}"
+    week_remaining=$(( week_resets_at - now ))
+    week_refresh=" ${DIM}$(format_age "$week_remaining")${DIM_RESET}"
   fi
   [ -n "$quota_part" ] && quota_part="${quota_part}  "
   quota_part="${quota_part}7d [${bar}] $(printf '%.0f' "$week_pct")%${week_refresh}"
