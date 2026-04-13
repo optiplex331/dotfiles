@@ -52,6 +52,10 @@ brew update && brew upgrade && brew cleanup --prune=all
 | `lazydocker/config.yml` | `~/Library/Application Support/lazydocker/config.yml` |
 | `cursor/settings.json` | `~/Library/Application Support/Cursor/User/settings.json` |
 | `cursor/keybindings.json` | `~/Library/Application Support/Cursor/User/keybindings.json` |
+| `claude/settings.json` | `~/.claude/settings.json` |
+| `claude/statusline-command.sh` | `~/.claude/statusline-command.sh` |
+| `claude/agents/` | `~/.claude/agents` |
+| `claude/skills/` | `~/.claude/skills` |
 
 ## Neovim
 
