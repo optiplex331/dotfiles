@@ -56,4 +56,10 @@ link lazydocker/config.yml "Library/Application Support/lazydocker/config.yml"
 link cursor/settings.json    "Library/Application Support/Cursor/User/settings.json"
 link cursor/keybindings.json "Library/Application Support/Cursor/User/keybindings.json"
 
+# ── Claude Code ───────────────────────────────────────────────────────────
+link claude/settings.json        .claude/settings.json
+link claude/statusline-command.sh .claude/statusline-command.sh
+link claude/agents               .claude/agents
+link claude/skills               .claude/skills
+
 log "Done."
