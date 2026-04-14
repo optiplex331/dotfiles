@@ -1,4 +1,12 @@
 {
+  "statusLine": {
+    "type": "command",
+    "command": "bash /Users/jackdaw/.claude/statusline-command.sh",
+    "refreshIntervalMs": 20000
+  },
+  "enabledPlugins": {
+    "chrome-devtools-mcp@claude-plugins-official": true
+  },
   "extraKnownMarketplaces": {
     "chrome-devtools-plugins": {
       "source": {
@@ -13,11 +21,5 @@
     "enabled": true,
     "mode": "hold"
   },
-  "enabledPlugins": {
-    "chrome-devtools-mcp@claude-plugins-official": true
-  },
-  "statusLine": {
-    "type": "command",
-    "command": "bash /Users/jackdaw/.claude/statusline-command.sh"
-  }
+  "skipDangerousModePermissionPrompt": true
 }
