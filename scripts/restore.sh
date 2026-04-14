@@ -59,6 +59,7 @@ link cursor/keybindings.json "Library/Application Support/Cursor/User/keybinding
 # ── Claude Code ───────────────────────────────────────────────────────────
 link claude/settings.json        .claude/settings.json
 link claude/statusline-command.sh .claude/statusline-command.sh
+link claude/CLAUDE.md            .claude/CLAUDE.md
 link claude/agents               .claude/agents
 link claude/skills               .claude/skills
 
