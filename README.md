@@ -22,7 +22,7 @@
 |------|------|
 | **终端** | Kitty（多布局 + 光标轨迹特效） |
 | **Shell** | Zsh + Starship 提示符 + zoxide |
-| **编辑器** | Neovim（基于 LazyVim）+ Cursor |
+| **编辑器** | Neovim（基于 LazyVim）+ Cursor + VS Code |
 | **复用器** | Tmux（Oh My Tmux! + 电池/主机名状态栏） |
 | **文件管理** | Yazi（终端文件管理器） |
 | **版本控制** | Git + Lazygit |
@@ -256,6 +256,23 @@ bash ~/Code/dotfiles/scripts/restore.sh
 
 ---
 
+### VS Code
+
+- **主题**: IntelliJ Neo Dark
+- **图标**: Material Icon Theme
+- **字号**: 15pt，行高 1.6
+- **Minimap**: 关闭
+- **格式化**: 保存时自动格式化
+  - 默认：Prettier
+  - Python：YAPF
+  - Java：Red Hat 扩展
+- **自动保存**: 失去焦点时保存
+- **终端**: 继承父进程环境变量
+- **Code Runner**: 配置 20+ 语言的一键运行命令
+- **遥测**: 全部关闭（VS Code / Red Hat / Julia 扩展）
+
+---
+
 ## 目录结构
 
 ```
@@ -263,6 +280,8 @@ bash ~/Code/dotfiles/scripts/restore.sh
 ├── cursor/                 # Cursor 编辑器配置
 │   ├── settings.json
 │   └── keybindings.json
+├── vscode/                 # VS Code 编辑器配置
+│   └── settings.json
 ├── git/                    # Git 全局配置
 │   ├── gitconfig
 │   └── ignore
