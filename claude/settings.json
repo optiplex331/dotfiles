@@ -1,8 +1,7 @@
 {
   "statusLine": {
     "type": "command",
-    "command": "bash /Users/jackdaw/.claude/statusline-command.sh",
-    "refreshIntervalMs": 20000
+    "command": "bash /Users/jackdaw/.claude/statusline-command.sh"
   },
   "enabledPlugins": {
     "chrome-devtools-mcp@claude-plugins-official": true
