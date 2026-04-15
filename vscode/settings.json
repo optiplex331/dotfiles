@@ -1,0 +1,199 @@
+{
+  // ─────────────────────────────────────────────
+  //  编辑器 · 基础体验
+  // ─────────────────────────────────────────────
+
+  // Tab 键接受补全建议
+  "editor.tabCompletion": "on",
+  // 启动时不打开任何文件
+  "workbench.startupEditor": "none",
+  // 字号与行高，兼顾可读性
+  "editor.fontSize": 15,
+  "editor.lineHeight": 1.6,
+  // 关闭 minimap，留出横向空间
+  "editor.minimap.enabled": false,
+  // HTML/JSX 标签联动重命名
+  "editor.linkedEditing": true,
+  // 关闭无障碍提示（若使用屏幕阅读器请改为 "auto"）
+  "editor.accessibilitySupport": "off",
+  // 允许大文件优化，防止打开超大文件时卡顿
+  "editor.largeFileOptimizations": true,
+  // 使用./Path插件时关闭内置路径建议，避免冲突
+  "js/ts.suggest.paths": false,
+
+  // ─────────────────────────────────────────────
+  //  编辑器 · 保存 & 格式化
+  // ─────────────────────────────────────────────
+
+  // 切换窗口焦点时自动保存
+  "files.autoSave": "onFocusChange",
+  // 保存时自动格式化
+  "editor.formatOnSave": true,
+  // 全局默认格式化器：Prettier
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  // Python 使用 YAPF（需安装 eeyore.yapf 扩展及 yapf 包）
+  "[python]": {
+    "editor.defaultFormatter": "eeyore.yapf",
+  },
+  // Java 使用 Red Hat 扩展内置格式化器
+  "[java]": {
+    "editor.defaultFormatter": "redhat.java",
+  },
+
+  // ─────────────────────────────────────────────
+  //  编辑器 · 主题 & 图标
+  // ─────────────────────────────────────────────
+
+  "workbench.colorTheme": "IntelliJ Neo Dark",
+  // Material Icon Theme 文件图标，识别度高
+  "workbench.iconTheme": "material-icon-theme",
+  // 隐藏空编辑器提示文字，保持界面简洁
+  "workbench.editor.empty.hint": "hidden",
+
+  // ─────────────────────────────────────────────
+  //  文件管理器
+  // ─────────────────────────────────────────────
+
+  // 拖拽移动文件时弹出确认框，防止误操作
+  "explorer.confirmDragAndDrop": true,
+  // .ipynb 文件由 Jupyter 扩展打开
+  "workbench.editorAssociations": {
+    "*.ipynb": "jupyter.notebook.ipynb",
+  },
+  // 打开不受信任的文件夹时跳过警告（处理第三方项目时有风险，可改为 "prompt"）
+  "security.workspace.trust.untrustedFiles": "open",
+
+  // ─────────────────────────────────────────────
+  //  终端
+  // ─────────────────────────────────────────────
+
+  // 继承父进程环境变量（conda、pyenv 等工具链需要此项）
+  "terminal.integrated.inheritEnv": true,
+  // Julia 中断命令（Ctrl+C）由扩展处理，而非被 Shell 拦截
+  "terminal.integrated.commandsToSkipShell": ["language-julia.interrupt"],
+
+  // ─────────────────────────────────────────────
+  //  Python
+  // ─────────────────────────────────────────────
+
+  // Python 解释器路径（Homebrew macOS，跨机器使用时建议移到 workspace settings）
+  "python.defaultInterpreterPath": "/opt/homebrew/bin/python3",
+
+  // ─────────────────────────────────────────────
+  //  Julia
+  // ─────────────────────────────────────────────
+
+  // 允许下载符号缓存，加快首次补全速度
+  "julia.symbolCacheDownload": true,
+
+  // ─────────────────────────────────────────────
+  //  Live Server & Live Preview
+  // ─────────────────────────────────────────────
+
+  // 关闭 Live Server 启动提示
+  "liveServer.settings.donotShowInfoMsg": true,
+  // 跳过 HTML 标签校验（快速原型适用）
+  "liveServer.settings.donotVerifyTags": true,
+  // 打开散装 HTML 文件时不弹出警告
+  "livePreview.notifyOnOpenLooseFile": false,
+
+  // ─────────────────────────────────────────────
+  //  GitLens AI
+  // ─────────────────────────────────────────────
+
+  // 使用 VS Code 内置 Copilot 作为 AI 后端
+  "gitlens.ai.model": "vscode",
+  // 指定模型（需要 GitHub Copilot 订阅）
+  "gitlens.ai.vscode.model": "copilot:gpt-5.3-codex",
+
+  // ─────────────────────────────────────────────
+  //  Chat & AI 助手
+  // ─────────────────────────────────────────────
+
+  // 关闭 Chat 功能引导提示
+  "chat.tips.enabled": false,
+  // Chat 会话垂直堆叠，适合侧边栏较窄的布局
+  "chat.viewSessions.orientation": "stacked",
+  // ⚠ 安全风险：Claude Code 跳过所有文件操作权限确认
+  // 建议仅在个人可控环境中开启，或移至具体项目的 .vscode/settings.json
+  "claudeCode.allowDangerouslySkipPermissions": true,
+
+  // ─────────────────────────────────────────────
+  //  隐私 & 遥测（全部关闭）
+  // ─────────────────────────────────────────────
+
+  // VS Code 遥测
+  "telemetry.telemetryLevel": "off",
+  // Red Hat 扩展遥测
+  "redhat.telemetry.enabled": false,
+  // Julia 扩展遥测
+  "julia.enableTelemetry": false,
+  // 关闭更新后自动弹出 Release Notes
+  "update.showReleaseNotes": false,
+
+  // ─────────────────────────────────────────────
+  //  Code Runner · 各语言执行命令
+  // ─────────────────────────────────────────────
+
+  "code-runner.executorMap": {
+    // ── 脚本语言 ──
+    "javascript": "node",
+    "typescript": "ts-node",
+    "python": "python3 -u",
+    "ruby": "ruby",
+    "perl": "perl",
+    "perl6": "perl6",
+    "php": "php",
+    "lua": "lua",
+    "groovy": "groovy",
+    "r": "Rscript",
+    "coffeescript": "coffee",
+    "applescript": "osascript",
+    "clojure": "lein exec",
+    "racket": "racket",
+    "scheme": "csi -script",
+    "haskell": "runhaskell",
+    "lisp": "sbcl --script",
+    "ocaml": "ocaml",
+    "fsharp": "fsi",
+    "swift": "swift",
+    "julia": "julia",
+    "dart": "dart",
+    "go": "go run",
+    "v": "v run",
+    "kit": "kitc --run",
+
+    // ── 编译语言 ──
+    "c": "cd $dir && gcc $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
+    "cpp": "cd $dir && g++ $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
+    "java": "cd $dir && javac $fileName && java $fileNameWithoutExt",
+    "objective-c": "cd $dir && gcc -framework Cocoa $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
+    "rust": "cd $dir && rustc $fileName && $dir$fileNameWithoutExt",
+    "scala": "scala",
+    "crystal": "crystal",
+    "csharp": "scriptcs",
+    "nim": "nim compile --verbosity:0 --hints:off --run",
+    "d": "cd $dir && dmd $fileName && $dir$fileNameWithoutExt",
+    "pascal": "cd $dir && fpc $fileName && $dir$fileNameWithoutExt",
+    "haxe": "haxe --cwd $dirWithoutTrailingSlash --run $fileNameWithoutExt",
+
+    // ── Fortran ──
+    "fortran": "cd $dir && gfortran $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
+    "fortran-modern": "cd $dir && gfortran $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
+    "FortranFreeForm": "cd $dir && gfortran $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
+    "fortran_fixed-form": "cd $dir && gfortran $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
+
+    // ── 样式表 ──
+    "sass": "sass --style expanded",
+    "scss": "scss --style expanded",
+    "less": "cd $dir && lessc $fileName $fileNameWithoutExt.css",
+
+    // ── 系统 / 自动化 ──
+    "powershell": "powershell -ExecutionPolicy ByPass -File",
+    "bat": "cmd /c",
+    "shellscript": "bash",
+    "vbscript": "cscript //Nologo",
+    "ahk": "autohotkey",
+    "autoit": "autoit3",
+  },
+}
