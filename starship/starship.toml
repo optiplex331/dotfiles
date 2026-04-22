@@ -236,6 +236,7 @@ symbol = "󰏗 "
 
 [python]
 symbol = " "
+format = 'via [${symbol}${pyenv_prefix}${version}(\($virtualenv\))]($style) '
 
 [rlang]
 symbol = "󰟔 "

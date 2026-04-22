@@ -4,7 +4,9 @@
     "command": "bash /Users/jackdaw/.claude/statusline-command.sh"
   },
   "enabledPlugins": {
-    "chrome-devtools-mcp@claude-plugins-official": true
+    "chrome-devtools-mcp@claude-plugins-official": true,
+    "claude-md-management@claude-plugins-official": true,
+    "claude-mem@thedotmack": true
   },
   "extraKnownMarketplaces": {
     "chrome-devtools-plugins": {
@@ -12,13 +14,32 @@
         "source": "github",
         "repo": "ChromeDevTools/chrome-devtools-mcp"
       }
+    },
+    "web-access": {
+      "source": {
+        "source": "git",
+        "url": "https://github.com/eze-is/web-access.git"
+      }
+    },
+    "pua-skills": {
+      "source": {
+        "source": "github",
+        "repo": "tanweai/pua"
+      }
+    },
+    "thedotmack": {
+      "source": {
+        "source": "github",
+        "repo": "thedotmack/claude-mem"
+      }
     }
   },
   "language": "English",
-  "voiceEnabled": true,
+  "effortLevel": "high",
   "voice": {
     "enabled": true,
     "mode": "hold"
   },
-  "skipDangerousModePermissionPrompt": true
+  "skipDangerousModePermissionPrompt": true,
+  "voiceEnabled": true
 }
