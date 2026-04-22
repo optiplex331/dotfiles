@@ -1,1 +1,18 @@
-../../../.codex/config.toml
+approvals_reviewer = "user"
+model = "gpt-5.4"
+model_reasoning_effort = "high"
+
+[projects."/Users/jackdaw/Projects/CodexFullSkills"]
+trust_level = "trusted"
+
+[projects."/Users/jackdaw/Projects/Skiing"]
+trust_level = "trusted"
+
+[projects."/Users/jackdaw/Projects/ClaudeCodeFullSkills"]
+trust_level = "trusted"
+
+[projects."/Users/jackdaw/Code/dotfiles"]
+trust_level = "trusted"
+
+[tui]
+status_line = ["model-with-reasoning", "current-dir", "git-branch", "context-used", "five-hour-limit", "weekly-limit"]
