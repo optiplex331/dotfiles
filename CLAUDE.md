@@ -11,7 +11,7 @@ Personal macOS developer environment dotfiles. All configs are symlinked into `$
 | Script | Purpose |
 |--------|---------|
 | `scripts/setup.sh` | Bootstrap a new machine (SSH → Homebrew → clone → restore → brew bundle) |
-| `scripts/restore.sh` | (Re-)create all symlinks idempotently and render path-aware configs; existing non-symlink files are backed up to `~/.dotfiles_backup/` |
+| `scripts/restore.sh` | (Re-)create all symlinks idempotently and refresh path-aware configs; existing non-symlink files are backed up to `~/.dotfiles_backup/` |
 
 **Apply changes after editing any config:**
 ```bash
@@ -58,7 +58,7 @@ brew update && brew upgrade && brew cleanup --prune=all
 | `claude/CLAUDE.md` | `~/.claude/CLAUDE.md` |
 | `claude/agents/` | `~/.claude/agents` |
 | `claude/skills/` | `~/.claude/skills` |
-| `codex/config.toml` | rendered to `~/.codex/config.toml` with current `$HOME` and repo path |
+| `codex/config.toml` | rendered to `~/.codex/config.toml` with the dotfiles project path refreshed to the current repo path |
 | `codex/AGENTS.md` | `~/.codex/AGENTS.md` |
 
 ## Neovim
