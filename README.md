@@ -151,15 +151,20 @@ bash ~/Code/dotfiles/scripts/restore.sh
 |------|------|
 | `akinsho/bufferline.nvim` | 顶部 Buffer 标签栏 |
 | `folke/tokyonight.nvim` | 配色主题（Moon 风格）|
-| `folke/flash.nvim` | 跳转导航（s/S 触发）|
-| `ggandor/flit.nvim` | 增强 f/t 行内跳转 |
 | `neovim/nvim-lspconfig` | LSP 配置（含 rust-analyzer）|
-| `rest-nvim/rest.nvim` | HTTP 客户端（`Ctrl+Enter` 发送请求）|
+| `mistweaverco/kulala.nvim` | HTTP 客户端（`<Leader>Rs` 发送请求）|
 | `mg979/vim-visual-multi` | 多光标编辑 |
-| `kylechui/nvim-surround` | 快速添加/修改/删除包围符 |
+| `nvim-mini/mini.surround` | 快速添加/修改/删除包围符 |
 | `godlygeek/tabular` | 文本对齐（`<Leader>t`）|
-| `mini.ai` | 增强文本对象 |
-| `snacks.nvim` | 工具集（缩进线、作用域等）|
+| `stevearc/conform.nvim` | 按文件类型格式化 |
+| `keaising/im-select.nvim` | macOS 输入法自动切换 |
+| `snacks.nvim` | 工具集（滚动动画已关闭）|
+
+#### 已禁用默认插件
+
+- `folke/flash.nvim`
+- `ggandor/flit.nvim`
+- `mini.ai`
 
 #### LazyVim Extras
 
@@ -285,6 +290,11 @@ bash ~/Code/dotfiles/scripts/restore.sh
 
 ```
 .
+├── claude/                 # Claude Code 全局配置与 agents
+│   ├── CLAUDE.md
+│   ├── settings.json
+│   ├── statusline-command.sh
+│   └── agents/
 ├── codex/                  # Codex 全局配置与指令
 │   ├── AGENTS.md
 │   └── config.toml
@@ -296,6 +306,8 @@ bash ~/Code/dotfiles/scripts/restore.sh
 ├── git/                    # Git 全局配置
 │   ├── gitconfig
 │   └── ignore
+├── ghostty/                # Ghostty 终端配置
+│   └── config
 ├── kitty/                  # Kitty 终端
 │   └── kitty.conf
 ├── lazydocker/             # Lazydocker Docker TUI
@@ -314,11 +326,13 @@ bash ~/Code/dotfiles/scripts/restore.sh
 │       └── plugins/
 │           ├── bufferline.lua
 │           ├── colorschema.lua
+│           ├── disabled.lua
+│           ├── example.lua
 │           ├── format.lua
 │           ├── input-method.lua
+│           ├── kulala.lua
 │           ├── lsp.lua
 │           ├── multi-cursor.lua
-│           ├── rest.lua
 │           ├── surround.lua
 │           └── tabular.lua
 ├── scripts/                # 自动化脚本
@@ -384,7 +398,7 @@ bash ~/Code/dotfiles/scripts/restore.sh
 | `sm` | 录制宏（`q`） |
 | `<Leader>;` | 行末补全分号 |
 | `<Leader>t` | 文本对齐（Tabular） |
-| `Ctrl+Enter` | 发送 HTTP 请求（rest.nvim） |
+| `Ctrl+Enter` | 发送 HTTP 请求（kulala.nvim） |
 
 **剪贴板（macOS）**
 
