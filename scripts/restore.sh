@@ -64,7 +64,7 @@ link claude/settings.json        .claude/settings.json
 link claude/statusline-command.sh .claude/statusline-command.sh
 link claude/CLAUDE.md            .claude/CLAUDE.md
 link claude/agents               .claude/agents
-link claude/skills               .claude/skills
+# Skills通过npx skills管理
 
 # ── Codex ─────────────────────────────────────────────────────────────────
 link codex/config.toml           .codex/config.toml
