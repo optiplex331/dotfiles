@@ -196,4 +196,6 @@
     "ahk": "autohotkey",
     "autoit": "autoit3",
   },
+  "claudeCode.preferredLocation": "panel",
+  "python.analysis.typeCheckingMode": "basic",
 }
