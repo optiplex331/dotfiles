@@ -97,8 +97,8 @@ vim.keymap.set("", "?", "?\\v")
 vim.keymap.set("n", "\\n", ":%normal ")
 vim.keymap.set("v", "\\n", ":normal ")
 
--- rest http
-vim.keymap.set("n", "<C-CR>", ":Rest run<CR>")
+-- HTTP request runner
+vim.keymap.set("n", "<C-CR>", "<cmd>lua require('kulala').run()<cr>")
 
 -- 录制宏
 vim.keymap.set("", "sm", "q", opt)
