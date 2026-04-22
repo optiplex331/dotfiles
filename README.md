@@ -236,7 +236,7 @@ bash ~/Code/dotfiles/scripts/restore.sh
 
 - **配置文件**: `~/.codex/config.toml`
 - **全局指令**: `~/.codex/AGENTS.md`
-- **管理方式**: 仓库内 `codex/` 目录保存链接源，`scripts/restore.sh` 负责恢复到家目录
+- **管理方式**: 仓库内 `codex/` 目录保存源文件；`scripts/restore.sh` 会链接 `AGENTS.md`，并按当前 `$HOME` 与仓库路径渲染 `config.toml`
 
 ---
 
