@@ -28,6 +28,39 @@ link() {
   log "linked: $dst"
 }
 
+# Render helper: expand repo/home placeholders into a managed config file.
+render() {
+  local src="$DOTFILES/$1"
+  local dst="$HOME/$2"
+  local dir tmp
+  dir="$(dirname "$dst")"
+
+  mkdir -p "$dir"
+  tmp="$(mktemp "${TMPDIR:-/tmp}/dotfiles-render.XXXXXX")"
+
+  sed \
+    -e "s|__HOME__|$HOME|g" \
+    -e "s|__DOTFILES__|$DOTFILES|g" \
+    "$src" > "$tmp"
+
+  if [ -L "$dst" ]; then
+    rm -f "$dst"
+  elif [ -e "$dst" ]; then
+    if cmp -s "$tmp" "$dst"; then
+      rm -f "$tmp"
+      log "unchanged: $dst"
+      return
+    fi
+
+    mkdir -p "$BACKUP_DIR"
+    warn "Backing up: $dst -> $BACKUP_DIR/$(basename "$dst")"
+    mv "$dst" "$BACKUP_DIR/$(basename "$dst")"
+  fi
+
+  mv "$tmp" "$dst"
+  log "rendered: $dst"
+}
+
 # ── Shell ──────────────────────────────────────────────────────────────────
 link zsh/.zshrc         .zshrc
 
@@ -67,7 +100,7 @@ link claude/agents               .claude/agents
 # Skills通过npx skills管理
 
 # ── Codex ─────────────────────────────────────────────────────────────────
-link codex/config.toml           .codex/config.toml
+render codex/config.toml         .codex/config.toml
 link codex/AGENTS.md             .codex/AGENTS.md
 
 log "Done."
