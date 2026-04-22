@@ -2,6 +2,9 @@
 *.backup
 *.backup.*
 
+# Claude local machine overrides
+.claude/settings.local.json
+
 # Neovim runtime state
 nvim/lazy-lock.json
 
