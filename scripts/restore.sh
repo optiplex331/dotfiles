@@ -28,8 +28,8 @@ link() {
   log "linked: $dst"
 }
 
-# Render helper: expand repo/home placeholders into a managed config file.
-render() {
+# Render helper: keep machine-local Codex config, but refresh the dotfiles repo path.
+render_codex_config() {
   local src="$DOTFILES/$1"
   local dst="$HOME/$2"
   local dir tmp
@@ -38,10 +38,13 @@ render() {
   mkdir -p "$dir"
   tmp="$(mktemp "${TMPDIR:-/tmp}/dotfiles-render.XXXXXX")"
 
-  sed \
-    -e "s|__HOME__|$HOME|g" \
-    -e "s|__DOTFILES__|$DOTFILES|g" \
-    "$src" > "$tmp"
+  awk -v dotfiles="$DOTFILES" '
+    /^\[projects\.".*\/dotfiles"\]$/ {
+      print "[projects.\"" dotfiles "\"]"
+      next
+    }
+    { print }
+  ' "$src" > "$tmp"
 
   if [ -L "$dst" ]; then
     rm -f "$dst"
@@ -100,7 +103,7 @@ link claude/agents               .claude/agents
 # Skills通过npx skills管理
 
 # ── Codex ─────────────────────────────────────────────────────────────────
-render codex/config.toml         .codex/config.toml
+render_codex_config codex/config.toml .codex/config.toml
 link codex/AGENTS.md             .codex/AGENTS.md
 
 log "Done."
