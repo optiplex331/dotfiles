@@ -10,6 +10,15 @@ BACKUP_DIR="$HOME/.dotfiles_backup/$(date +%Y%m%d_%H%M%S)"
 log()  { printf '\033[0;32m[restore]\033[0m %s\n' "$*"; }
 warn() { printf '\033[0;33m[restore]\033[0m %s\n' "$*"; }
 
+backup_existing() {
+  local dst="$1"
+  local backup="$BACKUP_DIR/${dst#$HOME/}"
+
+  mkdir -p "$(dirname "$backup")"
+  warn "Backing up: $dst -> $backup"
+  mv "$dst" "$backup"
+}
+
 # Symlink helper: link src (relative to DOTFILES) to dst (relative to HOME)
 link() {
   local src="$DOTFILES/$1"
@@ -19,9 +28,7 @@ link() {
   mkdir -p "$dir"
 
   if [ -e "$dst" ] && [ ! -L "$dst" ]; then
-    mkdir -p "$BACKUP_DIR"
-    warn "Backing up: $dst -> $BACKUP_DIR/$(basename "$dst")"
-    mv "$dst" "$BACKUP_DIR/$(basename "$dst")"
+    backup_existing "$dst"
   fi
 
   ln -sfn "$src" "$dst"
@@ -55,9 +62,7 @@ render_codex_config() {
       return
     fi
 
-    mkdir -p "$BACKUP_DIR"
-    warn "Backing up: $dst -> $BACKUP_DIR/$(basename "$dst")"
-    mv "$dst" "$BACKUP_DIR/$(basename "$dst")"
+    backup_existing "$dst"
   fi
 
   mv "$tmp" "$dst"
@@ -100,7 +105,7 @@ link claude/settings.json        .claude/settings.json
 link claude/statusline-command.sh .claude/statusline-command.sh
 link claude/CLAUDE.md            .claude/CLAUDE.md
 link claude/agents               .claude/agents
-# Skills通过npx skills管理
+# Skills 不由本仓库管理
 
 # ── Codex ─────────────────────────────────────────────────────────────────
 render_codex_config codex/config.toml .codex/config.toml
