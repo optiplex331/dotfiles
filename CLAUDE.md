@@ -57,7 +57,6 @@ brew update && brew upgrade && brew cleanup --prune=all
 | `claude/statusline-command.sh` | `~/.claude/statusline-command.sh` |
 | `claude/CLAUDE.md` | `~/.claude/CLAUDE.md` |
 | `claude/agents/` | `~/.claude/agents` |
-| `claude/skills/` | `~/.claude/skills` |
 | `codex/config.toml` | rendered to `~/.codex/config.toml` with the dotfiles project path refreshed to the current repo path |
 | `codex/AGENTS.md` | `~/.codex/AGENTS.md` |
 
