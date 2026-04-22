@@ -66,4 +66,8 @@ link claude/CLAUDE.md            .claude/CLAUDE.md
 link claude/agents               .claude/agents
 link claude/skills               .claude/skills
 
+# ── Codex ─────────────────────────────────────────────────────────────────
+link codex/config.toml           .codex/config.toml
+link codex/AGENTS.md             .codex/AGENTS.md
+
 log "Done."
