@@ -232,6 +232,14 @@ bash ~/Code/dotfiles/scripts/restore.sh
 
 ---
 
+### Codex
+
+- **配置文件**: `~/.codex/config.toml`
+- **全局指令**: `~/.codex/AGENTS.md`
+- **管理方式**: 仓库内 `codex/` 目录保存链接源，`scripts/restore.sh` 负责恢复到家目录
+
+---
+
 ### Lazygit
 
 - **布局**: 左侧面板占 1/3 屏宽，弹性分割模式
@@ -277,6 +285,9 @@ bash ~/Code/dotfiles/scripts/restore.sh
 
 ```
 .
+├── codex/                  # Codex 全局配置与指令
+│   ├── AGENTS.md
+│   └── config.toml
 ├── cursor/                 # Cursor 编辑器配置
 │   ├── settings.json
 │   └── keybindings.json
@@ -389,7 +400,7 @@ bash ~/Code/dotfiles/scripts/restore.sh
 | 脚本 | 用途 |
 |------|------|
 | `scripts/setup.sh` | 新机器一键初始化（SSH + Homebrew + 克隆 + 恢复 + brew bundle） |
-| `scripts/restore.sh` | 幂等软链接创建，已有文件自动备份至 `~/.dotfiles_backup/` |
+| `scripts/restore.sh` | 幂等软链接创建，恢复 `.claude/`、`.codex/` 等配置，已有文件自动备份至 `~/.dotfiles_backup/` |
 
 ---
 
