@@ -377,7 +377,6 @@ _prepend_path "$VOLTA_HOME/bin"          # Volta Node.js（已定义，优先级
 # 清理辅助函数（避免污染 Shell 环境）
 unset -f _prepend_path
 
-
 # ============================================================================
 # 15. 网络代理（按需取消注释）
 # ============================================================================
@@ -393,8 +392,21 @@ unset -f _prepend_path
 # 16. 清理和最后的初始化
 # ============================================================================
 
+# [FIX] 开启扩展通配符，确保 Section 0 的 24h 补全缓存判断生效
+setopt EXTENDED_GLOB
+
 # 取消 Homebrew 镜像源设置（如果之前配置过国内镜像，换回官方源时取消此行注释）
-unset HOMEBREW_BOTTLE_DOMAIN
+# unset HOMEBREW_BOTTLE_DOMAIN
+
+# Bun 配置 (已去重) 
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+[ -s "$BUN_INSTALL/_bun" ] && source "$BUN_INSTALL/_bun"
+
+alias claude-mem='/Users/jackdaw/.bun/bin/bun "/Users/jackdaw/.claude/plugins/cache/thedotmack/claude-mem/12.1.6/scripts/worker-service.cjs"'
+
+# Added by Antigravity
+export PATH="/Users/jackdaw/.antigravity/antigravity/bin:$PATH"
 
 # Kiro CLI 后置块（必须保持在文件最底部）
 [[ -f "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.post.zsh" ]] && \
