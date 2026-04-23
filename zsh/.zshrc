@@ -1,3 +1,7 @@
+
+# Kiro CLI pre block. Keep at the top of this file.
+[[ -f "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.pre.zsh" ]] && builtin source "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.pre.zsh"
+
 # ============================================================================
 # ~/.zshrc - Zsh Shell 配置文件
 # 最后更新: 2026-04
@@ -408,13 +412,7 @@ alias claude-mem='/Users/jackdaw/.bun/bin/bun "/Users/jackdaw/.claude/plugins/ca
 # Added by Antigravity
 export PATH="/Users/jackdaw/.antigravity/antigravity/bin:$PATH"
 
-# Kiro CLI 后置块（必须保持在文件最底部）
-[[ -f "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.post.zsh" ]] && \
-  builtin source "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.post.zsh"
-
-
 # ============================================================================
-# 文件结束
 #
 # 【维护备忘】
 #   uv 补全首次生成（或 uv 升级后重新生成）：
@@ -426,3 +424,7 @@ export PATH="/Users/jackdaw/.antigravity/antigravity/bin:$PATH"
 #   测量 Shell 启动时间：
 #     time zsh -i -c exit
 # ============================================================================
+
+
+# Kiro CLI post block. Keep at the bottom of this file.
+[[ -f "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.post.zsh" ]] && builtin source "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.post.zsh"
