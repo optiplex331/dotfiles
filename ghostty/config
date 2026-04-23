@@ -2,39 +2,170 @@
 # Ghostty 配置
 # ==============================
 
-# ===== 字体设置 =====
+# --------------------------------------------------
+# 字体
+# --------------------------------------------------
+
+# 主字体：你当前使用的 Maple Mono NF 中文版本
 font-family = Maple Mono Normal NF CN
+
+# 默认字号
 font-size = 15
 
-# ===== 复制设置 =====
+
+# --------------------------------------------------
+# 复制 / 粘贴
+# --------------------------------------------------
+
+# 选中即复制到系统剪贴板
 copy-on-select = clipboard
 
-# ===== 颜色设置 =====
-# background = #282c34
-# foreground = #ffffff
+# 粘贴保护：遇到可疑的多行粘贴时给出保护提示
+# 适合防止误把多行命令直接执行
+clipboard-paste-protection = true
 
+# 右键行为：有选区时复制，没有选区时粘贴
+right-click-action = copy-or-paste
+
+
+# --------------------------------------------------
 # 光标
-# cursor-color = #ffffff
-# cursor-text = #282c34
-cursor-style = block
+# --------------------------------------------------
+
+# 竖线光标
+cursor-style = bar
+
+# 光标闪烁
 cursor-style-blink = true
 
-# ===== 窗口设置 =====
-# window-padding-x = 2
-# window-padding-y = 2
 
-# ===== macOS 优化 =====
+# --------------------------------------------------
+# 外观 / 窗口留白
+# --------------------------------------------------
+
+# 给终端内容留一点边距，视觉上更舒服
+window-padding-x = 6
+window-padding-y = 4
+
+# 无法整除网格时，让多余留白尽量均匀分布
+window-padding-balance = true
+
+# padding 区域尽量延展终端边缘颜色，看起来更完整
+window-padding-color = extend
+
+# 轻微透明
+# 想完全不透明可删掉或改成 1.0
+background-opacity = 0.90
+
+# macOS 背景模糊
+background-blur = true
+
+# 标题栏透明，整体更统一
+macos-titlebar-style = transparent
+
+
+# --------------------------------------------------
+# 目录 / 标签页 / 分屏继承行为
+# --------------------------------------------------
+
+# 新窗口继承当前工作目录
+window-inherit-working-directory = true
+
+# 新标签页继承当前工作目录
+tab-inherit-working-directory = true
+
+# 新分屏继承当前工作目录
+split-inherit-working-directory = true
+
+# 新窗口继承当前字号
+window-inherit-font-size = true
+
+# 新标签页插在当前标签页后面，而不是永远追加到最右侧
+window-new-tab-position = current
+
+
+# --------------------------------------------------
+# 分屏体验
+# --------------------------------------------------
+
+# 非焦点分屏稍微淡一点，便于识别当前 pane
+unfocused-split-opacity = 0.95
+
+# 在导航相关操作下尽量保留 zoom 行为
+split-preserve-zoom = navigation
+
+
+# --------------------------------------------------
+# 命令完成提醒
+# --------------------------------------------------
+
+# 仅在窗口失焦时，对长命令完成进行提醒
+notify-on-command-finish = unfocused
+
+# 不响铃，只发通知
+notify-on-command-finish-action = no-bell,notify
+
+# 命令运行超过 8 秒才通知，避免过度打扰
+notify-on-command-finish-after = 8s
+
+
+# --------------------------------------------------
+# macOS 行为
+# --------------------------------------------------
+
+# 关闭最后一个窗口后退出应用
 quit-after-last-window-closed = true
 
-# ===== 快捷键设置 =====
+# 遇到密码输入场景时自动启用 secure input
+# 注意：官方说明这是启发式检测，SSH 场景不一定生效
+macos-auto-secure-input = true
 
-#: Tab 操作
+# 在界面中显示 secure input 状态提示
+macos-secure-input-indication = true
+
+
+# --------------------------------------------------
+# Quick Terminal（下拉终端）
+# --------------------------------------------------
+
+# 下拉终端从顶部弹出
+quick-terminal-position = top
+
+# 占屏幕高度比例
+quick-terminal-size = 38%
+
+# 固定在主屏幕
+quick-terminal-screen = main
+
+# 失焦自动隐藏
+quick-terminal-autohide = true
+
+
+# --------------------------------------------------
+# 快捷键
+# --------------------------------------------------
+
+# ===== Tab 操作 =====
+
+# 新建标签页
 keybind = super+t=new_tab
-keybind = super+w=close_surface
+
+# 关闭当前标签页
+keybind = super+w=close_tab
+
+# 下一个标签页
 keybind = ctrl+shift+right_bracket=next_tab
+
+# 上一个标签页
 keybind = ctrl+shift+left_bracket=previous_tab
+
+# 标签页右移
 keybind = ctrl+shift+period=move_tab:+1
+
+# 标签页左移
 keybind = ctrl+shift+comma=move_tab:-1
+
+# 直接跳转到指定标签页
 keybind = super+one=goto_tab:1
 keybind = super+two=goto_tab:2
 keybind = super+three=goto_tab:3
@@ -44,20 +175,72 @@ keybind = super+six=goto_tab:6
 keybind = super+seven=goto_tab:7
 keybind = super+eight=goto_tab:8
 keybind = super+nine=goto_tab:9
+
+# 回到上一个标签页
 keybind = super+p=last_tab
 
-#: 分屏操作
-keybind = super+shift+enter=new_split:right
+
+# ===== 分屏 / 窗口操作 =====
+
+# 新建分屏：自动决定横切还是竖切
+keybind = super+shift+enter=new_split:auto
+
+# 新建窗口
 keybind = super+shift+n=new_window
-keybind = super+shift+w=close_surface
+
+# 关闭当前窗口
+keybind = super+shift+w=close_window
+
+# 切换到下一个分屏
 keybind = super+shift+right_bracket=goto_split:next
+
+# 切换到上一个分屏
 keybind = super+shift+left_bracket=goto_split:previous
 
+# 均分当前窗口内所有分屏
+keybind = super+shift+equal=equalize_splits
 
-#: 字号调整
+# 调整分屏大小（偏 Vim 手感）
+keybind = super+alt+h=resize_split:left,30
+keybind = super+alt+j=resize_split:down,30
+keybind = super+alt+k=resize_split:up,30
+keybind = super+alt+l=resize_split:right,30
+
+
+# ===== 字号调整 =====
+
+# 放大字号
 keybind = super+equal=increase_font_size:1
+
+# 缩小字号
 keybind = super+minus=decrease_font_size:1
+
+# 重置字号
 keybind = super+zero=reset_font_size
 
-#: 重新加载配置
+
+# ===== 配置 / 便捷功能 =====
+
+# 重新加载配置
 keybind = ctrl+super+comma=reload_config
+
+# 打开 / 收起下拉终端
+keybind = super+j=toggle_quick_terminal
+
+# 切换透明度（适合临时看后面的窗口）
+keybind = super+shift+f=toggle_background_opacity
+
+# 窗口置顶开关
+keybind = super+shift+space=toggle_window_float_on_top
+
+
+# ===== 撤销 / 重做 =====
+
+# 撤销最近的窗口 / 标签页 / 分屏关闭等操作
+keybind = super+z=undo
+
+# 重做
+keybind = super+shift+z=redo
+
+# 撤销时间窗口拉长一点
+undo-timeout = 15s
