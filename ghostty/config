@@ -188,8 +188,8 @@ keybind = super+shift+enter=new_split:auto
 # 新建窗口
 keybind = super+shift+n=new_window
 
-# 关闭当前窗口
-keybind = super+shift+w=close_window
+# 关闭当前分屏
+keybind = super+shift+w=close_surface
 
 # 切换到下一个分屏
 keybind = super+shift+right_bracket=goto_split:next
