@@ -1,5 +1,8 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
+#增加超时时间
+command_timeout = 1000
+
 # 右侧提示符：显示命令耗时和环境变量
 right_format = """
 $cmd_duration\
