@@ -101,8 +101,7 @@ link cursor/keybindings.json "Library/Application Support/Cursor/User/keybinding
 link vscode/settings.json    "Library/Application Support/Code/User/settings.json"
 
 # ── Claude Code ───────────────────────────────────────────────────────────
-link claude/settings.json        .claude/settings.json
-link claude/statusline-command.sh .claude/statusline-command.sh
+link claude/statusline.sh .claude/statusline.sh
 link claude/CLAUDE.md            .claude/CLAUDE.md
 link claude/agents               .claude/agents
 # Skills 不由本仓库管理
