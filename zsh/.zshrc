@@ -403,8 +403,6 @@ export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 [ -s "$BUN_INSTALL/_bun" ] && source "$BUN_INSTALL/_bun"
 
-alias claude-mem='/Users/jackdaw/.bun/bin/bun "/Users/jackdaw/.claude/plugins/cache/thedotmack/claude-mem/12.1.6/scripts/worker-service.cjs"'
-
 # Added by Antigravity
 export PATH="/Users/jackdaw/.antigravity/antigravity/bin:$PATH"
 
