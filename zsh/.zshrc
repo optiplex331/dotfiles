@@ -12,10 +12,6 @@
 # 0. 初始化和兼容性修复
 # ============================================================================
 
-# Kiro CLI 前置块（如果已安装 kiro-cli，需保留在文件最顶部）
-[[ -f "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.pre.zsh" ]] && \
-  builtin source "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.pre.zsh"
-
 # 加载 .zprofile（login shell 的环境变量，非 login shell 不会自动加载）
 [[ -f ~/.zprofile ]] && source ~/.zprofile
 
@@ -288,7 +284,7 @@ alias tnew='tmux new -s'                # 创建新命名会话：tnew <name>
 alias ta='tmux a -t'                    # 附加到已有会话：ta <name>
 
 # Homebrew 全量更新（更新索引 + 升级所有包 + 清理旧版本和缓存）
-alias brew14all='brew update && brew upgrade && brew cleanup --prune=all && rm -rf $(brew --cache)'
+alias brew14all='brew update && brew upgrade && brew cleanup --prune=all && command rm -rf "$(brew --cache)"/*'
 
 
 # ============================================================================
@@ -400,7 +396,7 @@ unset -f _prepend_path
 setopt EXTENDED_GLOB
 
 # 取消 Homebrew 镜像源设置（如果之前配置过国内镜像，换回官方源时取消此行注释）
-# unset HOMEBREW_BOTTLE_DOMAIN
+unset HOMEBREW_BOTTLE_DOMAIN
 
 # Bun 配置 (已去重) 
 export BUN_INSTALL="$HOME/.bun"
