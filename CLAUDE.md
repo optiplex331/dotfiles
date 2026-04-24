@@ -54,7 +54,7 @@ brew update && brew upgrade && brew cleanup --prune=all
 | `cursor/keybindings.json` | `~/Library/Application Support/Cursor/User/keybindings.json` |
 | `vscode/settings.json` | `~/Library/Application Support/Code/User/settings.json` |
 | `claude/settings.json` | `~/.claude/settings.json` |
-| `claude/statusline-command.sh` | `~/.claude/statusline-command.sh` |
+| `claude/statusline.sh` | `~/.claude/statusline.sh` |
 | `claude/CLAUDE.md` | `~/.claude/CLAUDE.md` |
 | `claude/agents/` | `~/.claude/agents` |
 | `codex/config.toml` | rendered to `~/.codex/config.toml` with the dotfiles project path refreshed to the current repo path |
