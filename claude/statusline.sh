@@ -195,16 +195,23 @@ if git -C "$git_cwd" rev-parse --git-dir --no-optional-locks >/dev/null 2>&1; th
   stash=$(git -C "$git_cwd" --no-optional-locks stash list 2>/dev/null | wc -l | tr -d ' ')
   stash="${stash:-0}"
 
+  # Current branch
+  branch=$(git -C "$git_cwd" --no-optional-locks symbolic-ref --short HEAD 2>/dev/null \
+    || git -C "$git_cwd" --no-optional-locks rev-parse --short HEAD 2>/dev/null || true)
+
   # Build git_part
   is_clean=true
   [ "$staged"    -gt 0 ] && is_clean=false
   [ "$modified"  -gt 0 ] && is_clean=false
   [ "$untracked" -gt 0 ] && is_clean=false
 
+  branch_part=""
+  [ -n "$branch" ] && branch_part="${DIM}branch:${RESET}${BLUE}${branch}${RESET} "
+
   if $is_clean; then
-    git_part="${GREEN}✓${RESET}"
+    git_part="${branch_part}${GREEN}✓${RESET}"
   else
-    git_part="${RED}✗${RESET}"
+    git_part="${branch_part}${RED}✗${RESET}"
     [ "$staged"    -gt 0 ] && git_part="${git_part} ${DIM}stage:${RESET}${YELLOW}${staged}${RESET}"
     [ "$modified"  -gt 0 ] && git_part="${git_part} ${DIM}mod:${RESET}${YELLOW}${modified}${RESET}"
     [ "$untracked" -gt 0 ] && git_part="${git_part} ${DIM}new:${RESET}${YELLOW}${untracked}${RESET}"
