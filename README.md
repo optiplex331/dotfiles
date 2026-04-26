@@ -241,7 +241,8 @@ bash ~/Code/dotfiles/scripts/restore.sh
 
 - **配置文件**: `~/.codex/config.toml`
 - **全局指令**: `~/.codex/AGENTS.md`
-- **管理方式**: 仓库内 `codex/` 目录保存源文件；`scripts/restore.sh` 会链接 `AGENTS.md`，并把 `config.toml` 中的 dotfiles 项目路径刷新为当前仓库目录
+- **全局规则**: `~/.codex/rules/*.md`
+- **管理方式**: 仓库内 `codex/` 目录保存源文件；`scripts/restore.sh` 会链接 `AGENTS.md` 和 `rules/*.md`，并把 `config.toml` 中的 dotfiles 项目路径刷新为当前仓库目录
 
 ---
 
@@ -290,13 +291,14 @@ bash ~/Code/dotfiles/scripts/restore.sh
 
 ```
 .
-├── claude/                 # Claude Code 全局配置与 agents
+├── claude/                 # Claude Code 全局配置、rules 与 agents
 │   ├── CLAUDE.md
-│   ├── settings.json
-│   ├── statusline-command.sh
+│   ├── statusline.sh
+│   ├── rules/
 │   └── agents/
-├── codex/                  # Codex 全局配置与指令
+├── codex/                  # Codex 全局配置、指令与 rules
 │   ├── AGENTS.md
+│   ├── rules/
 │   └── config.toml
 ├── cursor/                 # Cursor 编辑器配置
 │   ├── settings.json

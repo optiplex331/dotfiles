@@ -132,15 +132,15 @@ fi
 # 4. 编辑器环境变量
 # ============================================================================
 
-# [ADD] 设置默认编辑器为 Neovim
+# [ADD] 设置默认编辑器为 VS Code
 # 以下工具会读取这些变量自动调用正确的编辑器：
 #   - git commit（无 -m 时打开编辑器）
 #   - kubectl edit
 #   - crontab -e
 #   - visudo
 #   - 各类 CLI 工具
-export EDITOR='nvim'
-export VISUAL='nvim'   # 部分工具优先读取 VISUAL（GUI 场景），回退到 EDITOR
+export EDITOR='code'
+export VISUAL='code'   # 部分工具优先读取 VISUAL（GUI 场景），回退到 EDITOR
 
 
 # ============================================================================
@@ -172,7 +172,6 @@ alias lha='l -ha'                  # 隐藏文件 + 可读大小
 alias lt='eza -T -L 2'            # 树状显示，最多展开 2 层
 
 # 注意：y（Yazi 文件管理器）定义在第 3 节的函数中，此处不重复定义
-
 
 # ============================================================================
 # 6. 别名 - Git 工作流
@@ -285,6 +284,13 @@ alias ta='tmux a -t'                    # 附加到已有会话：ta <name>
 
 # Homebrew 全量更新（更新索引 + 升级所有包 + 清理旧版本和缓存）
 alias brew14all='brew update && brew upgrade && brew cleanup --prune=all && command rm -rf "$(brew --cache)"/*'
+
+# Claude Code
+alias cc='claude'
+alias cds="claude --dangerously-skip-permissions"
+
+# Codex
+alias cx='codex'
 
 
 # ============================================================================
