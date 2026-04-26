@@ -59,6 +59,7 @@ brew update && brew upgrade && brew cleanup --prune=all
 | `claude/agents/` | `~/.claude/agents` |
 | `codex/config.toml` | rendered to `~/.codex/config.toml` with the dotfiles project path refreshed to the current repo path |
 | `codex/AGENTS.md` | `~/.codex/AGENTS.md` |
+| `codex/agents/` | `~/.codex/agents` |
 | `codex/rules/*.md` | `~/.codex/rules/*.md` |
 
 ## Neovim
