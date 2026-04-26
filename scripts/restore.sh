@@ -103,11 +103,25 @@ link vscode/settings.json    "Library/Application Support/Code/User/settings.jso
 # ── Claude Code ───────────────────────────────────────────────────────────
 link claude/statusline.sh .claude/statusline.sh
 link claude/CLAUDE.md            .claude/CLAUDE.md
+link claude/rules/architecture.md .claude/rules/architecture.md
+link claude/rules/code-review.md  .claude/rules/code-review.md
+link claude/rules/delegation.md   .claude/rules/delegation.md
+link claude/rules/documentation.md .claude/rules/documentation.md
+link claude/rules/english.md      .claude/rules/english.md
+link claude/rules/planning.md     .claude/rules/planning.md
+link claude/rules/testing.md      .claude/rules/testing.md
 link claude/agents               .claude/agents
 # Skills 不由本仓库管理
 
 # ── Codex ─────────────────────────────────────────────────────────────────
 render_codex_config codex/config.toml .codex/config.toml
 link codex/AGENTS.md             .codex/AGENTS.md
+link codex/rules/architecture.md .codex/rules/architecture.md
+link codex/rules/code-review.md  .codex/rules/code-review.md
+link codex/rules/delegation.md   .codex/rules/delegation.md
+link codex/rules/documentation.md .codex/rules/documentation.md
+link codex/rules/english.md      .codex/rules/english.md
+link codex/rules/planning.md     .codex/rules/planning.md
+link codex/rules/testing.md      .codex/rules/testing.md
 
 log "Done."
