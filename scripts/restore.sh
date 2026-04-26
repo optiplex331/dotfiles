@@ -116,6 +116,7 @@ link claude/agents               .claude/agents
 # ── Codex ─────────────────────────────────────────────────────────────────
 render_codex_config codex/config.toml .codex/config.toml
 link codex/AGENTS.md             .codex/AGENTS.md
+link codex/agents               .codex/agents
 link codex/rules/architecture.md .codex/rules/architecture.md
 link codex/rules/code-review.md  .codex/rules/code-review.md
 link codex/rules/delegation.md   .codex/rules/delegation.md
