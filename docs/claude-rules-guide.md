@@ -26,22 +26,18 @@ Claude 与 Codex 使用同构文件：
 ├── CLAUDE.md
 └── rules/
     ├── planning.md
-    ├── testing.md
     ├── code-review.md
     ├── documentation.md
     ├── delegation.md
-    ├── architecture.md
     └── english.md
 
 ~/.codex/
 ├── AGENTS.md
 └── rules/
     ├── planning.md
-    ├── testing.md
     ├── code-review.md
     ├── documentation.md
     ├── delegation.md
-    ├── architecture.md
     └── english.md
 ```
 
@@ -131,16 +127,21 @@ Formal task 文档必须包含两个 agent 可执行性字段：
 
 ### Git 工作流
 
+提交信息使用 Angular Commit Message Convention：`<type>(<scope>): <summary>`。
+类型限制为 `feat` `fix` `docs` `refactor` `perf` `test` `build` `ci` `chore` `revert`；summary 用英文祈使句，不加句号，最长 72 字符。
+
 - `main` 保持稳定，`dev` 作为非平凡工作的集成分支。
-- task branch 从 `dev` 切出，完成验证和 review 后回到 `dev`。
-- 如果已经在匹配当前目标的 task branch 上，继续使用该分支；否则从最新 `dev` 切出。
-- task branch 合入 `dev` 后，需要按风险重新验证集成状态。
-- 只有当 `dev` 的集成状态已验证，才提升到 `main`。
+- 非平凡编辑开始前，使用匹配当前目标的 task branch；否则从最新 `dev` 切出。
+- task branch 完成验证和 review 后合回 `dev`。
+- 合入后重新验证 `dev`，只有集成状态已验证，才提升到 `main`。
 - 从 `main` 发出的紧急修复，需要合并或 cherry-pick 回 `dev`。
+- branch 范围要和任务一致；同一任务的 code / docs 放在一起，范围变化就换新 branch。
+- 提交新的未跟踪 config 或 env 文件前，先确认它应该入库还是留在本地 / ignore。
 - 当 `main`、`dev` 或多个 task branch 需要并行驻留时，优先使用 `git worktree`。
 
-### 测试（`testing.md`）
+### 规划与验证（`planning.md`）
 
+- 模式路由、spec / plan / task 字段和验证门都归 `planning.md`。
 - 可测试的代码 task 默认遵循 TDD。
 - 测试要求必须在 task 中先写清楚。
 - 如果 test-first 不适合该任务，必须先写清验证方式。
@@ -163,7 +164,6 @@ Formal task 文档必须包含两个 agent 可执行性字段：
 - 上下文压力接近压缩。
 - 工作跨多个模块或需要广泛探索。
 - 工作可拆成独立 read / implementation / verification / review slices。
-- `SESSION_HANDOFF.md` 会变成“待读文件列表”而不是消化结论。
 
 不要委派主线程立即阻塞的下一步。并行 worker 的写入域必须不交叉，除非主线程显式串行化。
 并行 worker 的写入域应在所属 task 里先声明，不在派发时临时决定。
@@ -172,22 +172,9 @@ Formal task 文档必须包含两个 agent 可执行性字段：
 
 - 派发时给 task 文档和直接输入路径，不塞整份 plan。
 - delegated agent 返回消化后的结果，主线程默认整合结果，不重复读取它探索过的上下文。
-- `TASKS.md` 是唯一轻量共享协调板，并由主线程独写。
+- coordination state 写回 `documentation.md` 定义的归属文件。
 
-### SESSION_HANDOFF
-
-`SESSION_HANDOFF.md` 只存 transient state。多 agent 场景下，每个未完成 delegated task 要记录：
-
-- 启动指令。
-- 输入路径。
-- 预期产出。
-- 当前状态。
-
-目标是下次会话能直接重派，而不是重新思考任务边界。
-
----
-
-## 七、文档归属
+### 文档归属
 
 - `CLAUDE.md` / `AGENTS.md`：全局或项目级 baseline、命令、路径和约束。
 - `rules/*.md`：长期稳定的领域规则。
@@ -198,9 +185,29 @@ Formal task 文档必须包含两个 agent 可执行性字段：
 - `SESSION_HANDOFF.md`：会话续接状态，不替代 spec / plan / task。
 - `SURFACE.md`：真实公共契约。
 
+`SESSION_HANDOFF.md` 和压缩摘要只保存续接所需的 transient state，不替代 spec / plan / task / `TASKS.md`。它们要保存消化后的结论，而不只是文件路径、命令或“下次重读这里”的指针。
+
+当上下文需要压缩或 handoff 时，按优先级保留：
+
+1. 架构决策和背后的理由。
+2. 改过哪些文件、每个文件改了什么。
+3. 当前进展状态。
+4. 还没做完的 TODO。
+
+多 agent 场景下，每个未完成 delegated task 还要记录：
+
+- 启动指令。
+- 输入路径。
+- 预期产出。
+- 当前状态。
+
+目标是下次会话能直接续接或重派，而不是重新思考任务边界。
+
+只有项目暴露真实公共边界时才创建或更新 `SURFACE.md`，例如 HTTP API、SDK、plugin protocol、event 或 schema contract。内部实现细节不需要 `SURFACE.md`。
+
 ---
 
-## 八、常见反模式
+## 七、常见反模式
 
 | 反模式 | 解释 | 应对 |
 |---|---|---|
@@ -215,7 +222,7 @@ Formal task 文档必须包含两个 agent 可执行性字段：
 
 ---
 
-## 九、维护原则
+## 八、维护原则
 
 - 规则写行为，不写长理由。
 - 能镜像的 Claude / Codex 规则使用 symlink 单源维护；修改时只改 `claude/`。
@@ -231,10 +238,8 @@ Formal task 文档必须包含两个 agent 可执行性字段：
 实际规则文件安装到 `~/.claude/` 和 `~/.codex/`；dotfiles 中的维护入口是 `claude/`，Codex 侧同名文件通过 symlink 镜像。运行 `scripts/restore.sh` 后，`~/.codex/AGENTS.md` 和 `~/.codex/rules/*.md` 会直接指向 `claude/` 单源：
 
 - `CLAUDE.md` / `AGENTS.md`：全局基线、commit 规范、workflow 和 review 入口。
-- `rules/planning.md`：模式路由、spec / plan / task 字段、superteam 条件。
-- `rules/testing.md`：TDD 和验证顺序。
+- `rules/planning.md`：模式路由、spec / plan / task 字段、验证门、superteam 条件。
 - `rules/code-review.md`：review 循环与收敛。
 - `rules/documentation.md`：文档归属、TASKS、SESSION_HANDOFF、SURFACE。
 - `rules/delegation.md`：delegated agent 协议和 Context Economy。
-- `rules/architecture.md`：架构边界和公共契约。
 - `rules/english.md`：英文纠错激活条件。

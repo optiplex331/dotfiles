@@ -35,6 +35,15 @@ link() {
   log "linked: $dst"
 }
 
+unlink_obsolete() {
+  local dst="$HOME/$1"
+
+  if [ -L "$dst" ]; then
+    rm -f "$dst"
+    log "removed obsolete link: $dst"
+  fi
+}
+
 # Render helper: replace explicit template placeholders before installing.
 render_codex_config() {
   local src="$DOTFILES/$1"
@@ -118,13 +127,13 @@ link vscode/settings.json    "Library/Application Support/Code/User/settings.jso
 # ── Claude Code ───────────────────────────────────────────────────────────
 link claude/statusline.sh .claude/statusline.sh
 link claude/CLAUDE.md            .claude/CLAUDE.md
-link claude/rules/architecture.md .claude/rules/architecture.md
+unlink_obsolete .claude/rules/architecture.md
+unlink_obsolete .claude/rules/testing.md
 link claude/rules/code-review.md  .claude/rules/code-review.md
 link claude/rules/delegation.md   .claude/rules/delegation.md
 link claude/rules/documentation.md .claude/rules/documentation.md
 link claude/rules/english.md      .claude/rules/english.md
 link claude/rules/planning.md     .claude/rules/planning.md
-link claude/rules/testing.md      .claude/rules/testing.md
 link claude/agents               .claude/agents
 # Skills 不由本仓库管理
 
@@ -135,12 +144,12 @@ link claude/agents               .claude/agents
 render_codex_config codex/config.toml .codex/config.toml
 link claude/CLAUDE.md            .codex/AGENTS.md
 link codex/agents               .codex/agents
-link claude/rules/architecture.md .codex/rules/architecture.md
+unlink_obsolete .codex/rules/architecture.md
+unlink_obsolete .codex/rules/testing.md
 link claude/rules/code-review.md  .codex/rules/code-review.md
 link claude/rules/delegation.md   .codex/rules/delegation.md
 link claude/rules/documentation.md .codex/rules/documentation.md
 link claude/rules/english.md      .codex/rules/english.md
 link claude/rules/planning.md     .codex/rules/planning.md
-link claude/rules/testing.md      .codex/rules/testing.md
 
 log "Done."

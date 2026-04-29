@@ -284,8 +284,8 @@ alias ta='tmux a -t'                    # 附加到已有会话：ta <name>
 alias brew14all='brew update && brew upgrade && brew cleanup --prune=all && command rm -rf "$(brew --cache)"/*'
 
 # Claude Code
-alias cc='claude'
-alias cds="claude --dangerously-skip-permissions"
+# alias cc='CLAUDE_CODE_AUTO_COMPACT_WINDOW=400000 claude --dangerously-skip-permissions'
+alias cc='claude --dangerously-skip-permissions'
 
 # Codex
 alias cx='codex'

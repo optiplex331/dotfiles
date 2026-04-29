@@ -21,7 +21,6 @@ Rules:
 
 - A lightweight written plan summary is required before coding.
 - Full spec/plan/task documents are not required.
-- Update related docs when behavior, workflow, assumptions, or usage change.
 - Quick-fix requires one main agent, one bounded round, no durable task state, no
   delegated implementation, and no parallel write scopes.
 - Escalate to spec-driven-full when the work needs independent delegated agents,
@@ -59,7 +58,6 @@ Rules:
 
 - Spec does not generate tasks.
 - Acceptance criteria must be judgeable.
-- Spec must be approved before planning starts.
 
 ## Plan Rules
 
@@ -74,7 +72,6 @@ Each plan should:
 
 Rules:
 
-- Plan must be approved before task generation.
 - Tasks must structurally belong to the plan that owns them.
 - Plan should keep tasks small enough for independent review and rollback.
 - Tasks in the same parallel group must have disjoint write scopes.
@@ -109,7 +106,19 @@ Rules:
   dependency outputs.
 - `Return contract` must define the expected result format, such as diff,
   changed files, verification result, and a bounded summary.
-- Coding must stay inside the approved task boundary.
+
+## Verification Rules
+
+- Testable code tasks default to TDD.
+- Test requirements must be written in the task before coding starts.
+- If test-first is not appropriate, write the verification approach before
+  coding starts.
+- Verification order is fixed: `unit -> integration -> e2e`.
+- If a bug is found during verification, reproduce it with a failing test first,
+  then fix it with TDD.
+- Scale tests with risk and blast radius.
+- If a task changes public contracts, pair tests with `SURFACE.md` updates when
+  that registry is enabled.
 
 ## Superteam Entry Conditions
 
