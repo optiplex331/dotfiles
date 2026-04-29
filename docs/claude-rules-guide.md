@@ -45,7 +45,7 @@ Claude 与 Codex 使用同构文件：
     └── english.md
 ```
 
-**关键设计：** `CLAUDE.md` 和 `AGENTS.md` 使用 agent-neutral 语境；`rules/*.md` 按需加载。能逐字镜像的规则文件保持一致，平台差异只用“current agent environment”这类中性表达承载。
+**关键设计：** `claude/CLAUDE.md` 和 `claude/rules/*.md` 是 dotfiles 中的维护单源；`codex/AGENTS.md` 和 `codex/rules/*.md` 在仓库内用 symlink 指向 Claude 单源，只保留 Codex 需要的文件名入口。`scripts/restore.sh` 安装到 `$HOME` 时直接把 `~/.codex/AGENTS.md` 和 `~/.codex/rules/*.md` 链到 `claude/` 单源，避免双层 symlink。文本使用 agent-neutral 语境；平台差异只用“current agent environment”这类中性表达承载。
 
 ---
 
@@ -62,6 +62,7 @@ Claude 与 Codex 使用同构文件：
 **特征：**
 - 不需要持久 spec / plan / task 文档。
 - 开始前给一段轻量计划即可。
+- 只适合主 agent 单轮闭环，不需要 delegated implementation，也没有并行写入域。
 - 如果发现需要独立 delegated agent、持久任务状态或并行写入域，升级到 `spec-driven-full`。
 
 ### 2. `spec-driven-full`
@@ -73,6 +74,7 @@ Claude 与 Codex 使用同构文件：
 **关键纪律：**
 - Spec 对齐目标和验收标准。
 - Plan 标注串行链与可并行 task 组。
+- 多 agent 写代码前先确定每个 task 的 branch / worktree 策略。
 - Task 必须能冷启动派发给 delegated agent。
 - 编码必须留在已批准 task 范围内。
 
@@ -89,7 +91,7 @@ Claude 与 Codex 使用同构文件：
 ## 四、模式怎么选
 
 ```text
-主 agent 能单轮闭环，且不需要持久 task 文档？
+主 agent 能单轮闭环，且没有持久 task 状态、delegated implementation、并行写入域？
 ├── 是 -> quick-fix
 └── 否 -> spec-driven-full
 
@@ -127,19 +129,32 @@ Formal task 文档必须包含两个 agent 可执行性字段：
 
 ## 六、关键规则速查
 
+### Git 工作流
+
+- `main` 保持稳定，`dev` 作为非平凡工作的集成分支。
+- task branch 从 `dev` 切出，完成验证和 review 后回到 `dev`。
+- 如果已经在匹配当前目标的 task branch 上，继续使用该分支；否则从最新 `dev` 切出。
+- task branch 合入 `dev` 后，需要按风险重新验证集成状态。
+- 只有当 `dev` 的集成状态已验证，才提升到 `main`。
+- 从 `main` 发出的紧急修复，需要合并或 cherry-pick 回 `dev`。
+- 当 `main`、`dev` 或多个 task branch 需要并行驻留时，优先使用 `git worktree`。
+
 ### 测试（`testing.md`）
 
-- 所有代码 task 默认遵循 TDD。
+- 可测试的代码 task 默认遵循 TDD。
 - 测试要求必须在 task 中先写清楚。
+- 如果 test-first 不适合该任务，必须先写清验证方式。
 - 验证顺序固定为 `unit -> integration -> e2e`。
 - 测试范围随风险和影响面扩大。
 
 ### 代码审查（`code-review.md`）
 
-- 有现有 diff 或用户明确要求 review 时，先走 review。
+- 明确 review、已有 task-scoped diff，或改动涉及公共契约、共享模块、持久化、安全、数据丢失风险、跨模块行为、用户可见流程时，走完整 review loop。
+- review 只提供本任务相关 diff；无关 dirty files 单独列出，除非用户要求，不审查也不修改。
 - 使用当前 agent 环境可用的 native review workflow。
 - 如果没有 native review command，就做 manual code-review pass 并说明限制。
 - 最多迭代 3 轮，优先处理 bug、回归、缺测试、安全或契约漂移。
+- 小型 quick-fix 仍需 self-review、验证和简洁 diff summary。
 
 ### 委派（`delegation.md`）
 
@@ -151,6 +166,7 @@ Formal task 文档必须包含两个 agent 可执行性字段：
 - `SESSION_HANDOFF.md` 会变成“待读文件列表”而不是消化结论。
 
 不要委派主线程立即阻塞的下一步。并行 worker 的写入域必须不交叉，除非主线程显式串行化。
+并行 worker 的写入域应在所属 task 里先声明，不在派发时临时决定。
 
 ### Context Economy
 
@@ -202,7 +218,8 @@ Formal task 文档必须包含两个 agent 可执行性字段：
 ## 九、维护原则
 
 - 规则写行为，不写长理由。
-- 能镜像的 Claude / Codex 规则保持逐字一致。
+- 能镜像的 Claude / Codex 规则使用 symlink 单源维护；修改时只改 `claude/`。
+- `codex/` 下的规则入口只用于路径兼容，安装到 `$HOME` 时由 `restore.sh` 直接链接到 `claude/` 单源。
 - 平台差异使用中性表达，不复制两套心智模型。
 - 每条新规则都应改变真实决策，否则不加。
 - 文档服务于执行，不服务于仪式感。
@@ -211,7 +228,7 @@ Formal task 文档必须包含两个 agent 可执行性字段：
 
 ## 附录：实际规则文件
 
-实际规则文件位于 `~/.claude/` 和 `~/.codex/`：
+实际规则文件安装到 `~/.claude/` 和 `~/.codex/`；dotfiles 中的维护入口是 `claude/`，Codex 侧同名文件通过 symlink 镜像。运行 `scripts/restore.sh` 后，`~/.codex/AGENTS.md` 和 `~/.codex/rules/*.md` 会直接指向 `claude/` 单源：
 
 - `CLAUDE.md` / `AGENTS.md`：全局基线、commit 规范、workflow 和 review 入口。
 - `rules/planning.md`：模式路由、spec / plan / task 字段、superteam 条件。
