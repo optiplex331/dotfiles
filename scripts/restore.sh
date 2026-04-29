@@ -129,15 +129,18 @@ link claude/agents               .claude/agents
 # Skills 不由本仓库管理
 
 # ── Codex ─────────────────────────────────────────────────────────────────
+# Agent rules are maintained once under claude/. The codex/ rule paths are
+# repo-local compatibility symlinks, but installed ~/.codex files point straight
+# at claude/ to avoid nested symlinks in $HOME.
 render_codex_config codex/config.toml .codex/config.toml
-link codex/AGENTS.md             .codex/AGENTS.md
+link claude/CLAUDE.md            .codex/AGENTS.md
 link codex/agents               .codex/agents
-link codex/rules/architecture.md .codex/rules/architecture.md
-link codex/rules/code-review.md  .codex/rules/code-review.md
-link codex/rules/delegation.md   .codex/rules/delegation.md
-link codex/rules/documentation.md .codex/rules/documentation.md
-link codex/rules/english.md      .codex/rules/english.md
-link codex/rules/planning.md     .codex/rules/planning.md
-link codex/rules/testing.md      .codex/rules/testing.md
+link claude/rules/architecture.md .codex/rules/architecture.md
+link claude/rules/code-review.md  .codex/rules/code-review.md
+link claude/rules/delegation.md   .codex/rules/delegation.md
+link claude/rules/documentation.md .codex/rules/documentation.md
+link claude/rules/english.md      .codex/rules/english.md
+link claude/rules/planning.md     .codex/rules/planning.md
+link claude/rules/testing.md      .codex/rules/testing.md
 
 log "Done."

@@ -22,6 +22,8 @@ Rules:
 - A lightweight written plan summary is required before coding.
 - Full spec/plan/task documents are not required.
 - Update related docs when behavior, workflow, assumptions, or usage change.
+- Quick-fix requires one main agent, one bounded round, no durable task state, no
+  delegated implementation, and no parallel write scopes.
 - Escalate to spec-driven-full when the work needs independent delegated agents,
   durable task state, or non-overlapping parallel write scopes.
 
@@ -76,6 +78,8 @@ Rules:
 - Tasks must structurally belong to the plan that owns them.
 - Plan should keep tasks small enough for independent review and rollback.
 - Tasks in the same parallel group must have disjoint write scopes.
+- When multiple agents will write code, assign each task a branch or worktree
+  strategy before implementation starts.
 
 ## Task Rules
 
