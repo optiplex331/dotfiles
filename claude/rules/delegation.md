@@ -67,6 +67,8 @@ Suggested next action:
   progress without it.
 - Worker write scopes must be disjoint unless the main thread explicitly
   serializes them.
+- Parallel worker write scopes must be declared in the owning task before the
+  workers start.
 - `TASKS.md` may contain a lightweight `Delegation Board`, but it must not store
   long analysis.
 - `SESSION_HANDOFF.md` must preserve digested conclusions, not only pointers to
