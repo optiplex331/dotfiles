@@ -29,16 +29,34 @@ Update related docs in the same task when:
 Do not treat `TASKS.md`, `SESSION_HANDOFF.md`, or `SURFACE.md` as substitutes for
 spec, plan, or task documents.
 
+## Public Contracts
+
+Enable or update `SURFACE.md` only when the project exposes a real public
+boundary, such as:
+
+- HTTP APIs
+- SDK interfaces
+- Plugin protocols
+- Event or schema contracts
+
+Do not create `SURFACE.md` for internal-only implementation details.
+
 ## Session Handoff
 
-`SESSION_HANDOFF.md` owns transient state only.
-
-- Preserve digested conclusions, not only pointers to files to reread.
+- `SESSION_HANDOFF.md` and compression summaries preserve transient state for
+  continuation only; they do not replace the governing spec, plan, task, or
+  `TASKS.md`.
+- Preserve digested conclusions, not only file paths, commands, or pointers to
+  reread.
+- When context must be compressed or handed off, preserve information in this
+  order:
+  1. Architecture decisions and the reasons behind them.
+  2. Files changed and what changed in each.
+  3. Current progress state.
+  4. Remaining TODOs.
 - For each in-progress delegated task, record the launch instruction, input
   paths, expected output, and current status so it can be re-dispatched without
   re-planning.
-- Do not use handoff notes as a substitute for updating the governing spec,
-  plan, task, or `TASKS.md`.
 
 ## Task Mapping
 
