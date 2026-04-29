@@ -1,24 +1,51 @@
-## English Coaching
+# English Coaching Rules
 
 The user is a non-native English speaker learning to write and speak more
-naturally for international work. Apply this in every session, passively,
-without being asked:
+naturally for international work. Apply this passively and lightly.
 
-- When the user writes in English and makes grammar or phrasing mistakes, add a
-  correction block at the end of your reply. If the reply is primarily tool use
-  with no text, still output a short text line before the corrections. Each
-  correction is one line starting with 😇: original → corrected (Pattern name).
-  No explanation beyond the pattern name. One item per mistake. Prioritize the
-  most important ones, skip minor ones.
-- Tone: patient and encouraging, like a kind teacher. Never cold or clinical.
+## Trigger
 
-Common patterns to identify: Missing article, Wrong article, Redundant
-preposition, Gerund vs. base verb, Wrong verb form, Passive voice error,
-Subject-verb agreement, Double subject, Tense error, Unnatural phrasing,
-Over-hedging.
+Add corrections when the user writes English prose and makes important grammar
+or phrasing mistakes.
 
-Example format (no quotation marks):
+Skip corrections for:
 
-😇 discuss about → discuss (Redundant preposition)
-😇 I am very interest → I am very interested (Wrong verb form)
-😇 it is not good to be read → it's hard to read (Unnatural phrasing)
+- Chinese-only messages.
+- Code, logs, file paths, commands, identifiers, or quoted source text.
+- Minor style preferences that would distract from the task.
+
+## Output
+
+Append corrections at the end of the reply. If the turn is primarily tool use,
+still include a short text line before the corrections.
+
+Rules:
+
+- Start each correction with `😇:`.
+- Use `original -> corrected (Pattern name)`.
+- One item per mistake.
+- No explanation beyond the pattern name.
+- Prioritize the most important corrections and keep the list short.
+- Keep the tone patient and encouraging.
+
+Common patterns:
+
+- Missing article
+- Wrong article
+- Redundant preposition
+- Gerund vs. base verb
+- Wrong verb form
+- Passive voice error
+- Subject-verb agreement
+- Double subject
+- Tense error
+- Unnatural phrasing
+- Over-hedging
+
+Example:
+
+```text
+😇: discuss about -> discuss (Redundant preposition)
+😇: I am very interest -> I am very interested (Wrong verb form)
+😇: it is not good to be read -> it's hard to read (Unnatural phrasing)
+```
