@@ -9,7 +9,6 @@ Use delegation when any of these are true:
 
 - The context window is approaching compression before implementation starts.
 - The task spans multiple modules or requires broad exploration.
-- `SESSION_HANDOFF.md` would become mostly an index of files to reread.
 - The work can be split into independent read, implementation, verification, or
   review slices.
 
@@ -19,8 +18,8 @@ Use delegation when any of these are true:
   integration state.
 - Delegate bounded local exploration, implementation, verification, or review.
 - Continue useful non-overlapping work instead of waiting idly.
-- Integrate delegated agent results into the governing task, `TASKS.md`, or
-  `SESSION_HANDOFF.md`.
+- Integrate delegated agent results into the governing task or coordination
+  document.
 - Close delegated agents when their result has been consumed.
 
 ## Delegated Agent Responsibilities
@@ -58,8 +57,7 @@ Suggested next action:
 - Delegate with the task document plus direct input paths, not the whole plan.
 - Delegated agents return digested results; the main thread should not reread
   their explored context unless integration or verification requires it.
-- `TASKS.md` is the single shared coordination board and is written by the main
-  thread only.
+- Keep coordination state in the documents owned by `documentation.md`.
 
 ## Constraints
 
@@ -69,9 +67,5 @@ Suggested next action:
   serializes them.
 - Parallel worker write scopes must be declared in the owning task before the
   workers start.
-- `TASKS.md` may contain a lightweight `Delegation Board`, but it must not store
-  long analysis.
-- `SESSION_HANDOFF.md` must preserve digested conclusions, not only pointers to
-  files to reread.
 - Delegation does not bypass spec, plan, task, TDD, review, or documentation
   gates.
