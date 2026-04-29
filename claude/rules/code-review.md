@@ -1,30 +1,37 @@
 # Code Review Rules
 
-## Review Loop
+Review is a risk gate. Use it to catch bugs, regressions, missing tests, safety
+issues, and contract drift before work is closed.
 
-Use the full review loop for explicit review requests, existing task-scoped
-diffs, or code changes that touch public contracts, shared modules, persistence,
-security, data-loss risk, cross-module behavior, or user-facing workflows:
+## Triggers
 
-1. Start with the native review workflow available in the current agent
-   environment and provide the task-scoped `git diff` as context.
-   List unrelated dirty files separately and do not review or modify them unless
-   explicitly requested.
-2. Analyze the review feedback and decide what needs to change.
-3. Make the code changes.
-4. Run the same review workflow again with the same thread or context and the
-   new diff.
-5. If issues remain, continue iterating for up to 3 rounds.
+Use the full review loop for:
 
-If no native review command is available, perform a manual code-review pass and
-state that limitation.
+- Explicit review requests.
+- Existing task-scoped diffs.
+- Changes touching public contracts, shared modules, persistence, security,
+  data-loss risk, cross-module behavior, or user-facing workflows.
 
 Small quick-fix changes still require self-review, verification, and a concise
 diff summary.
 
-## Review Stance
+## Review Loop
 
-When asked for a review, prioritize:
+1. Start with the native review workflow available in the current agent
+   environment and provide the task-scoped `git diff` as context.
+2. List unrelated dirty files separately. Do not review or modify them unless
+   explicitly requested.
+3. Analyze feedback and decide what must change.
+4. Make the changes.
+5. Run the same review workflow again with the updated diff.
+6. Iterate for up to 3 rounds if issues remain.
+
+If no native review command is available, perform a manual code-review pass and
+state that limitation.
+
+## Findings
+
+Prioritize findings in this order:
 
 - Bugs
 - Behavioral regressions
@@ -35,8 +42,11 @@ When asked for a review, prioritize:
 Present findings first, ordered by severity and grounded in file and line
 references. Keep summaries secondary.
 
-## Interaction With Spec-Driven Work
+## Closure
 
-- Existing task-scoped diffs or explicit review requests go through review first.
-- New development requests go through the planning gates first, then review the
-  resulting diff after implementation.
+- Existing task-scoped diffs or explicit review requests go through review before
+  new planning or implementation.
+- After implementation, review the resulting diff when the trigger conditions
+  apply.
+- A reviewed task is not closed until required fixes are applied or remaining
+  risks are explicitly documented.
