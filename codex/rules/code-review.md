@@ -4,8 +4,8 @@
 
 When the user asks for review or requests code changes:
 
-1. Start with the Codex review workflow available in the current environment and
-   provide the current `git diff` as context.
+1. Start with the native review workflow available in the current agent
+   environment and provide the current `git diff` as context.
 2. Analyze the review feedback and decide what needs to change.
 3. Make the code changes.
 4. Run the same review workflow again with the same thread or context and the
