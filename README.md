@@ -6,6 +6,7 @@
 
 - [概览](#概览)
 - [快速开始](#快速开始)
+- [Agent 规则单源](#agent-规则单源)
 - [配置清单](#配置清单)
 - [目录结构](#目录结构)
 - [快捷键参考](#快捷键参考)
@@ -54,6 +55,23 @@ bash ~/Code/dotfiles/scripts/restore.sh
 ```
 
 该脚本会将所有配置目录软链接到家目录，已存在的文件自动备份至 `~/.dotfiles_backup/`。
+
+---
+
+## Agent 规则单源
+
+Claude 与 Codex 共用一套 agent-neutral 全局规则：
+
+- **维护入口**: `claude/CLAUDE.md` 与 `claude/rules/*.md`
+- **仓库镜像**: `codex/AGENTS.md` 与 `codex/rules/*.md` 是指向 Claude 单源的 symlink，用来保留 Codex 习惯的路径和文件名
+- **安装结果**: `scripts/restore.sh` 直接把 `~/.codex/AGENTS.md` 和 `~/.codex/rules/*.md` 链到 `claude/` 单源，避免 `$HOME` 中出现双层 symlink
+- **Codex 专属配置**: `codex/config.toml` 仍独立维护，并在 restore 时渲染 `{{DOTFILES_DIR}}`
+
+修改规则时只改 Claude 单源，然后运行：
+
+```bash
+bash ~/Code/dotfiles/scripts/restore.sh
+```
 
 ---
 
@@ -243,7 +261,7 @@ bash ~/Code/dotfiles/scripts/restore.sh
 - **全局指令**: `~/.codex/AGENTS.md`
 - **全局 Agents**: `~/.codex/agents/`
 - **全局规则**: `~/.codex/rules/*.md`
-- **管理方式**: 仓库内 `codex/` 目录保存源文件；`AGENTS.md` 与 `CLAUDE.md` 保持 agent-neutral 共享语境；`scripts/restore.sh` 会链接 `AGENTS.md`、`agents/` 和 `rules/*.md`，并渲染 `config.toml` 中的 `{{DOTFILES_DIR}}` 占位符为当前仓库目录
+- **管理方式**: `~/.codex/AGENTS.md` 与 `~/.codex/rules/*.md` 由 `scripts/restore.sh` 直接链接到 `claude/` 单源；`codex/AGENTS.md` 与 `codex/rules/*.md` 只是仓库内路径镜像；`config.toml` 中的 `{{DOTFILES_DIR}}` 会渲染为当前仓库目录
 
 ---
 
@@ -292,12 +310,12 @@ bash ~/Code/dotfiles/scripts/restore.sh
 
 ```
 .
-├── claude/                 # Agent-neutral Claude 入口、rules 与 agents
+├── claude/                 # Agent-neutral 单源入口、rules 与 Claude agents
 │   ├── CLAUDE.md
 │   ├── statusline.sh
 │   ├── rules/
 │   └── agents/
-├── codex/                  # Agent-neutral Codex 入口、agents 与 rules
+├── codex/                  # Codex 配置；入口与 rules symlink 到 claude/
 │   ├── AGENTS.md
 │   ├── agents/
 │   ├── rules/
