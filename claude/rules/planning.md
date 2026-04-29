@@ -1,47 +1,60 @@
 # Planning Rules
 
-## Mode Routing
+Planning owns workflow routing, durable execution documents, task closure, and
+verification order.
 
-Classify work before execution:
+## Mode Router
 
-- `quick-fix`: the main agent can close the work in one bounded round without
-  durable task documents.
-- `spec-driven-full`: the work must be split into agent-sized tasks that can be
-  independently delegated, reviewed, resumed, and verified.
-- `superteam`: optional standalone project mode for brand-new, large,
-  long-running work suited to planner/reviewer/implementer automation.
+Use `quick-fix` only when all are true:
+
+- The main agent can close the work in one bounded round.
+- No durable spec, plan, task, or task-board state is needed.
+- No delegated implementation or parallel write scope is needed.
+
+Use `spec-driven-full` when any are true:
+
+- The work needs durable decisions, task state, or resumability.
+- The work needs delegated implementation or parallel write scopes.
+- The scope spans multiple reviewable units, public behavior, or cross-module
+  coordination.
+
+Use `superteam` only for brand-new, large, long-running work that is better
+served by planner/reviewer/implementer automation than normal interactive
+review. Do not switch existing quick-fix or spec-driven work into `superteam`.
 
 ## Quick Fix
 
-Default route:
+Route:
 
 `think/hunt -> build -> check -> docs update`
 
 Rules:
 
-- A lightweight written plan summary is required before coding.
-- Full spec/plan/task documents are not required.
-- Quick-fix requires one main agent, one bounded round, no durable task state, no
-  delegated implementation, and no parallel write scopes.
-- Escalate to spec-driven-full when the work needs independent delegated agents,
-  durable task state, or non-overlapping parallel write scopes.
+- Write a lightweight plan summary before coding.
+- Keep exploration, implementation, verification, and docs update in the main
+  thread.
+- Escalate to `spec-driven-full` as soon as durable state, delegated
+  implementation, or parallel write scopes are needed.
+- Close with verification results and a concise diff summary.
 
-## Spec Driven Full Mode
+## Spec Driven Full
 
-Default route:
+Route:
 
 `spec -> plan -> task -> code -> unit -> integration -> e2e`
 
-Rules:
+Gates:
 
 - Spec must be approved before planning starts.
 - Plan must be approved before task generation.
 - Task must be approved before coding starts.
 - Coding must stay inside the approved task boundary.
 
-## Spec Rules
+## Spec
 
-Each spec should cover:
+Spec owns the problem definition and acceptance criteria.
+
+Required fields:
 
 - Background
 - Goal
@@ -59,28 +72,32 @@ Rules:
 - Spec does not generate tasks.
 - Acceptance criteria must be judgeable.
 
-## Plan Rules
+## Plan
 
-Each plan should:
+Plan owns execution topology.
 
-- Reference the approved spec.
-- Explain implementation strategy.
-- Define workstreams, dependency order, serial chains, and parallel task groups.
-- Call out risks.
-- Define the test strategy.
-- Define task breakdown rules.
+Required content:
+
+- Approved spec reference.
+- Implementation strategy.
+- Workstreams, dependency order, serial chains, and parallel task groups.
+- Risks.
+- Test strategy.
+- Task breakdown rules.
 
 Rules:
 
 - Tasks must structurally belong to the plan that owns them.
-- Plan should keep tasks small enough for independent review and rollback.
+- Tasks should be small enough for independent review and rollback.
 - Tasks in the same parallel group must have disjoint write scopes.
-- When multiple agents will write code, assign each task a branch or worktree
+- When multiple agents will write code, define each task's branch or worktree
   strategy before implementation starts.
 
-## Task Rules
+## Task
 
-Each task must include:
+Task owns one executable unit.
+
+Required fields:
 
 - Status
 - References
@@ -101,13 +118,38 @@ Rules:
 - One task, one clear objective.
 - One task, one reviewable unit.
 - One task, one commit when feasible.
-- A task must be independently testable and revertible.
+- A task must be independently testable, revertible, and cold-startable.
 - `Inputs` must list the context needed to start cold, including file paths and
   dependency outputs.
 - `Return contract` must define the expected result format, such as diff,
-  changed files, verification result, and a bounded summary.
+  changed files, verification result, risks, and bounded summary.
 
-## Verification Rules
+## Task Closure
+
+Before marking a formal task `done`:
+
+- Reconcile every checklist item as complete, `N/A` with a reason, or moved to a
+  documented follow-up.
+- Confirm acceptance criteria and test requirements are satisfied, or keep the
+  task `blocked` / `partial` and record the blocker.
+- Update task status with completion date and verification result.
+- Update the owning plan with completion state, output links, verification
+  result, unlocked next tasks, and changed risks.
+- Update the owning spec when open questions, acceptance criteria, scope, or
+  constraints were resolved or changed.
+
+Rules:
+
+- A task marked `done` must not contain unreconciled checklist items.
+- A plan with formal tasks must maintain a `Progress` section or equivalent
+  task table that covers every task in the plan.
+- Spec `Open questions` must preserve the original question text and add status
+  metadata in place: `[RESOLVED <date>]`, `[DEFERRED <date>]`, or a newly added
+  question.
+- A formal task is not closed until its task document, owning plan, and affected
+  spec questions agree.
+
+## Verification
 
 - Testable code tasks default to TDD.
 - Test requirements must be written in the task before coding starts.
@@ -119,20 +161,3 @@ Rules:
 - Scale tests with risk and blast radius.
 - If a task changes public contracts, pair tests with `SURFACE.md` updates when
   that registry is enabled.
-
-## Superteam Entry Conditions
-
-Route to `superteam` only when the task is:
-
-- The first workflow choice for a brand-new project.
-- Large enough to span many tasks.
-- Suitable for long unattended execution.
-- Better served by planner/reviewer/implementer automation than normal
-  interactive review.
-
-Do not route to `superteam` when:
-
-- Project work has already started in `quick-fix` or `spec-driven-full`.
-- The user wants to upgrade an existing project into a heavier mode.
-- The request is only a subproject, milestone, or new phase inside an existing
-  project.

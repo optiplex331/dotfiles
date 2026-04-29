@@ -13,7 +13,9 @@
 - `CLAUDE.md` / `AGENTS.md` 容易各写一套，形成两种语境。
 - 任务要么直接动手、缺少交接面，要么流程过重、难以执行。
 
-这套系统的回答是：**用少量规则把工作切成可闭环、可验证、可 review、可交接的 agent 执行单元。**
+这套系统的回答是：**用少量调度规则把工作切成可闭环、可验证、可 review、可交接的 agent 执行单元。**
+
+每个 rule 尽量只回答三件事：什么时候触发、谁负责、怎样关闭。
 
 ---
 
@@ -56,10 +58,11 @@ Claude 与 Codex 使用同构文件：
 **流程：** `think/hunt -> build -> check -> docs update`
 
 **特征：**
-- 不需要持久 spec / plan / task 文档。
-- 开始前给一段轻量计划即可。
-- 只适合主 agent 单轮闭环，不需要 delegated implementation，也没有并行写入域。
-- 如果发现需要独立 delegated agent、持久任务状态或并行写入域，升级到 `spec-driven-full`。
+- 主 agent 能在一个 bounded round 中完成探索、实现、验证和文档更新。
+- 不需要持久 spec / plan / task / task-board state。
+- 不需要 delegated implementation 或并行写入域。
+- 开始前给轻量计划，结束时给验证结果和简洁 diff summary。
+- 如果发现需要 durable state、delegated implementation 或并行写入域，升级到 `spec-driven-full`。
 
 ### 2. `spec-driven-full`
 
@@ -71,7 +74,8 @@ Claude 与 Codex 使用同构文件：
 - Spec 对齐目标和验收标准。
 - Plan 标注串行链与可并行 task 组。
 - 多 agent 写代码前先确定每个 task 的 branch / worktree 策略。
-- Task 必须能冷启动派发给 delegated agent。
+- Task 必须能被主线程或 delegated agent 冷启动执行。
+- Plan 或 owning task 决定执行 owner，不在派发时临时决定。
 - 编码必须留在已批准 task 范围内。
 
 ### 3. `superteam`
@@ -103,23 +107,34 @@ Claude 与 Codex 使用同构文件：
 
 ### Plan
 
-Plan 不需要复杂图表，但必须写清执行拓扑：
+Plan 是执行拓扑，不是长解释。它必须写清：
 
 - 哪些任务形成串行链。
 - 哪些任务属于可并行组。
 - 同一并行组的写入域必须不交叉。
 - 每组任务的验证策略和风险。
 
-这样主线程可以一眼看出哪些 task 能在同一轮并发派发，哪些必须等依赖完成。
+这样主线程可以一眼看出哪些 task 能并发派发，哪些必须等依赖完成。
 
 ### Task
 
-Formal task 文档必须包含两个 agent 可执行性字段：
+Formal task 是一个可执行单元。它必须包含两个 agent 可执行性字段：
 
 - `Inputs`：冷启动需要的上下文，包括文件路径、依赖 task 的产出、相关 spec / plan 链接。
 - `Return contract`：期望返回格式，例如 diff、文件清单、验证结果、风险摘要和 bounded summary。
 
-这两个字段让“写 task”和“派 delegated agent”成为同一个动作。
+这两个字段让 task 可以被主线程或 delegated agent 冷启动执行，执行 owner 由 plan 或 owning task 决定。
+
+Formal task 收尾时必须把完成事实写回完整：
+
+- Task 自己负责 checklist、验收标准和验证结果。
+- Plan 负责跨 task 进度、依赖解锁和风险变化。
+- Spec-level open question、scope、constraint 或 acceptance criteria 被解析或改变时，回写 spec。
+- `done` task 不能留下未解释的空 checkbox；不适用就写 `N/A` 原因，移出范围就指向 follow-up。
+- Plan 要有覆盖所有 formal tasks 的 `Progress` 或等价任务表。
+- Spec 的 `Open questions` 要保留原始问题文本，并追加状态和答案：`[RESOLVED <date>] 原问题 — 答案` / `[DEFERRED <date>] 原问题 — owner 或下一触发条件`。
+
+一个 task 不能只把 `Status` 改成 done 就结束；task 文档和所属 plan 必须对同一个完成事实达成一致。
 
 ---
 
@@ -141,7 +156,9 @@ Formal task 文档必须包含两个 agent 可执行性字段：
 
 ### 规划与验证（`planning.md`）
 
-- 模式路由、spec / plan / task 字段和验证门都归 `planning.md`。
+- `planning.md` 只负责 workflow routing、spec / plan / task gates、task closure 和验证顺序。
+- `quick-fix` 只有在主线程单轮可闭环、无 durable state、无 delegated implementation、无并行写入域时使用。
+- 需要 durable state、delegated implementation、并行写入域或跨模块协调时进入 `spec-driven-full`。
 - 可测试的代码 task 默认遵循 TDD。
 - 测试要求必须在 task 中先写清楚。
 - 如果 test-first 不适合该任务，必须先写清验证方式。
@@ -150,6 +167,7 @@ Formal task 文档必须包含两个 agent 可执行性字段：
 
 ### 代码审查（`code-review.md`）
 
+- code review 是风险门，不是默认长流程。
 - 明确 review、已有 task-scoped diff，或改动涉及公共契约、共享模块、持久化、安全、数据丢失风险、跨模块行为、用户可见流程时，走完整 review loop。
 - review 只提供本任务相关 diff；无关 dirty files 单独列出，除非用户要求，不审查也不修改。
 - 使用当前 agent 环境可用的 native review workflow。
@@ -159,20 +177,35 @@ Formal task 文档必须包含两个 agent 可执行性字段：
 
 ### 委派（`delegation.md`）
 
-使用 delegated agent 的常见信号：
+delegation 只改变谁执行 bounded work，不改变 spec / review / docs / verification gates。
 
-- 上下文压力接近压缩。
-- 工作跨多个模块或需要广泛探索。
-- 工作可拆成独立 read / implementation / verification / review slices。
+适合委派：
 
-不要委派主线程立即阻塞的下一步。并行 worker 的写入域必须不交叉，除非主线程显式串行化。
-并行 worker 的写入域应在所属 task 里先声明，不在派发时临时决定。
+- 可总结的广泛只读探索。
+- 有明确 ownership 的独立 implementation slice。
+- 对现有 diff 做并行 verification / review。
+- 上下文重、但主线程还能继续做非重叠工作的调查。
+
+避免委派：
+
+- 主线程立即阻塞的下一步。
+- 主线程能更快本地闭环的一文件小修。
+- 需要全局产品、架构或流程判断的决策。
+- read scope、write scope 或 expected output 不清楚的工作。
+
+Delegation 跟随 `planning.md` 的 mode routing：QuickFix 只做有边界的只读探索或并行检查；SpecDriven 由 plan 或 owning task 决定主线程还是 delegated agent 执行。Formal task 使用 `planning.md` 的 task fields；ad-hoc delegation 才使用 `delegation.md` 的短 contract。
 
 ### Context Economy
 
-- 派发时给 task 文档和直接输入路径，不塞整份 plan。
+- 派发时给短 contract、task 文档和直接输入路径，不塞整份 plan。
 - delegated agent 返回消化后的结果，主线程默认整合结果，不重复读取它探索过的上下文。
 - coordination state 写回 `documentation.md` 定义的归属文件。
+
+### 英文辅助（`english.md`）
+
+- 只在用户写英文 prose 且有重要语法或措辞错误时触发。
+- 跳过中文消息、代码、日志、路径、命令、identifier 和引用文本。
+- 纠错放在回复末尾，保持短、轻、友好。
 
 ### 文档归属
 
@@ -185,21 +218,14 @@ Formal task 文档必须包含两个 agent 可执行性字段：
 - `SESSION_HANDOFF.md`：会话续接状态，不替代 spec / plan / task。
 - `SURFACE.md`：真实公共契约。
 
-`SESSION_HANDOFF.md` 和压缩摘要只保存续接所需的 transient state，不替代 spec / plan / task / `TASKS.md`。它们要保存消化后的结论，而不只是文件路径、命令或“下次重读这里”的指针。
+`documentation.md` 只管事实写回哪里，不重新定义 task closure gate。`SESSION_HANDOFF.md` 和压缩摘要只保存续接所需的 transient state，不替代 spec / plan / task / `TASKS.md`。它们要保存消化后的结论，而不只是文件路径、命令或“下次重读这里”的指针。
 
 当上下文需要压缩或 handoff 时，按优先级保留：
 
 1. 架构决策和背后的理由。
 2. 改过哪些文件、每个文件改了什么。
 3. 当前进展状态。
-4. 还没做完的 TODO。
-
-多 agent 场景下，每个未完成 delegated task 还要记录：
-
-- 启动指令。
-- 输入路径。
-- 预期产出。
-- 当前状态。
+4. 还没做完的 TODO；如果有未完成的 delegated task，要包含启动指令、输入路径、预期产出和当前状态。
 
 目标是下次会话能直接续接或重派，而不是重新思考任务边界。
 
@@ -218,6 +244,7 @@ Formal task 文档必须包含两个 agent 可执行性字段：
 | Task 缺少 `Return contract` | delegated agent 返回不可整合 | 预先规定 diff、文件清单、验证和摘要 |
 | 把整个 plan 塞给 delegated agent | 浪费 token 且扩大歧义 | 只给 task 文档和直接输入路径 |
 | 让 delegated agent 干阻塞下一步 | 主线程空等 | 阻塞工作由主线程处理或显式串行化 |
+| Rule 写成长解释 | 读起来对，临场仍然不知道怎么做 | 改成 trigger / owner / closure |
 | 规则越写越细 | 用兜底条款代替判断 | 保持规则短，模糊时问一个关键问题 |
 
 ---
@@ -237,9 +264,9 @@ Formal task 文档必须包含两个 agent 可执行性字段：
 
 实际规则文件安装到 `~/.claude/` 和 `~/.codex/`；dotfiles 中的维护入口是 `claude/`，Codex 侧同名文件通过 symlink 镜像。运行 `scripts/restore.sh` 后，`~/.codex/AGENTS.md` 和 `~/.codex/rules/*.md` 会直接指向 `claude/` 单源：
 
-- `CLAUDE.md` / `AGENTS.md`：全局基线、commit 规范、workflow 和 review 入口。
-- `rules/planning.md`：模式路由、spec / plan / task 字段、验证门、superteam 条件。
-- `rules/code-review.md`：review 循环与收敛。
-- `rules/documentation.md`：文档归属、TASKS、SESSION_HANDOFF、SURFACE。
-- `rules/delegation.md`：delegated agent 协议和 Context Economy。
-- `rules/english.md`：英文纠错激活条件。
+- `CLAUDE.md` / `AGENTS.md`：全局基线、commit 规范、rule loading 和入口路由。
+- `rules/planning.md`：workflow routing、spec / plan / task gates、task closure、验证顺序。
+- `rules/code-review.md`：review trigger、review loop、finding priority、closure。
+- `rules/documentation.md`：文档归属、write-back、TASKS、SESSION_HANDOFF、SURFACE。
+- `rules/delegation.md`：delegated-agent dispatch contract、result contract、parallel constraints。
+- `rules/english.md`：英文纠错 trigger、skip conditions、output format。
