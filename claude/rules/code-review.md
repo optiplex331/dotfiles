@@ -4,16 +4,16 @@
 
 When the user asks for review or requests code changes:
 
-1. Start with `/codex:review` when that command is available and provide the
-   current `git diff` as context.
+1. Start with the native review workflow available in the current agent
+   environment and provide the current `git diff` as context.
 2. Analyze the review feedback and decide what needs to change.
 3. Make the code changes.
 4. Run the same review workflow again with the same thread or context and the
    new diff.
 5. If issues remain, continue iterating for up to 3 rounds.
 
-If `/codex:review` is unavailable, use Claude Code's closest available review
-workflow and state that limitation.
+If no native review command is available, perform a manual code-review pass and
+state that limitation.
 
 ## Review Stance
 
