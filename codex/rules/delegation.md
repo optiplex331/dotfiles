@@ -19,11 +19,11 @@ Use delegation when any of these are true:
   integration state.
 - Delegate bounded local exploration, implementation, verification, or review.
 - Continue useful non-overlapping work instead of waiting idly.
-- Integrate subagent results into the governing task, `TASKS.md`, or
+- Integrate delegated agent results into the governing task, `TASKS.md`, or
   `SESSION_HANDOFF.md`.
-- Close subagents when their result has been consumed.
+- Close delegated agents when their result has been consumed.
 
-## Subagent Responsibilities
+## Delegated Agent Responsibilities
 
 - Work from a bounded contract, not the whole project context.
 - Stay inside assigned read and write scopes.
@@ -52,6 +52,14 @@ Tests/checks:
 Risks:
 Suggested next action:
 ```
+
+## Context Economy
+
+- Delegate with the task document plus direct input paths, not the whole plan.
+- Delegated agents return digested results; the main thread should not reread
+  their explored context unless integration or verification requires it.
+- `TASKS.md` is the single shared coordination board and is written by the main
+  thread only.
 
 ## Constraints
 

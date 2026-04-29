@@ -1,5 +1,5 @@
 approvals_reviewer = "user"
-model = "gpt-5.4"
+model = "gpt-5.5"
 model_reasoning_effort = "high"
 notify = ["/usr/bin/env", "node", "/Users/jackdaw/.tokentracker/bin/notify.cjs"]
 
@@ -12,7 +12,7 @@ trust_level = "trusted"
 [projects."/Users/jackdaw/Projects/ClaudeCodeFullSkills"]
 trust_level = "trusted"
 
-[projects."/Users/jackdaw/Projects/dotfiles"]
+[projects."{{DOTFILES_DIR}}"]
 trust_level = "trusted"
 
 [tui]
