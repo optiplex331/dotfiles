@@ -243,7 +243,7 @@ bash ~/Code/dotfiles/scripts/restore.sh
 - **全局指令**: `~/.codex/AGENTS.md`
 - **全局 Agents**: `~/.codex/agents/`
 - **全局规则**: `~/.codex/rules/*.md`
-- **管理方式**: 仓库内 `codex/` 目录保存源文件；`scripts/restore.sh` 会链接 `AGENTS.md`、`agents/` 和 `rules/*.md`，并把 `config.toml` 中的 dotfiles 项目路径刷新为当前仓库目录
+- **管理方式**: 仓库内 `codex/` 目录保存源文件；`AGENTS.md` 与 `CLAUDE.md` 保持 agent-neutral 共享语境；`scripts/restore.sh` 会链接 `AGENTS.md`、`agents/` 和 `rules/*.md`，并渲染 `config.toml` 中的 `{{DOTFILES_DIR}}` 占位符为当前仓库目录
 
 ---
 
@@ -292,12 +292,12 @@ bash ~/Code/dotfiles/scripts/restore.sh
 
 ```
 .
-├── claude/                 # Claude Code 全局配置、rules 与 agents
+├── claude/                 # Agent-neutral Claude 入口、rules 与 agents
 │   ├── CLAUDE.md
 │   ├── statusline.sh
 │   ├── rules/
 │   └── agents/
-├── codex/                  # Codex 全局配置、指令、agents 与 rules
+├── codex/                  # Agent-neutral Codex 入口、agents 与 rules
 │   ├── AGENTS.md
 │   ├── agents/
 │   ├── rules/
@@ -418,7 +418,7 @@ bash ~/Code/dotfiles/scripts/restore.sh
 | 脚本 | 用途 |
 |------|------|
 | `scripts/setup.sh` | 新机器一键初始化（SSH + Homebrew + 克隆 + 恢复 + brew bundle） |
-| `scripts/restore.sh` | 幂等软链接创建，恢复 `.claude/`、`.codex/` 等配置，已有文件自动备份至 `~/.dotfiles_backup/` |
+| `scripts/restore.sh` | 幂等软链接创建，渲染路径敏感配置，恢复 `.claude/`、`.codex/` 等配置，已有文件自动备份至 `~/.dotfiles_backup/` |
 
 ---
 

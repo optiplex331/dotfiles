@@ -14,8 +14,10 @@ Update related docs in the same task when:
 
 ## Ownership
 
-- Global `AGENTS.md` owns concise baseline rules and links to global Codex rules.
-- Project `AGENTS.md` owns project-specific workflow, commands, and constraints.
+- Global `CLAUDE.md` or `AGENTS.md` owns concise baseline rules and links to
+  global agent rules.
+- Project `CLAUDE.md` or `AGENTS.md` owns project-specific workflow, commands,
+  and constraints.
 - Project rule files own detailed project-specific guidance.
 - Normal-flow `spec` or `working/spec.md` owns requirements.
 - Normal-flow `plan` or `working/plan/plan.md` owns route, sequencing, and risks.
@@ -26,6 +28,17 @@ Update related docs in the same task when:
 
 Do not treat `TASKS.md`, `SESSION_HANDOFF.md`, or `SURFACE.md` as substitutes for
 spec, plan, or task documents.
+
+## Session Handoff
+
+`SESSION_HANDOFF.md` owns transient state only.
+
+- Preserve digested conclusions, not only pointers to files to reread.
+- For each in-progress delegated task, record the launch instruction, input
+  paths, expected output, and current status so it can be re-dispatched without
+  re-planning.
+- Do not use handoff notes as a substitute for updating the governing spec,
+  plan, task, or `TASKS.md`.
 
 ## Task Mapping
 

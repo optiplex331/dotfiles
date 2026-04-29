@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to agentic coding tools when working with code in this repository.
 
 ## What this repo is
 
@@ -36,6 +36,9 @@ brew update && brew upgrade && brew cleanup --prune=all
 
 ## Symlink map (restore.sh targets)
 
+The repository root `AGENTS.md` is a symlink to this file, so project guidance
+must stay neutral enough for both `CLAUDE.md` and `AGENTS.md` readers.
+
 | Repo path | Symlinked to |
 |-----------|-------------|
 | `zsh/.zshrc` | `~/.zshrc` |
@@ -57,7 +60,7 @@ brew update && brew upgrade && brew cleanup --prune=all
 | `claude/CLAUDE.md` | `~/.claude/CLAUDE.md` |
 | `claude/rules/*.md` | `~/.claude/rules/*.md` |
 | `claude/agents/` | `~/.claude/agents` |
-| `codex/config.toml` | rendered to `~/.codex/config.toml` with the dotfiles project path refreshed to the current repo path |
+| `codex/config.toml` | rendered to `~/.codex/config.toml` with `{{DOTFILES_DIR}}` replaced by the current repo path |
 | `codex/AGENTS.md` | `~/.codex/AGENTS.md` |
 | `codex/agents/` | `~/.codex/agents` |
 | `codex/rules/*.md` | `~/.codex/rules/*.md` |
