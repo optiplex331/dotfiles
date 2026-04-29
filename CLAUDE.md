@@ -38,6 +38,10 @@ brew update && brew upgrade && brew cleanup --prune=all
 
 The repository root `AGENTS.md` is a symlink to this file, so project guidance
 must stay neutral enough for both `CLAUDE.md` and `AGENTS.md` readers.
+Agent rules use `claude/CLAUDE.md` and `claude/rules/*.md` as the single source
+of truth. The `codex/AGENTS.md` and `codex/rules/*.md` paths are repo-local
+compatibility symlinks, while `restore.sh` links Codex's installed files
+directly to the Claude source files.
 
 | Repo path | Symlinked to |
 |-----------|-------------|
@@ -58,12 +62,12 @@ must stay neutral enough for both `CLAUDE.md` and `AGENTS.md` readers.
 | `vscode/settings.json` | `~/Library/Application Support/Code/User/settings.json` |
 | `claude/statusline.sh` | `~/.claude/statusline.sh` |
 | `claude/CLAUDE.md` | `~/.claude/CLAUDE.md` |
+| `claude/CLAUDE.md` | `~/.codex/AGENTS.md` |
 | `claude/rules/*.md` | `~/.claude/rules/*.md` |
+| `claude/rules/*.md` | `~/.codex/rules/*.md` |
 | `claude/agents/` | `~/.claude/agents` |
 | `codex/config.toml` | rendered to `~/.codex/config.toml` with `{{DOTFILES_DIR}}` replaced by the current repo path |
-| `codex/AGENTS.md` | `~/.codex/AGENTS.md` |
 | `codex/agents/` | `~/.codex/agents` |
-| `codex/rules/*.md` | `~/.codex/rules/*.md` |
 
 ## Neovim
 

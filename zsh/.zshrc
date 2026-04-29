@@ -12,6 +12,9 @@
 # 0. 初始化和兼容性修复
 # ============================================================================
 
+# [FIX] 开启扩展通配符，确保 Section 0 的 24h 补全缓存判断生效
+setopt EXTENDED_GLOB
+
 # 加载 .zprofile（login shell 的环境变量，非 login shell 不会自动加载）
 [[ -f ~/.zprofile ]] && source ~/.zprofile
 
@@ -28,12 +31,12 @@
 # 自定义补全目录（用于存放手动生成的静态补全文件，如 uv）
 [[ -d "${HOME}/.zsh/completions" ]] && fpath=("${HOME}/.zsh/completions" $fpath)
 
+# 按天缓存补全，24h 内直接加载缓存（-C），超过则重新生成
 autoload -Uz compinit
-# [FIX] 按天缓存补全，24h 内直接加载缓存（-C），超过则重新生成
-if [[ -n "${ZDOTDIR:-$HOME}/.zcompdump"(#qN.mh+24) ]]; then
-  compinit
-else
+if [[ -n "${ZDOTDIR:-$HOME}/.zcompdump"(#qN.mh-24) ]]; then
   compinit -C
+else
+  compinit
 fi
 
 
@@ -76,11 +79,6 @@ setopt HIST_IGNORE_SPACE
 # ============================================================================
 # 3. Shell 工具初始化
 # ============================================================================
-
-# ── zsh-syntax-highlighting ─────────────────────────────────────────────────
-# 实时命令着色：合法命令绿色，未知命令红色，参数高亮
-# 安装：brew install zsh-syntax-highlighting
-source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # ── fzf ─────────────────────────────────────────────────────────────────────
 # 模糊搜索工具，增强以下快捷键：
@@ -398,9 +396,6 @@ unset -f _prepend_path
 # 16. 清理和最后的初始化
 # ============================================================================
 
-# [FIX] 开启扩展通配符，确保 Section 0 的 24h 补全缓存判断生效
-setopt EXTENDED_GLOB
-
 # 取消 Homebrew 镜像源设置（如果之前配置过国内镜像，换回官方源时取消此行注释）
 unset HOMEBREW_BOTTLE_DOMAIN
 
@@ -425,6 +420,12 @@ export PATH="/Users/jackdaw/.antigravity/antigravity/bin:$PATH"
 #     time zsh -i -c exit
 # ============================================================================
 
+
+# ── zsh-syntax-highlighting ─────────────────────────────────────────────────
+# 实时命令着色：合法命令绿色，未知命令红色，参数高亮
+# 安装：brew install zsh-syntax-highlighting
+[[ -f /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]] && \
+  source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # Kiro CLI post block. Keep at the bottom of this file.
 [[ -f "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.post.zsh" ]] && builtin source "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.post.zsh"
