@@ -35,7 +35,7 @@ link() {
   log "linked: $dst"
 }
 
-# Render helper: keep machine-local Codex config, but refresh the dotfiles repo path.
+# Render helper: replace explicit template placeholders before installing.
 render_codex_config() {
   local src="$DOTFILES/$1"
   local dst="$HOME/$2"
@@ -45,13 +45,28 @@ render_codex_config() {
   mkdir -p "$dir"
   tmp="$(mktemp "${TMPDIR:-/tmp}/dotfiles-render.XXXXXX")"
 
-  awk -v dotfiles="$DOTFILES" '
-    /^\[projects\.".*\/dotfiles"\]$/ {
-      print "[projects.\"" dotfiles "\"]"
-      next
+  if ! DOTFILES_FOR_TEMPLATE="$DOTFILES" awk '
+    BEGIN {
+      dotfiles = ENVIRON["DOTFILES_FOR_TEMPLATE"]
+      placeholder = "{{DOTFILES_DIR}}"
     }
-    { print }
-  ' "$src" > "$tmp"
+    {
+      while ((idx = index($0, placeholder)) > 0) {
+        $0 = substr($0, 1, idx - 1) dotfiles substr($0, idx + length(placeholder))
+        found = 1
+      }
+      print
+    }
+    END {
+      if (!found) {
+        print "restore: codex config template is missing {{DOTFILES_DIR}}" > "/dev/stderr"
+        exit 1
+      }
+    }
+  ' "$src" > "$tmp"; then
+    rm -f "$tmp"
+    return 1
+  fi
 
   if [ -L "$dst" ]; then
     rm -f "$dst"
