@@ -9,12 +9,12 @@ Use `quick-fix` only when all are true:
 
 - The main agent can close the work in one bounded round.
 - No durable spec, plan, task, or task-board state is needed.
-- No delegated implementation or parallel write scope is needed.
+- No delegated task ownership or planned parallel write scope is needed.
 
 Use `spec-driven-full` when any are true:
 
 - The work needs durable decisions, task state, or resumability.
-- The work needs delegated implementation or parallel write scopes.
+- The work needs delegated task ownership or planned parallel write scopes.
 - The scope spans multiple reviewable units, public behavior, or cross-module
   coordination.
 
@@ -31,10 +31,12 @@ Route:
 Rules:
 
 - Write a lightweight plan summary before coding.
-- Keep exploration, implementation, verification, and docs update in the main
+- Keep task ownership, final diff, verification, and docs update in the main
   thread.
-- Escalate to `spec-driven-full` as soon as durable state, delegated
-  implementation, or parallel write scopes are needed.
+- Delegated quick-fix submissions are candidates only; the main thread must
+  absorb and verify them in the same workflow round.
+- Re-route to `spec-driven-full` as soon as durable state, delegated task
+  ownership, or planned parallel write scopes are needed.
 - Close with verification results and a concise diff summary.
 
 ## Spec Driven Full
