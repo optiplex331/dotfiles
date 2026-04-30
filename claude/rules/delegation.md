@@ -1,19 +1,17 @@
 # Delegation Rules
 
-Delegation follows the workflow mode selected by `planning.md`.
+Delegation follows the workflow mode selected by `planning.md`. It changes
+execution shape, not ownership of the user goal.
 
-Delegation changes execution shape, not ownership of the overall goal. The main
-thread always owns the user goal, final judgment, integration state,
-verification state, and handoff.
-
-The operating boundary is whether a delegated agent submits bounded results or
+The main thread always owns final judgment, integration, verification, and
+handoff. The boundary is whether a delegated agent submits bounded results or
 owns an engineering task.
 
 ## Quick Fix Delegation
 
 In `quick-fix`, delegation is submission-style only.
 
-Quick-fix delegated agents may perform stateless, bounded work such as:
+Allowed stateless submissions:
 
 - Read-only scans.
 - Repeated checks.
@@ -32,11 +30,11 @@ global decisions, or independent reviewable implementation units.
 
 In `spec-driven-full`, delegation may assign task ownership.
 
-The main thread owns orchestration, context hygiene, workflow gates, task graph,
-dependency order, integration judgment, verification state, and handoff state.
+The main thread owns orchestration, context hygiene, gates, task graph,
+dependency order, integration judgment, verification, and handoff.
 
 Delegated agents own bounded tasks with declared inputs, read scope, write
-scope, acceptance criteria, verification requirements, and return contracts.
+scope, acceptance criteria, verification requirements, and return contract.
 
 ## Avoid
 
@@ -48,8 +46,8 @@ Do not delegate:
 - Decisions that require global product, architecture, or workflow judgment.
 - Work with unclear read scope, write scope, or expected output.
 
-Also consider delegation when context is approaching compression before
-implementation starts and the work can be bounded cleanly.
+Consider delegation before context compression only when the work can be bounded
+cleanly.
 
 ## Dispatch Contract
 
