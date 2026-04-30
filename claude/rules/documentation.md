@@ -90,6 +90,16 @@ boundary, such as:
 
 Do not create `SURFACE.md` for internal-only implementation details.
 
+## Delivery Packaging
+
+Before producing a delivery artifact:
+
+- Include only user-facing docs and required runtime/build files.
+- Exclude process documents through package allowlists or ignore/exclude files.
+- Do not delete process documents from the source tree.
+- If a process document is intended for users, move or copy its content into a
+  user-facing doc before packaging.
+
 ## Formal Document Paths
 
 Normal flow:

@@ -13,7 +13,7 @@ Before acting, read only the matching rule files in `~/.claude/rules/` or
 - `planning.md`: mode routing, spec/plan/task gates, and verification order
 - `code-review.md`: review loop and findings handling
 - `documentation.md`: documentation ownership, write-back, and handoff state
-- `delegation.md`: delegated-agent dispatch and coordination
+- `delegation.md`: delegated-agent permissions, dispatch, and coordination
 - `english.md`: passive English coaching when applicable
 
 Apply rules in this order:
