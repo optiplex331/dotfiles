@@ -1,22 +1,28 @@
 # Planning Rules
 
-Planning owns workflow routing, durable execution documents, task closure, and
-verification order.
+Planning owns workflow routing, durable execution documents, closure, and
+verification order. Route before implementation and re-route whenever discovery
+changes scope, ownership, or continuation needs.
 
 ## Mode Router
 
 Use `quick-fix` only when all are true:
 
-- The main agent can close the work in one bounded round.
-- No durable spec, plan, task, or task-board state is needed.
-- No delegated task ownership or planned parallel write scope is needed.
+- Main agent can close the work in one bounded round.
+- Closure includes verification, review, docs update, and handoff summary.
+- No durable execution state is needed beyond transcript and final response.
+- Delegation, if any, is submission-style only.
 
 Use `spec-driven-full` when any are true:
 
-- The work needs durable decisions, task state, or resumability.
-- The work needs delegated task ownership or planned parallel write scopes.
-- The scope spans multiple reviewable units, public behavior, or cross-module
+- Durable execution state is needed: decisions, plan, task progress, blockers,
+  exact next action, or resumability.
+- A delegated agent owns an engineering task or write scope.
+- Scope spans multiple reviewable units, public behavior, or cross-module
   coordination.
+
+If the current mode no longer fits, pause implementation, re-route, and preserve
+existing findings and verified work in the new owning documents.
 
 Use `superteam` only for brand-new, large, long-running work that is better
 served by planner/reviewer/implementer automation than normal interactive
@@ -31,12 +37,9 @@ Route:
 Rules:
 
 - Write a lightweight plan summary before coding.
-- Keep task ownership, final diff, verification, and docs update in the main
-  thread.
+- Main thread owns task scope, final diff, verification, and docs update.
 - Delegated quick-fix submissions are candidates only; the main thread must
   absorb and verify them in the same workflow round.
-- Re-route to `spec-driven-full` as soon as durable state, delegated task
-  ownership, or planned parallel write scopes are needed.
 - Close with verification results and a concise diff summary.
 
 ## Spec Driven Full
@@ -54,38 +57,20 @@ Gates:
 
 ## Spec
 
-Spec owns the problem definition and acceptance criteria.
+Spec owns the problem definition and judgeable acceptance criteria.
 
-Required fields:
+Required fields: Background, Goal, Audience, User scenarios, Scope, Non-goals,
+Constraints, Edge cases, Acceptance criteria, Open questions.
 
-- Background
-- Goal
-- Audience
-- User scenarios
-- Scope
-- Non-goals
-- Constraints
-- Edge cases
-- Acceptance criteria
-- Open questions
-
-Rules:
-
-- Spec does not generate tasks.
-- Acceptance criteria must be judgeable.
+Spec does not generate tasks.
 
 ## Plan
 
 Plan owns execution topology.
 
-Required content:
-
-- Approved spec reference.
-- Implementation strategy.
-- Workstreams, dependency order, serial chains, and parallel task groups.
-- Risks.
-- Test strategy.
-- Task breakdown rules.
+Required content: approved spec reference, implementation strategy, workstreams,
+dependencies, serial chains, parallel task groups, risks, test strategy, and
+task breakdown rules.
 
 Rules:
 
@@ -99,27 +84,13 @@ Rules:
 
 Task owns one executable unit.
 
-Required fields:
-
-- Status
-- References
-- Dependencies
-- Inputs
-- Objective
-- In scope
-- Out of scope
-- Checklist
-- Acceptance criteria
-- Test requirements
-- Documentation updates
-- Return contract
-- Notes / risks
+Required fields: Status, References, Dependencies, Inputs, Objective, In scope,
+Out of scope, Checklist, Acceptance criteria, Test requirements, Documentation
+updates, Return contract, Notes / risks.
 
 Rules:
 
-- One task, one clear objective.
-- One task, one reviewable unit.
-- One task, one commit when feasible.
+- One task, one clear objective, one reviewable unit, one commit when feasible.
 - A task must be independently testable, revertible, and cold-startable.
 - `Inputs` must list the context needed to start cold, including file paths and
   dependency outputs.
@@ -132,13 +103,13 @@ Before marking a formal task `done`:
 
 - Reconcile every checklist item as complete, `N/A` with a reason, or moved to a
   documented follow-up.
-- Confirm acceptance criteria and test requirements are satisfied, or keep the
-  task `blocked` / `partial` and record the blocker.
-- Update task status with completion date and verification result.
-- Update the owning plan with completion state, output links, verification
-  result, unlocked next tasks, and changed risks.
+- Confirm acceptance criteria and test requirements, or keep the task
+  `blocked` / `partial` with the blocker recorded.
+- Update task status, completion date, and verification result.
+- Update the owning plan with completion state, outputs, verification, unlocked
+  next tasks, and changed risks.
 - Update the owning spec when open questions, acceptance criteria, scope, or
-  constraints were resolved or changed.
+  constraints change.
 
 Rules:
 
@@ -154,12 +125,11 @@ Rules:
 ## Verification
 
 - Testable code tasks default to TDD.
-- Test requirements must be written in the task before coding starts.
+- Write test requirements in the task before coding starts.
 - If test-first is not appropriate, write the verification approach before
   coding starts.
 - Verification order is fixed: `unit -> integration -> e2e`.
-- If a bug is found during verification, reproduce it with a failing test first,
-  then fix it with TDD.
+- If verification finds a bug, reproduce it with a failing test first, then fix.
 - Scale tests with risk and blast radius.
 - If a task changes public contracts, pair tests with `SURFACE.md` updates when
   that registry is enabled.
