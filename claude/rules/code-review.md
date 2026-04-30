@@ -1,7 +1,7 @@
 # Code Review Rules
 
-Review is a risk gate. Use it to catch bugs, regressions, missing tests, safety
-issues, and contract drift before work is closed.
+Review is a risk gate for bugs, regressions, missing tests, safety issues, and
+contract drift before work is closed.
 
 ## Triggers
 
@@ -12,8 +12,8 @@ Use the full review loop for:
 - Changes touching public contracts, shared modules, persistence, security,
   data-loss risk, cross-module behavior, or user-facing workflows.
 
-Small quick-fix changes still require self-review, verification, and a concise
-diff summary.
+Small quick-fix changes still need self-review, verification, and a concise diff
+summary.
 
 ## Review Loop
 
@@ -31,16 +31,11 @@ state that limitation.
 
 ## Findings
 
-Prioritize findings in this order:
+Prioritize findings: bugs, behavioral regressions, missing tests, security or
+data-loss risks, contract and documentation drift.
 
-- Bugs
-- Behavioral regressions
-- Missing tests
-- Security or data-loss risks
-- Contract and documentation drift
-
-Present findings first, ordered by severity and grounded in file and line
-references. Keep summaries secondary.
+Present findings first, ordered by severity, with file and line references.
+Keep summaries secondary.
 
 ## Closure
 
