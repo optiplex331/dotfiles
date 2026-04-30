@@ -1,71 +1,74 @@
 # Delegation Rules
 
-Delegation only changes who performs bounded work. It does not change workflow
-gates, review gates, documentation write-back, or verification requirements.
+Delegation follows the workflow mode selected by `planning.md`.
 
-## Use
+Delegation changes execution shape, not ownership of the overall goal. The main
+thread always owns the user goal, final judgment, integration state,
+verification state, and handoff.
 
-Use delegation when it fits the current workflow mode and materially improves
-execution:
+The operating boundary is whether a delegated agent submits bounded results or
+owns an engineering task.
 
-- Broad read-only exploration that can be summarized.
-- Independent implementation slices with declared ownership.
-- Parallel verification or review of an existing diff.
-- Context-heavy investigation before the main thread commits to an approach.
-- Work that can continue while the main thread does useful non-overlapping work.
+## Quick Fix Delegation
 
-Also consider delegation when context is approaching compression before
-implementation starts.
+In `quick-fix`, delegation is submission-style only.
+
+Quick-fix delegated agents may perform stateless, bounded work such as:
+
+- Read-only scans.
+- Repeated checks.
+- Candidate findings.
+- Reproduction attempts.
+- Verification attempts.
+- Alternative patch suggestions.
+
+The main thread must be able to evaluate, integrate, verify, and hand off the
+result in the same workflow round.
+
+Quick-fix delegated agents must not own durable task state, final integration,
+global decisions, or independent reviewable implementation units.
+
+## Spec Driven Delegation
+
+In `spec-driven-full`, delegation may assign task ownership.
+
+The main thread owns orchestration, context hygiene, workflow gates, task graph,
+dependency order, integration judgment, verification state, and handoff state.
+
+Delegated agents own bounded tasks with declared inputs, read scope, write
+scope, acceptance criteria, verification requirements, and return contracts.
 
 ## Avoid
 
 Do not delegate:
 
-- The immediate blocking next step when the main thread cannot progress without
-  the result.
+- The immediate blocking next step when the main thread cannot make useful
+  progress without the result.
 - Tiny one-file fixes that the main thread can close faster locally.
 - Decisions that require global product, architecture, or workflow judgment.
 - Work with unclear read scope, write scope, or expected output.
 
-## Mode Fit
-
-Delegation follows `planning.md` mode routing.
-
-- In `quick-fix`, delegate only bounded read-only exploration or parallel checks.
-- In `spec-driven-full`, the plan or owning task decides whether the main thread
-  or a delegated agent owns execution.
-
-## Main Thread
-
-The main thread owns goal, stage, plan, decisions, risks, integration state, and
-handoff state.
-
-Main thread responsibilities:
-
-- Send bounded context, not the whole project history.
-- Continue non-overlapping work while delegated agents run.
-- Integrate digested results into the governing task or coordination document.
-- Reread delegated context only when integration or verification requires it.
-- Close delegated agents after their result has been consumed.
+Also consider delegation when context is approaching compression before
+implementation starts and the work can be bounded cleanly.
 
 ## Dispatch Contract
 
-Formal tasks use the task fields defined in `planning.md`. For ad-hoc
-delegation, use a short contract:
+For quick-fix submissions, use a lightweight contract:
 
 ```text
-Objective:
-Read scope:
-Write scope:
-Required output:
-Verification:
+Goal:
+Scope:
+Return:
 ```
 
-Add `Do not touch:` or `Risks to watch:` only when the task needs those bounds.
+For spec-driven tasks, use the task fields defined in `planning.md`.
+
+Add `Do not touch:` or `Risks to watch:` only when the delegation needs those
+bounds.
 
 ## Result Contract
 
-Delegated agents must return:
+Delegated agents return:
 
 ```text
 Result:
@@ -77,8 +80,12 @@ Suggested next action:
 
 ## Constraints
 
-- Worker write scopes must be disjoint unless the main thread serializes them.
-- Parallel worker write scopes must be declared in the owning plan or task before
-  workers start.
-- Delegated agents must not change files outside their assigned ownership scope.
+- Send bounded context, not the whole project history.
+- Continue non-overlapping work while delegated agents run when possible.
+- Integrate digested results into the governing task or coordination document.
+- Reread delegated context only when integration or verification requires it.
+- Close delegated agents after their result has been consumed.
+- Parallel write scopes must be declared in the owning plan before dispatch, and
+  must be disjoint unless the main thread serializes them.
+- Delegated agents must not change files outside their assigned scope.
 - Coordination state belongs in the documents owned by `documentation.md`.
