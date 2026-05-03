@@ -135,20 +135,20 @@ unlink_obsolete .claude/agents
 unlink_obsolete .codex/rules
 unlink_obsolete .codex/agents
 
-unlink_obsolete .claude/rules/architecture.md
-unlink_obsolete .claude/rules/code-review.md
-unlink_obsolete .claude/rules/delegation.md
-unlink_obsolete .claude/rules/documentation.md
-unlink_obsolete .claude/rules/english.md
-unlink_obsolete .claude/rules/planning.md
-unlink_obsolete .claude/rules/testing.md
-unlink_obsolete .codex/rules/architecture.md
-unlink_obsolete .codex/rules/code-review.md
-unlink_obsolete .codex/rules/delegation.md
-unlink_obsolete .codex/rules/documentation.md
-unlink_obsolete .codex/rules/english.md
-unlink_obsolete .codex/rules/planning.md
-unlink_obsolete .codex/rules/testing.md
+for obsolete_rule in \
+  architecture.md \
+  code-review.md \
+  delegation.md \
+  documentation.md \
+  english.md \
+  planning.md \
+  skill-routing.md \
+  testing.md \
+  workflow.md
+do
+  unlink_obsolete ".claude/rules/$obsolete_rule"
+  unlink_obsolete ".codex/rules/$obsolete_rule"
+done
 
 # Trellis global source and Claude platform assets. Project-local hooks and
 # settings remain repo-local; do not install them globally from dotfiles.

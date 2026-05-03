@@ -39,7 +39,8 @@ Trellis。新的核心是：
 ```
 
 `~/.claude/rules/` 和 `~/.codex/rules/` 不再是 source of truth。restore 会删除
-旧的 symlink，但不会删除真实目录，避免误伤手工维护的本地文件。
+已知旧规则文件名的 symlink（包括旧的 workflow / skill-routing 入口），但不会删除
+真实目录，避免误伤手工维护的本地文件。
 
 ---
 
