@@ -4,7 +4,8 @@ This file provides guidance to agentic coding tools when working with code in th
 
 ## What this repo is
 
-Personal macOS developer environment dotfiles. All configs are symlinked into `$HOME` via `scripts/restore.sh` — the repo itself lives at `~/Code/dotfiles`.
+Personal macOS developer environment dotfiles. All configs are symlinked into
+`$HOME` via `scripts/restore.sh`.
 
 ## Key scripts
 
@@ -15,7 +16,7 @@ Personal macOS developer environment dotfiles. All configs are symlinked into `$
 
 **Apply changes after editing any config:**
 ```bash
-bash ~/Code/dotfiles/scripts/restore.sh
+bash scripts/restore.sh
 ```
 
 ## Adding a new tool config
@@ -36,13 +37,6 @@ brew update && brew upgrade && brew cleanup --prune=all
 
 ## Symlink map (restore.sh targets)
 
-The repository root `AGENTS.md` is a symlink to this file, so project guidance
-must stay neutral enough for both `CLAUDE.md` and `AGENTS.md` readers.
-Agent rules use `claude/CLAUDE.md` and `claude/rules/*.md` as the single source
-of truth. The `codex/AGENTS.md` and `codex/rules/*.md` paths are repo-local
-compatibility symlinks, while `restore.sh` links Codex's installed files
-directly to the Claude source files.
-
 | Repo path | Symlinked to |
 |-----------|-------------|
 | `zsh/.zshrc` | `~/.zshrc` |
@@ -62,12 +56,7 @@ directly to the Claude source files.
 | `vscode/settings.json` | `~/Library/Application Support/Code/User/settings.json` |
 | `claude/statusline.sh` | `~/.claude/statusline.sh` |
 | `claude/CLAUDE.md` | `~/.claude/CLAUDE.md` |
-| `claude/CLAUDE.md` | `~/.codex/AGENTS.md` |
-| `claude/rules/*.md` | `~/.claude/rules/*.md` |
-| `claude/rules/*.md` | `~/.codex/rules/*.md` |
-| `claude/agents/` | `~/.claude/agents` |
 | `codex/config.toml` | rendered to `~/.codex/config.toml` with `{{DOTFILES_DIR}}` replaced by the current repo path |
-| `codex/agents/` | `~/.codex/agents` |
 
 ## Neovim
 
