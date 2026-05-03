@@ -4,7 +4,7 @@
 
 # ============================================================================
 # ~/.zshrc - Zsh Shell 配置文件
-# 最后更新: 2026-04
+# 最后更新: 2026-05
 # ============================================================================
 
 
@@ -17,12 +17,6 @@ setopt EXTENDED_GLOB
 
 # 加载 .zprofile（login shell 的环境变量，非 login shell 不会自动加载）
 [[ -f ~/.zprofile ]] && source ~/.zprofile
-
-# ── 补全系统初始化 ──────────────────────────────────────────────────────────
-# [FIX] 添加 24h 缓存机制：
-#   - compinit 每次都扫描 fpath 生成补全缓存，在插件多时较慢
-#   - 检查 ~/.zcompdump 的修改时间，超过 24h 才重新生成，否则直接加载缓存
-#   - 效果：启动时间可减少 100-300ms
 
 # Docker 补全（如果目录存在才添加，避免 fpath 里出现无效路径）
 # [FIX] 原来没有目录存在检查，Docker 未安装时会静默失败或报警告
@@ -45,8 +39,6 @@ fi
 # ============================================================================
 
 # Starship：现代化、快速的跨 Shell 提示符
-#   - 显示 Git 分支、语言版本、命令耗时、退出码等信息
-#   - 启动耗时约 10-50ms，比 Oh-My-Zsh 快很多
 #   - 配置文件：~/.config/starship.toml
 #   - 安装：brew install starship
 eval "$(starship init zsh)"
@@ -90,8 +82,6 @@ setopt HIST_IGNORE_SPACE
 
 # ── Yazi ────────────────────────────────────────────────────────────────────
 # 现代 TUI 文件管理器，支持预览图片/视频/代码
-# [FIX] 保留函数版本（退出 Yazi 后自动 cd 到最后浏览的目录）
-#       删除了第 5 节重复的 `alias y='yazi'`，两者会冲突
 # 使用：y（打开文件管理器，退出后自动跳转到最后访问的目录）
 # 安装：brew install yazi
 function y() {
@@ -106,14 +96,6 @@ function y() {
 # ── uv 补全 ─────────────────────────────────────────────────────────────────
 # uv：统一的 Python 版本 + 包 + 环境管理器（pip/pyenv/virtualenv 的替代品）
 # 安装：curl -LsSf https://astral.sh/uv/install.sh | sh
-#
-# [OPT] 原来每次启动都执行 eval "$(uv generate-shell-completion zsh)"，耗时较长
-#       改为生成一次静态文件，之后 source 静态文件（compinit 会自动加载）
-#
-# 首次使用或 uv 升级后，执行以下命令重新生成：
-#   mkdir -p ~/.zsh/completions && uv generate-shell-completion zsh > ~/.zsh/completions/_uv
-#
-# 如果 ~/.zsh/completions/_uv 不存在，则降级为动态生成（兼容首次安装）
 if [[ ! -f "${HOME}/.zsh/completions/_uv" ]]; then
   eval "$(uv generate-shell-completion zsh 2>/dev/null)" || true
 fi
@@ -131,7 +113,7 @@ fi
 #   - visudo
 #   - 各类 CLI 工具
 export EDITOR='code'
-export VISUAL='code'   # 部分工具优先读取 VISUAL（GUI 场景），回退到 EDITOR
+export VISUAL='code'
 
 
 # ============================================================================
@@ -328,7 +310,7 @@ export VOLTA_HOME="$HOME/.volta"
 # export GO_HOME='/usr/local/go'
 
 # Rust（通过 rustup 安装）
-# export RUST_HOME="$HOME/.cargo"
+export RUST_HOME="$HOME/.cargo"
 
 # Groovy
 # export GROOVY_HOME='/opt/homebrew/opt/groovy/libexec'
@@ -400,28 +382,11 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 # Added by Antigravity
 export PATH="/Users/jackdaw/.antigravity/antigravity/bin:$PATH"
 
-# ============================================================================
-#
-# 【维护备忘】
-#   uv 补全首次生成（或 uv 升级后重新生成）：
-#     mkdir -p ~/.zsh/completions && uv generate-shell-completion zsh > ~/.zsh/completions/_uv
-#
-#   compinit 缓存失效强制刷新：
-#     rm -f ~/.zcompdump && exec zsh
-#
-#   测量 Shell 启动时间：
-#     time zsh -i -c exit
-# ============================================================================
-
-
 # ── zoxide ──────────────────────────────────────────────────────────────────
 # 智能目录导航，记忆访问频率，比 autojump 更快
 # 使用：z <目录关键词>（支持模糊匹配）
 #       zi <关键词>（交互式选择，结合 fzf）
 # 安装：brew install zoxide
-# [FIX] 移至文件末尾：zoxide 的 chpwd hook 必须在所有其他插件之后初始化，
-#       否则后续插件（如 zsh-syntax-highlighting、Kiro CLI）可能覆盖 chpwd_functions，
-#       导致 zoxide 目录追踪失效（__zoxide_doctor 警告）。
 eval "$(zoxide init zsh)"
 
 # ── zsh-syntax-highlighting ─────────────────────────────────────────────────
