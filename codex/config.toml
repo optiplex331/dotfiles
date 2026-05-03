@@ -3,9 +3,6 @@ model = "gpt-5.5"
 model_reasoning_effort = "high"
 notify = ["/usr/bin/env", "node", "/Users/jackdaw/.tokentracker/bin/notify.cjs"]
 
-[features]
-codex_hooks = true
-
 [projects."/Users/jackdaw/Projects/CodexFullSkills"]
 trust_level = "trusted"
 
