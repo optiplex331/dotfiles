@@ -1,17 +1,7 @@
 # Global Agent Instructions
 
-This machine uses Trellis as the durable source of truth for agent workflow and
+Use Trellis as the durable source of truth for agent workflow and
 rules.
-
-## Rule Loading
-
-1. Follow system and platform instructions.
-2. Follow the current repository's `CLAUDE.md` / `AGENTS.md`.
-3. If the repository has `.trellis/`, use `.trellis/workflow.md` and relevant
-   `.trellis/spec/` files for task routing, implementation context, review, and
-   documentation write-back.
-4. If the repository has no `.trellis/`, use the global baseline installed at
-   `~/.trellis/spec/agent/`.
 
 ## Defaults
 
