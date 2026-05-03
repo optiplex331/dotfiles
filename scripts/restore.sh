@@ -126,30 +126,59 @@ link vscode/settings.json    "Library/Application Support/Code/User/settings.jso
 
 # ── Claude Code ───────────────────────────────────────────────────────────
 link claude/statusline.sh .claude/statusline.sh
-link claude/CLAUDE.md            .claude/CLAUDE.md
-unlink_obsolete .claude/rules/architecture.md
-unlink_obsolete .claude/rules/testing.md
-link claude/rules/code-review.md  .claude/rules/code-review.md
-link claude/rules/delegation.md   .claude/rules/delegation.md
-link claude/rules/documentation.md .claude/rules/documentation.md
-link claude/rules/english.md      .claude/rules/english.md
-link claude/rules/planning.md     .claude/rules/planning.md
-link claude/agents               .claude/agents
-# Skills 不由本仓库管理
+link claude/CLAUDE.md .claude/CLAUDE.md
+
+# The old pre-Trellis rule/agent directories were linked as whole dirs on some
+# machines. Remove only symlinks, preserving real user-managed directories.
+unlink_obsolete .claude/rules
+unlink_obsolete .claude/agents
+unlink_obsolete .codex/rules
+unlink_obsolete .codex/agents
+
+for obsolete_rule in \
+  architecture.md \
+  code-review.md \
+  delegation.md \
+  documentation.md \
+  english.md \
+  planning.md \
+  skill-routing.md \
+  testing.md \
+  workflow.md
+do
+  unlink_obsolete ".claude/rules/$obsolete_rule"
+  unlink_obsolete ".codex/rules/$obsolete_rule"
+done
+
+# Trellis global source and Claude platform assets. Project-local hooks and
+# settings remain repo-local; do not install them globally from dotfiles.
+link .trellis .trellis
+link .claude/agents/trellis-check.md .claude/agents/trellis-check.md
+link .claude/agents/trellis-implement.md .claude/agents/trellis-implement.md
+link .claude/agents/trellis-research.md .claude/agents/trellis-research.md
+link .claude/commands/trellis .claude/commands/trellis
+link .claude/skills/trellis-before-dev .claude/skills/trellis-before-dev
+link .claude/skills/trellis-brainstorm .claude/skills/trellis-brainstorm
+link .claude/skills/trellis-break-loop .claude/skills/trellis-break-loop
+link .claude/skills/trellis-check .claude/skills/trellis-check
+link .claude/skills/trellis-meta .claude/skills/trellis-meta
+link .claude/skills/trellis-update-spec .claude/skills/trellis-update-spec
 
 # ── Codex ─────────────────────────────────────────────────────────────────
-# Agent rules are maintained once under claude/. The codex/ rule paths are
-# repo-local compatibility symlinks, but installed ~/.codex files point straight
-# at claude/ to avoid nested symlinks in $HOME.
 render_codex_config codex/config.toml .codex/config.toml
-link claude/CLAUDE.md            .codex/AGENTS.md
-link codex/agents               .codex/agents
-unlink_obsolete .codex/rules/architecture.md
-unlink_obsolete .codex/rules/testing.md
-link claude/rules/code-review.md  .codex/rules/code-review.md
-link claude/rules/delegation.md   .codex/rules/delegation.md
-link claude/rules/documentation.md .codex/rules/documentation.md
-link claude/rules/english.md      .codex/rules/english.md
-link claude/rules/planning.md     .codex/rules/planning.md
+link codex/AGENTS.md .codex/AGENTS.md
+link .codex/agents/trellis-check.toml .codex/agents/trellis-check.toml
+link .codex/agents/trellis-implement.toml .codex/agents/trellis-implement.toml
+link .codex/agents/trellis-research.toml .codex/agents/trellis-research.toml
+
+# Shared Trellis skills for Codex and other .agents/skills-compatible tools.
+link .agents/skills/trellis-before-dev .agents/skills/trellis-before-dev
+link .agents/skills/trellis-brainstorm .agents/skills/trellis-brainstorm
+link .agents/skills/trellis-break-loop .agents/skills/trellis-break-loop
+link .agents/skills/trellis-check .agents/skills/trellis-check
+link .agents/skills/trellis-continue .agents/skills/trellis-continue
+link .agents/skills/trellis-finish-work .agents/skills/trellis-finish-work
+link .agents/skills/trellis-meta .agents/skills/trellis-meta
+link .agents/skills/trellis-update-spec .agents/skills/trellis-update-spec
 
 log "Done."
