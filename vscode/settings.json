@@ -198,4 +198,5 @@
   },
   "claudeCode.preferredLocation": "panel",
   "python.analysis.typeCheckingMode": "basic",
+  "git.autofetch": true,
 }
