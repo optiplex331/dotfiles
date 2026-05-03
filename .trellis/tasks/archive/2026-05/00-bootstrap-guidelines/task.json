@@ -2,7 +2,7 @@
   "id": "00-bootstrap-guidelines",
   "name": "00-bootstrap-guidelines",
   "title": "Bootstrap Guidelines",
-  "description": "Fill in project development guidelines for AI agents",
+  "description": "Fill project-specific Trellis guidelines for dotfiles agent workflows",
   "status": "completed",
   "dev_type": "docs",
   "scope": null,
@@ -21,9 +21,9 @@
   "children": [],
   "parent": null,
   "relatedFiles": [
-    ".trellis/spec/backend/",
-    ".trellis/spec/frontend/"
+    ".trellis/spec/agent/",
+    ".trellis/spec/dotfiles/"
   ],
-  "notes": "First-time setup task created by trellis init (fullstack project)",
+  "notes": "First-time setup task adapted from Trellis default scaffolding for this dotfiles repository",
   "meta": {}
 }
