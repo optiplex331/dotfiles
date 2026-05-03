@@ -241,9 +241,9 @@ bash ~/Code/dotfiles/scripts/restore.sh
 
 - **配置文件**: `~/.codex/config.toml`
 - **全局指令**: `~/.codex/AGENTS.md`
-- **全局 Agents**: `~/.codex/agents/`
-- **全局规则**: `~/.codex/rules/*.md`
-- **管理方式**: 仓库内 `codex/` 目录保存源文件；`AGENTS.md` 与 `CLAUDE.md` 保持 agent-neutral 共享语境；`scripts/restore.sh` 会链接 `AGENTS.md`、`agents/` 和 `rules/*.md`，并渲染 `config.toml` 中的 `{{DOTFILES_DIR}}` 占位符为当前仓库目录
+- **Trellis Agents**: `~/.codex/agents/trellis-*.toml`
+- **规则来源**: `.trellis/spec/agent/`
+- **管理方式**: 仓库内 `codex/` 目录保存 Codex 入口和配置模板；Trellis 生成的 agent、hook、skill 文件保存在 `.codex/` 和 `.agents/skills/`；`scripts/restore.sh` 会链接 Trellis 资产，并渲染 `config.toml` 中的 `{{DOTFILES_DIR}}` 占位符为当前仓库目录
 
 ---
 
@@ -292,15 +292,15 @@ bash ~/Code/dotfiles/scripts/restore.sh
 
 ```
 .
-├── claude/                 # Agent-neutral Claude 入口、rules 与 agents
+├── .trellis/               # Trellis workflow、spec、tasks 与 workspace
+├── .claude/                # Trellis 生成的 Claude agents、commands、hooks、skills
+├── .codex/                 # Trellis 生成的 Codex agents、hooks 与配置
+├── .agents/skills/         # Codex / compatible tools 共享 Trellis skills
+├── claude/                 # Claude 全局短入口与 statusline
 │   ├── CLAUDE.md
-│   ├── statusline.sh
-│   ├── rules/
-│   └── agents/
-├── codex/                  # Agent-neutral Codex 入口、agents 与 rules
+│   └── statusline.sh
+├── codex/                  # Codex 全局短入口与配置模板
 │   ├── AGENTS.md
-│   ├── agents/
-│   ├── rules/
 │   └── config.toml
 ├── cursor/                 # Cursor 编辑器配置
 │   ├── settings.json
