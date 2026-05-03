@@ -1,223 +1,97 @@
-# Agent 规则系统 · 上手指南
+# Agent 规则系统 · Trellis 版上手指南
 
-> 面向：刚接触这套 `~/.claude/` / `~/.codex/` 共享规则系统的开发者。
-> 目标：理解如何用同一套规则指导 Claude Code、Codex 等 agentic coding tools，并把日常项目工作拆到多 agent 可协作的粒度。
+> 面向：刚接触这套 dotfiles agent workflow 的开发者。
+> 目标：理解 Claude、Codex 和 `.agents/skills` 如何共用 Trellis 的任务、规范和记忆系统。
 
 ---
 
 ## 一、这是什么
 
-这是一套全局 agent 规则系统，用来约束不同编码 agent 在项目里的工作方式。它解决的核心问题是：
+这套系统已经从旧的 `~/.claude/rules/*.md` / `~/.codex/rules/*.md` 迁移到
+Trellis。新的核心是：
 
-- 同类任务的执行方式不稳定。
-- `CLAUDE.md` / `AGENTS.md` 容易各写一套，形成两种语境。
-- 任务要么直接动手、缺少交接面，要么流程过重、难以执行。
+- `.trellis/workflow.md`：任务生命周期、状态注入和路由规则。
+- `.trellis/spec/agent/`：全局 agent 行为规范。
+- `.trellis/spec/dotfiles/`：dotfiles 仓库操作规范。
+- `.trellis/tasks/`：每个任务的 PRD、上下文 manifest、research 和状态。
+- `.trellis/workspace/`：开发者 journal 与跨会话记忆。
+- `.claude/`、`.codex/`、`.agents/skills/`：Trellis 生成的平台适配层。
 
-这套系统的回答是：**用少量规则把工作切成可闭环、可验证、可 review、可交接的 agent 执行单元。**
+旧系统的问题是 Claude 和 Codex 各自安装一套规则文件，虽然内容尽量镜像，
+但维护时仍然容易分叉。Trellis 版把 durable rules 放到 `.trellis/spec/`，
+平台入口只负责指路。
 
 ---
 
-## 二、文件结构
+## 二、安装后文件结构
 
-Claude 与 Codex 使用同构文件：
+`scripts/restore.sh` 会把关键入口安装到 `$HOME`：
 
 ```text
-~/.claude/
-├── CLAUDE.md
-└── rules/
-    ├── planning.md
-    ├── testing.md
-    ├── code-review.md
-    ├── documentation.md
-    ├── delegation.md
-    ├── architecture.md
-    └── english.md
-
-~/.codex/
-├── AGENTS.md
-└── rules/
-    ├── planning.md
-    ├── testing.md
-    ├── code-review.md
-    ├── documentation.md
-    ├── delegation.md
-    ├── architecture.md
-    └── english.md
+~/.trellis/                         # Trellis specs, tasks, workflow, workspace
+~/.claude/CLAUDE.md                 # 短入口，指向 Trellis
+~/.claude/agents/trellis-*.md       # Claude Trellis sub-agents
+~/.claude/commands/trellis/         # Claude Trellis commands
+~/.claude/skills/trellis-*/         # Claude Trellis skills
+~/.codex/AGENTS.md                  # 短入口，指向 Trellis
+~/.codex/agents/trellis-*.toml      # Codex Trellis sub-agents
+~/.agents/skills/trellis-*/         # Codex / compatible tools shared skills
 ```
 
-**关键设计：** `CLAUDE.md` 和 `AGENTS.md` 使用 agent-neutral 语境；`rules/*.md` 按需加载。能逐字镜像的规则文件保持一致，平台差异只用“current agent environment”这类中性表达承载。
+`~/.claude/rules/` 和 `~/.codex/rules/` 不再是 source of truth。restore 会删除
+旧的 symlink，但不会删除真实目录，避免误伤手工维护的本地文件。
 
 ---
 
-## 三、三种工作模式
+## 三、日常工作流
 
-模式不是按个人/团队、项目大小或耗时比例来选，而是按 **agent 可执行粒度** 来选。
+在已经初始化 Trellis 的项目里：
 
-### 1. `quick-fix`
+```bash
+# 查看可用 spec
+python3 ./.trellis/scripts/get_context.py --mode packages
 
-**适用：** 主 agent 能在单轮中闭环的任务。
+# 创建任务
+python3 ./.trellis/scripts/task.py create "Task title" --slug task-slug
 
-**流程：** `think/hunt -> build -> check -> docs update`
+# 校验 implement/check context
+python3 ./.trellis/scripts/task.py validate <task-dir>
 
-**特征：**
-- 不需要持久 spec / plan / task 文档。
-- 开始前给一段轻量计划即可。
-- 如果发现需要独立 delegated agent、持久任务状态或并行写入域，升级到 `spec-driven-full`。
-
-### 2. `spec-driven-full`
-
-**适用：** 需要拆成 agent-sized tasks 的任务。
-
-**流程：** `spec -> plan -> task -> code -> unit -> integration -> e2e`
-
-**关键纪律：**
-- Spec 对齐目标和验收标准。
-- Plan 标注串行链与可并行 task 组。
-- Task 必须能冷启动派发给 delegated agent。
-- 编码必须留在已批准 task 范围内。
-
-### 3. `superteam`
-
-**适用：** 全新项目首次启动，且适合 planner / reviewer / implementer 长时间协作。
-
-**限制：**
-- 只作为项目启动模式，不作为普通任务升级路径。
-- 项目已在 `quick-fix` 或 `spec-driven-full` 下开始后，不再切到 `superteam`。
-
----
-
-## 四、模式怎么选
-
-```text
-主 agent 能单轮闭环，且不需要持久 task 文档？
-├── 是 -> quick-fix
-└── 否 -> spec-driven-full
-
-全新项目首次启动，且适合长时间多 agent 自动协作？
-└── 才考虑 superteam
+# 激活任务
+python3 ./.trellis/scripts/task.py start <task-dir>
 ```
 
-`quick-fix` 和 `spec-driven-full` 都不是“轻 vs 重”的身份标签，而是不同的执行组织方式。前者靠主 agent 闭环，后者靠可派发 task 闭环。
+纯问答可以直接回答。非平凡文件修改默认进入 Trellis task：先写 `prd.md`，
+再维护 `implement.jsonl` / `check.jsonl`，然后实现、检查、更新 spec、提交。
 
 ---
 
-## 五、Plan 与 Task 怎么写
+## 四、规范放哪里
 
-### Plan
+| 内容 | 新位置 |
+| --- | --- |
+| 全局入口规则 | `.trellis/spec/agent/global-baseline.md` |
+| Git / branch / commit | `.trellis/spec/agent/git-and-branching.md` |
+| Workflow routing | `.trellis/spec/agent/workflow-routing.md` |
+| Review / verification | `.trellis/spec/agent/review-and-verification.md` |
+| Docs / memory / handoff | `.trellis/spec/agent/documentation-memory.md` |
+| Delegation | `.trellis/spec/agent/delegation.md` |
+| English coaching | `.trellis/spec/agent/english-coaching.md` |
+| Dotfiles restore rules | `.trellis/spec/dotfiles/index.md` |
 
-Plan 不需要复杂图表，但必须写清执行拓扑：
-
-- 哪些任务形成串行链。
-- 哪些任务属于可并行组。
-- 同一并行组的写入域必须不交叉。
-- 每组任务的验证策略和风险。
-
-这样主线程可以一眼看出哪些 task 能在同一轮并发派发，哪些必须等依赖完成。
-
-### Task
-
-Formal task 文档必须包含两个 agent 可执行性字段：
-
-- `Inputs`：冷启动需要的上下文，包括文件路径、依赖 task 的产出、相关 spec / plan 链接。
-- `Return contract`：期望返回格式，例如 diff、文件清单、验证结果、风险摘要和 bounded summary。
-
-这两个字段让“写 task”和“派 delegated agent”成为同一个动作。
+新规则只有在会改变真实 agent 决策时才加入 spec。一次性任务细节放在
+`.trellis/tasks/<task>/`，不要写进 durable spec。
 
 ---
 
-## 六、关键规则速查
+## 五、维护原则
 
-### 测试（`testing.md`）
+- 入口短，规则进 spec。
+- 任务事实进 `.trellis/tasks/`，长期经验进 `.trellis/spec/`。
+- 平台差异留在 `.claude/`、`.codex/`、`.agents/skills/` adapter。
+- 不手改 npm cache 或全局 Trellis 安装，修改 repo 内生成文件。
+- `restore.sh` 只安装全局入口与显式可复用的 Trellis assets，不安装全局
+  Claude/Codex hooks；项目级 hooks 由各项目自己的 `.claude/` / `.codex/`
+  管理。
 
-- 所有代码 task 默认遵循 TDD。
-- 测试要求必须在 task 中先写清楚。
-- 验证顺序固定为 `unit -> integration -> e2e`。
-- 测试范围随风险和影响面扩大。
-
-### 代码审查（`code-review.md`）
-
-- 有现有 diff 或用户明确要求 review 时，先走 review。
-- 使用当前 agent 环境可用的 native review workflow。
-- 如果没有 native review command，就做 manual code-review pass 并说明限制。
-- 最多迭代 3 轮，优先处理 bug、回归、缺测试、安全或契约漂移。
-
-### 委派（`delegation.md`）
-
-使用 delegated agent 的常见信号：
-
-- 上下文压力接近压缩。
-- 工作跨多个模块或需要广泛探索。
-- 工作可拆成独立 read / implementation / verification / review slices。
-- `SESSION_HANDOFF.md` 会变成“待读文件列表”而不是消化结论。
-
-不要委派主线程立即阻塞的下一步。并行 worker 的写入域必须不交叉，除非主线程显式串行化。
-
-### Context Economy
-
-- 派发时给 task 文档和直接输入路径，不塞整份 plan。
-- delegated agent 返回消化后的结果，主线程默认整合结果，不重复读取它探索过的上下文。
-- `TASKS.md` 是唯一轻量共享协调板，并由主线程独写。
-
-### SESSION_HANDOFF
-
-`SESSION_HANDOFF.md` 只存 transient state。多 agent 场景下，每个未完成 delegated task 要记录：
-
-- 启动指令。
-- 输入路径。
-- 预期产出。
-- 当前状态。
-
-目标是下次会话能直接重派，而不是重新思考任务边界。
-
----
-
-## 七、文档归属
-
-- `CLAUDE.md` / `AGENTS.md`：全局或项目级 baseline、命令、路径和约束。
-- `rules/*.md`：长期稳定的领域规则。
-- `docs/specs/spec-<slug>.md`：需求和验收标准。
-- `docs/plans/<slug>/plan.md`：路线、拓扑、依赖、风险和测试策略。
-- `docs/plans/<slug>/tasks/task-<nnn>-<slug>.md`：执行范围、Inputs、Return contract、测试和文档更新。
-- `TASKS.md`：当前焦点、优先级、阻塞、delegation board 和下一步动作。
-- `SESSION_HANDOFF.md`：会话续接状态，不替代 spec / plan / task。
-- `SURFACE.md`：真实公共契约。
-
----
-
-## 八、常见反模式
-
-| 反模式 | 解释 | 应对 |
-|---|---|---|
-| `CLAUDE.md` 和 `AGENTS.md` 写成两套语境 | 同一项目被不同 agent 读出不同规则 | 使用 agent-neutral 表述 |
-| 把 `TASKS.md` 当 spec 用 | 导航板里塞详细需求 | TASKS.md 只放轻量状态和下一步 |
-| Plan 不标注并行关系 | 主线程不知道能否并发派发 | 写清串行链与并行组 |
-| Task 缺少 `Inputs` | delegated agent 冷启动要重新探索 | 把文件路径和依赖产出写进 task |
-| Task 缺少 `Return contract` | delegated agent 返回不可整合 | 预先规定 diff、文件清单、验证和摘要 |
-| 把整个 plan 塞给 delegated agent | 浪费 token 且扩大歧义 | 只给 task 文档和直接输入路径 |
-| 让 delegated agent 干阻塞下一步 | 主线程空等 | 阻塞工作由主线程处理或显式串行化 |
-| 规则越写越细 | 用兜底条款代替判断 | 保持规则短，模糊时问一个关键问题 |
-
----
-
-## 九、维护原则
-
-- 规则写行为，不写长理由。
-- 能镜像的 Claude / Codex 规则保持逐字一致。
-- 平台差异使用中性表达，不复制两套心智模型。
-- 每条新规则都应改变真实决策，否则不加。
-- 文档服务于执行，不服务于仪式感。
-
----
-
-## 附录：实际规则文件
-
-实际规则文件位于 `~/.claude/` 和 `~/.codex/`：
-
-- `CLAUDE.md` / `AGENTS.md`：全局基线、commit 规范、workflow 和 review 入口。
-- `rules/planning.md`：模式路由、spec / plan / task 字段、superteam 条件。
-- `rules/testing.md`：TDD 和验证顺序。
-- `rules/code-review.md`：review 循环与收敛。
-- `rules/documentation.md`：文档归属、TASKS、SESSION_HANDOFF、SURFACE。
-- `rules/delegation.md`：delegated agent 协议和 Context Economy。
-- `rules/architecture.md`：架构边界和公共契约。
-- `rules/english.md`：英文纠错激活条件。
+这版的要点很简单：**Claude 和 Codex 不再各背一套规则；它们都读 Trellis。**
