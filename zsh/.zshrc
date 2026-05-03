@@ -88,13 +88,6 @@ setopt HIST_IGNORE_SPACE
 # 安装：brew install fzf
 [[ -f ~/.fzf.zsh ]] && source ~/.fzf.zsh
 
-# ── zoxide ──────────────────────────────────────────────────────────────────
-# 智能目录导航，记忆访问频率，比 autojump 更快
-# 使用：z <目录关键词>（支持模糊匹配）
-#       zi <关键词>（交互式选择，结合 fzf）
-# 安装：brew install zoxide
-eval "$(zoxide init zsh)"
-
 # ── Yazi ────────────────────────────────────────────────────────────────────
 # 现代 TUI 文件管理器，支持预览图片/视频/代码
 # [FIX] 保留函数版本（退出 Yazi 后自动 cd 到最后浏览的目录）
@@ -421,9 +414,20 @@ export PATH="/Users/jackdaw/.antigravity/antigravity/bin:$PATH"
 # ============================================================================
 
 
+# ── zoxide ──────────────────────────────────────────────────────────────────
+# 智能目录导航，记忆访问频率，比 autojump 更快
+# 使用：z <目录关键词>（支持模糊匹配）
+#       zi <关键词>（交互式选择，结合 fzf）
+# 安装：brew install zoxide
+# [FIX] 移至文件末尾：zoxide 的 chpwd hook 必须在所有其他插件之后初始化，
+#       否则后续插件（如 zsh-syntax-highlighting、Kiro CLI）可能覆盖 chpwd_functions，
+#       导致 zoxide 目录追踪失效（__zoxide_doctor 警告）。
+eval "$(zoxide init zsh)"
+
 # ── zsh-syntax-highlighting ─────────────────────────────────────────────────
 # 实时命令着色：合法命令绿色，未知命令红色，参数高亮
 # 安装：brew install zsh-syntax-highlighting
+# [FIX] zsh-syntax-highlighting 必须是最后一个加载的插件（它会 wrap ZLE widgets）
 [[ -f /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]] && \
   source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
