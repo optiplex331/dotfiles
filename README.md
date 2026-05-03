@@ -240,10 +240,7 @@ bash ~/Code/dotfiles/scripts/restore.sh
 ### Codex
 
 - **配置文件**: `~/.codex/config.toml`
-- **全局指令**: `~/.codex/AGENTS.md`
-- **Trellis Agents**: `~/.codex/agents/trellis-*.toml`
-- **规则来源**: `.trellis/spec/agent/`
-- **管理方式**: 仓库内 `codex/` 目录保存 Codex 入口和配置模板；Trellis 生成的 agent、hook、skill 文件保存在 `.codex/` 和 `.agents/skills/`；`scripts/restore.sh` 会链接 Trellis 资产，并渲染 `config.toml` 中的 `{{DOTFILES_DIR}}` 占位符为当前仓库目录
+- **管理方式**: 仓库内 `codex/` 目录保存 Codex 配置模板；`scripts/restore.sh` 会渲染 `config.toml` 中的 `{{DOTFILES_DIR}}` 占位符为当前仓库目录
 
 ---
 
@@ -292,15 +289,10 @@ bash ~/Code/dotfiles/scripts/restore.sh
 
 ```
 .
-├── .trellis/               # Trellis workflow、spec、tasks 与 workspace
-├── .claude/                # Trellis 生成的 Claude agents、commands、hooks、skills
-├── .codex/                 # Trellis 生成的 Codex agents、hooks 与配置
-├── .agents/skills/         # Codex / compatible tools 共享 Trellis skills
 ├── claude/                 # Claude 全局短入口与 statusline
 │   ├── CLAUDE.md
 │   └── statusline.sh
-├── codex/                  # Codex 全局短入口与配置模板
-│   ├── AGENTS.md
+├── codex/                  # Codex 配置模板
 │   └── config.toml
 ├── cursor/                 # Cursor 编辑器配置
 │   ├── settings.json
@@ -331,7 +323,6 @@ bash ~/Code/dotfiles/scripts/restore.sh
 │           ├── bufferline.lua
 │           ├── colorschema.lua
 │           ├── disabled.lua
-│           ├── example.lua
 │           ├── format.lua
 │           ├── input-method.lua
 │           ├── kulala.lua
@@ -418,7 +409,7 @@ bash ~/Code/dotfiles/scripts/restore.sh
 | 脚本 | 用途 |
 |------|------|
 | `scripts/setup.sh` | 新机器一键初始化（SSH + Homebrew + 克隆 + 恢复 + brew bundle） |
-| `scripts/restore.sh` | 幂等软链接创建，渲染路径敏感配置，恢复 `.claude/`、`.codex/` 等配置，已有文件自动备份至 `~/.dotfiles_backup/` |
+| `scripts/restore.sh` | 幂等软链接创建，渲染路径敏感配置，已有文件自动备份至 `~/.dotfiles_backup/` |
 
 ---
 
