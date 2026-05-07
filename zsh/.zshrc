@@ -259,7 +259,6 @@ alias ta='tmux a -t'                    # 附加到已有会话：ta <name>
 alias brew14all='brew update && brew upgrade && brew cleanup --prune=all && command rm -rf "$(brew --cache)"/*'
 
 # Claude Code
-# alias cc='CLAUDE_CODE_AUTO_COMPACT_WINDOW=400000 claude --dangerously-skip-permissions'
 alias cc='claude --dangerously-skip-permissions'
 
 # Codex
@@ -380,7 +379,7 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 [ -s "$BUN_INSTALL/_bun" ] && source "$BUN_INSTALL/_bun"
 
 # Added by Antigravity
-export PATH="/Users/$(whoami)/.antigravity/antigravity/bin:$PATH"
+export PATH="$HOME/.antigravity/antigravity/bin:$PATH"
 
 # ── zoxide ──────────────────────────────────────────────────────────────────
 # 智能目录导航，记忆访问频率，比 autojump 更快
