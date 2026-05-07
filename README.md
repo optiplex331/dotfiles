@@ -232,7 +232,7 @@ bash ~/Code/dotfiles/scripts/restore.sh
 
 ### Git
 
-- **用户**: optiplex331 / 67191689+optiplex331@users.noreply.github.com
+- **用户**: optiplex331
 - **全局 ignore**: `.claude/settings.local.json`
 
 ---
