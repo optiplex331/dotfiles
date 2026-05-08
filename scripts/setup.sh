@@ -8,7 +8,7 @@
 set -Eeuo pipefail
 
 REPO="git@github.com:optiplex331/dotfiles.git"
-DOTFILES="$HOME/Code/dotfiles"
+DOTFILES="${DOTFILES:-$HOME/Projects/dotfiles}"
 
 log()  { printf '\033[0;32m[setup]\033[0m %s\n' "$*"; }
 warn() { printf '\033[0;33m[setup]\033[0m %s\n' "$*"; }

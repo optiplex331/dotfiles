@@ -20,7 +20,7 @@
 
 | 类别 | 工具 |
 |------|------|
-| **终端** | Kitty（多布局 + 光标轨迹特效） |
+| **终端** | Ghostty（当前主力）+ Kitty（保留备用配置） |
 | **Shell** | Zsh + Starship 提示符 + zoxide |
 | **编辑器** | Neovim（基于 LazyVim）+ Cursor + VS Code |
 | **复用器** | Tmux（Oh My Tmux! + 电池/主机名状态栏） |
@@ -43,14 +43,14 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/optiplex331/dotfiles/mai
 
 1. 检查并配置 GitHub SSH 密钥
 2. 安装 Homebrew（如未安装）
-3. 克隆本仓库至 `~/Code/dotfiles`
+3. 克隆本仓库至 `~/Projects/dotfiles`（可通过 `DOTFILES=/path/to/dotfiles` 覆盖）
 4. 执行 `restore.sh` 创建所有软链接
 5. 执行 `brew bundle` 安装所有软件
 
 ### 已有仓库恢复配置
 
 ```bash
-bash ~/Code/dotfiles/scripts/restore.sh
+bash ~/Projects/dotfiles/scripts/restore.sh
 ```
 
 该脚本会将所有配置目录软链接到家目录，已存在的文件自动备份至 `~/.dotfiles_backup/`。
@@ -61,14 +61,15 @@ bash ~/Code/dotfiles/scripts/restore.sh
 
 ### Shell (Zsh)
 
+- **职责拆分**: `.zprofile` 管 login 环境、PATH、语言运行时；`.zshrc` 管补全、prompt、alias、交互函数
 - **提示符**: Starship（自定义 git 状态、云环境、50+ 语言模块）
 - **高亮**: zsh-syntax-highlighting（实时命令着色）
 - **导航**: zoxide（智能 `cd`，学习常用目录）
 - **模糊查找**: fzf（`Ctrl+R` 历史搜索、`Ctrl+T` 文件搜索）
 - **文件列表**: eza 替代 ls（图标 + 超链接）
+- **安全删除**: trash 优先，缺失时回退到 `rm -i`
 - **Python**: uv（统一的版本 + 包 + 环境管理）
 - **Node.js**: Volta（版本管理）
-- **Java**: JDK 8 / 11 / 17 快速切换别名
 
 #### 常用别名
 
@@ -128,16 +129,6 @@ bash ~/Code/dotfiles/scripts/restore.sh
 | `tnew` | `tmux new -s` | 新建会话 |
 | `ta` | `tmux a -t` | 附加到会话 |
 
-**JDK 切换**
-
-| 别名 | 说明 |
-|------|------|
-| `jdk8` | 切换到 JDK 8 |
-| `jdk11` | 切换到 JDK 11 |
-| `jdk17` | 切换到 JDK 17（默认） |
-
----
-
 ### Neovim
 
 - **框架**: LazyVim
@@ -173,9 +164,20 @@ bash ~/Code/dotfiles/scripts/restore.sh
 
 ---
 
+### Ghostty
+
+- **定位**: 当前主力终端
+- **配置文件**: `ghostty/config`
+- **安装方式**: Homebrew cask `ghostty`
+- **下拉终端**: 配置了 Quick Terminal 相关行为
+
+---
+
 ### Kitty
 
-- **字体**: Menlo 14pt
+> Kitty 暂时不是主力终端，但配置继续保留，便于回切或做兼容参考。
+
+- **字体**: Maple Mono Normal NF CN 14pt
 - **背景色**: `#282c34`（One Dark 风格）
 - **光标**: Block 形状，带轨迹残影特效
 - **功能**: 鼠标选中自动复制
@@ -209,7 +211,7 @@ bash ~/Code/dotfiles/scripts/restore.sh
 
 ### Starship
 
-- 支持 50+ 语言/工具模块（AWS、Python、Node、Go、Rust、Java、Kotlin 等）
+- 支持 50+ 语言/工具模块（AWS、Python、Node、Go、Rust、Kotlin 等）
 - **目录**: 显示完整路径，不截断，只读目录显示 󰌾
 - **Git 分支**: ` ` 图标前缀
 - **Git 状态**: `✘` 冲突 / `!` 修改 / `?` 未跟踪 / `+` 暂存 / `⇡⇣` 领先/落后
@@ -232,7 +234,7 @@ bash ~/Code/dotfiles/scripts/restore.sh
 
 ### Git
 
-- **用户**: optiplex331
+- **用户**: `Qinhuihao Zeng <optiplex331@gmail.com>`
 - **全局 ignore**: `.claude/settings.local.json`
 
 ---
@@ -240,7 +242,7 @@ bash ~/Code/dotfiles/scripts/restore.sh
 ### Codex
 
 - **配置文件**: `~/.codex/config.toml`
-- **管理方式**: 仓库内 `codex/` 目录保存 Codex 配置模板；`scripts/restore.sh` 会渲染 `config.toml` 中的 `{{DOTFILES_DIR}}` 占位符为当前仓库目录
+- **管理方式**: 仓库内 `codex/config.toml` 保存 Codex 配置模板；`scripts/restore.sh` 会渲染 `{{DOTFILES_DIR}}` 和 `{{HOME_DIR}}` 占位符
 
 ---
 
@@ -263,7 +265,7 @@ bash ~/Code/dotfiles/scripts/restore.sh
   - Python：Ruff
   - Terraform：官方插件
 - **光标**: 呼吸式闪烁，平滑移动动画
-- **外部终端**: Kitty
+- **外部终端**: Ghostty
 - **AI 补全**: Markdown 中关闭
 
 ---
@@ -277,7 +279,6 @@ bash ~/Code/dotfiles/scripts/restore.sh
 - **格式化**: 保存时自动格式化
   - 默认：Prettier
   - Python：YAPF
-  - Java：Red Hat 扩展
 - **自动保存**: 失去焦点时保存
 - **终端**: 继承父进程环境变量
 - **Code Runner**: 配置 20+ 语言的一键运行命令
@@ -289,10 +290,11 @@ bash ~/Code/dotfiles/scripts/restore.sh
 
 ```
 .
-├── claude/                 # Claude 全局短入口与 statusline
+├── claude/                 # Claude Code 全局指令与 statusline
 │   ├── CLAUDE.md
 │   └── statusline.sh
-├── codex/                  # Codex 配置模板
+├── codex/                  # Codex 配置模板与兼容入口
+│   ├── AGENTS.md -> ../claude/CLAUDE.md
 │   └── config.toml
 ├── cursor/                 # Cursor 编辑器配置
 │   ├── settings.json
@@ -302,9 +304,9 @@ bash ~/Code/dotfiles/scripts/restore.sh
 ├── git/                    # Git 全局配置
 │   ├── gitconfig
 │   └── ignore
-├── ghostty/                # Ghostty 终端配置
+├── ghostty/                # Ghostty 终端配置（当前主力）
 │   └── config
-├── kitty/                  # Kitty 终端
+├── kitty/                  # Kitty 终端配置（保留备用）
 │   └── kitty.conf
 ├── lazydocker/             # Lazydocker Docker TUI
 │   └── config.yml
@@ -344,7 +346,8 @@ bash ~/Code/dotfiles/scripts/restore.sh
 │   ├── keymap.toml
 │   └── theme.toml
 ├── zsh/                    # Zsh Shell 配置
-│   └── zshrc
+│   ├── .zprofile
+│   └── .zshrc
 └── Brewfile                # Homebrew 软件清单
 ```
 
@@ -433,7 +436,7 @@ brew update && brew upgrade && brew cleanup --prune=all
 编辑 `Brewfile` 后执行：
 
 ```bash
-brew bundle --file=~/Code/dotfiles/Brewfile
+brew bundle --file="${DOTFILES:-$HOME/Projects/dotfiles}/Brewfile"
 ```
 
 ### 新增配置文件
@@ -446,5 +449,5 @@ brew bundle --file=~/Code/dotfiles/Brewfile
 
 ```bash
 # 重新运行恢复脚本（会重建软链接）
-bash ~/Code/dotfiles/scripts/restore.sh
+bash ~/Projects/dotfiles/scripts/restore.sh
 ```

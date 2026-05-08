@@ -29,7 +29,7 @@ bash scripts/restore.sh
 
 ```bash
 # Install everything from Brewfile
-brew bundle --file=~/Code/dotfiles/Brewfile
+brew bundle --file="${DOTFILES:-$HOME/Projects/dotfiles}/Brewfile"
 
 # Update all Homebrew packages
 brew update && brew upgrade && brew cleanup --prune=all
@@ -39,6 +39,7 @@ brew update && brew upgrade && brew cleanup --prune=all
 
 | Repo path | Symlinked to |
 |-----------|-------------|
+| `zsh/.zprofile` | `~/.zprofile` |
 | `zsh/.zshrc` | `~/.zshrc` |
 | `vim/vimrc` | `~/.vimrc` |
 | `nvim/` | `~/.config/nvim` |
@@ -54,9 +55,10 @@ brew update && brew upgrade && brew cleanup --prune=all
 | `cursor/settings.json` | `~/Library/Application Support/Cursor/User/settings.json` |
 | `cursor/keybindings.json` | `~/Library/Application Support/Cursor/User/keybindings.json` |
 | `vscode/settings.json` | `~/Library/Application Support/Code/User/settings.json` |
-| `Codex/statusline.sh` | `~/.Codex/statusline.sh` |
-| `Codex/AGENTS.md` | `~/.Codex/AGENTS.md` |
-| `codex/config.toml` | rendered to `~/.codex/config.toml` with `{{DOTFILES_DIR}}` replaced by the current repo path |
+| `claude/statusline.sh` | `~/.claude/statusline.sh` |
+| `claude/CLAUDE.md` | `~/.claude/CLAUDE.md` |
+| `claude/CLAUDE.md` | `~/.codex/AGENTS.md` |
+| `codex/config.toml` | rendered to `~/.codex/config.toml` with `{{DOTFILES_DIR}}` and `{{HOME_DIR}}` replaced |
 
 ## Neovim
 
