@@ -1,10 +1,32 @@
-
 # Kiro CLI pre block. Keep at the top of this file.
 [[ -f "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.pre.zsh" ]] && builtin source "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.pre.zsh"
 
 # ============================================================================
-# ~/.zshrc - Zsh Shell 配置文件
+# ~/.zshrc - Zsh Interactive Shell 配置文件
 # 最后更新: 2026-05
+# ============================================================================
+#
+# 作用说明：
+#   ~/.zshrc 只在 interactive shell 启动时读取。
+#
+# 适合放：
+#   - alias
+#   - function
+#   - shell prompt
+#   - completion
+#   - fzf
+#   - zoxide
+#   - syntax highlighting
+#   - 交互式 shell 行为配置
+#
+# 不建议放：
+#   - login shell 专属环境初始化
+#   - 重型 PATH 初始化
+#   - 会重复执行且有副作用的逻辑
+#
+# 注意：
+#   不再 source ~/.zprofile。
+#   这样可以避免 PATH 重复追加，也能让 login 环境和交互体验职责分离。
 # ============================================================================
 
 
@@ -12,20 +34,63 @@
 # 0. 初始化和兼容性修复
 # ============================================================================
 
-# [FIX] 开启扩展通配符，确保 Section 0 的 24h 补全缓存判断生效
+# 开启扩展通配符。
+#
+# 用途：
+#   允许使用 zsh 的高级 glob qualifier。
+#
+# 这里会用于 .zcompdump 的 24 小时缓存判断：
+#   "${ZDOTDIR:-$HOME}/.zcompdump"(#qN.mh-24)
 setopt EXTENDED_GLOB
 
-# 加载 .zprofile（login shell 的环境变量，非 login shell 不会自动加载）
-[[ -f ~/.zprofile ]] && source ~/.zprofile
+# zsh 原生数组去重。
+#
+# path  与 PATH  绑定。
+# fpath 与补全函数搜索路径相关。
+#
+# typeset -U 可以避免重复路径不断累积。
+typeset -U path PATH fpath
 
-# Docker 补全（如果目录存在才添加，避免 fpath 里出现无效路径）
-# [FIX] 原来没有目录存在检查，Docker 未安装时会静默失败或报警告
-[[ -d "${HOME}/.docker/completions" ]] && fpath=("${HOME}/.docker/completions" $fpath)
 
-# 自定义补全目录（用于存放手动生成的静态补全文件，如 uv）
-[[ -d "${HOME}/.zsh/completions" ]] && fpath=("${HOME}/.zsh/completions" $fpath)
+# ============================================================================
+# 1. 补全系统
+# ============================================================================
 
-# 按天缓存补全，24h 内直接加载缓存（-C），超过则重新生成
+# Docker 补全目录。
+#
+# 只有目录真实存在时才加入 fpath，
+# 避免 Docker 未安装或路径不存在时污染补全搜索路径。
+[[ -d "$HOME/.docker/completions" ]] && fpath=("$HOME/.docker/completions" $fpath)
+
+# 自定义补全目录。
+#
+# 可用于存放手动生成的静态补全文件，例如：
+#   - uv
+#   - 自定义 CLI
+#   - 内部工具
+[[ -d "$HOME/.zsh/completions" ]] && fpath=("$HOME/.zsh/completions" $fpath)
+
+# uv 补全文件缓存。
+#
+# 如果 uv 已安装，但补全文件不存在，则生成一次静态补全文件。
+#
+# 好处：
+#   - 避免每次启动 shell 都 eval 动态补全
+#   - 启动更快
+#   - 补全行为更稳定
+if command -v uv >/dev/null 2>&1 && [[ ! -f "$HOME/.zsh/completions/_uv" ]]; then
+  mkdir -p "$HOME/.zsh/completions"
+  uv generate-shell-completion zsh > "$HOME/.zsh/completions/_uv"
+fi
+
+# 初始化 zsh 补全系统。
+#
+# compinit -C：
+#   使用已有缓存，不重新安全检查补全文件。
+#
+# 逻辑：
+#   - 如果 .zcompdump 在 24 小时内更新过，使用缓存
+#   - 否则重新初始化补全系统
 autoload -Uz compinit
 if [[ -n "${ZDOTDIR:-$HOME}/.zcompdump"(#qN.mh-24) ]]; then
   compinit -C
@@ -35,365 +100,427 @@ fi
 
 
 # ============================================================================
-# 1. 提示符和主题
+# 2. 提示符和主题
 # ============================================================================
 
-# Starship：现代化、快速的跨 Shell 提示符
-#   - 配置文件：~/.config/starship.toml
-#   - 安装：brew install starship
-eval "$(starship init zsh)"
+# Starship：现代化、快速的跨 shell prompt。
+#
+# 配置文件：
+#   ~/.config/starship.toml
+#
+# 安装：
+#   brew install starship
+#
+# 加 command -v 判断，避免未安装时启动 shell 报错。
+command -v starship >/dev/null 2>&1 && eval "$(starship init zsh)"
 
 
 # ============================================================================
-# 2. 历史记录配置
+# 3. 历史记录配置
 # ============================================================================
 
-# 历史文件路径
+# 历史文件路径。
 HISTFILE="$HOME/.history"
 
-# 内存中保留的历史条数
+# 内存中保留的历史条数。
 HISTSIZE=5000
 
-# 写入磁盘的历史条数
+# 写入磁盘的历史条数。
 SAVEHIST=5000
 
-# 多终端窗口之间实时共享历史记录
-# 效果：在一个窗口执行的命令，其他窗口按 Ctrl+R 可以立即找到
+# 记录命令执行时间戳和耗时。
+setopt EXTENDED_HISTORY
+
+# 追加写入历史文件，而不是覆盖。
+setopt APPEND_HISTORY
+
+# 命令执行后立即写入历史文件。
+setopt INC_APPEND_HISTORY
+
+# 多终端窗口共享历史记录。
+#
+# 效果：
+#   一个窗口执行的命令，其他窗口可以较快通过历史搜索找到。
 setopt SHARE_HISTORY
 
-# 重复命令只保留最新一条（去重）
+# 重复命令只保留最新一条。
 setopt HIST_IGNORE_ALL_DUPS
 
-# 写入历史时忽略前导空格的命令（敏感命令前加空格可防止记录）
+# 保存历史时去重。
+setopt HIST_SAVE_NO_DUPS
+
+# 历史记录中压缩多余空格。
+setopt HIST_REDUCE_BLANKS
+
+# 忽略以空格开头的命令。
+#
+# 用途：
+#   执行敏感命令时，可以在命令前加一个空格，避免写入历史。
 setopt HIST_IGNORE_SPACE
+
+# 对历史展开结果先展示确认，而不是直接执行。
+#
+# 例如：
+#   !!
+#
+# 会先展开成上一条命令，确认后再执行。
+setopt HIST_VERIFY
 
 
 # ============================================================================
-# 3. Shell 工具初始化
+# 4. Shell 工具初始化
 # ============================================================================
 
 # ── fzf ─────────────────────────────────────────────────────────────────────
-# 模糊搜索工具，增强以下快捷键：
-#   Ctrl+R：模糊搜索命令历史
+#
+# fzf：模糊搜索工具。
+#
+# 常用快捷键：
+#   Ctrl+R：模糊搜索历史命令
 #   Ctrl+T：模糊搜索当前目录下的文件
-#   Alt+C ：模糊搜索并跳转子目录
-# 安装：brew install fzf
-[[ -f ~/.fzf.zsh ]] && source ~/.fzf.zsh
+#   Alt+C ：模糊搜索并跳转目录
+#
+# 安装：
+#   brew install fzf
+[[ -f "$HOME/.fzf.zsh" ]] && source "$HOME/.fzf.zsh"
+
 
 # ── Yazi ────────────────────────────────────────────────────────────────────
-# 现代 TUI 文件管理器，支持预览图片/视频/代码
-# 使用：y（打开文件管理器，退出后自动跳转到最后访问的目录）
-# 安装：brew install yazi
-function y() {
-  local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+#
+# yazi：现代 TUI 文件管理器。
+#
+# 函数 y 的作用：
+#   - 打开 yazi
+#   - 退出 yazi 后自动 cd 到最后访问的目录
+#
+# 安装：
+#   brew install yazi
+y() {
+  local tmp cwd
+
+  tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
   yazi "$@" --cwd-file="$tmp"
-  if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+
+  if cwd="$(command cat -- "$tmp")" && [[ -n "$cwd" && "$cwd" != "$PWD" ]]; then
     builtin cd -- "$cwd"
   fi
+
   rm -f -- "$tmp"
 }
 
-# ── uv 补全 ─────────────────────────────────────────────────────────────────
-# uv：统一的 Python 版本 + 包 + 环境管理器（pip/pyenv/virtualenv 的替代品）
-# 安装：curl -LsSf https://astral.sh/uv/install.sh | sh
-if [[ ! -f "${HOME}/.zsh/completions/_uv" ]]; then
-  eval "$(uv generate-shell-completion zsh 2>/dev/null)" || true
+
+# ============================================================================
+# 5. 编辑器快捷方式
+# ============================================================================
+
+# 使用 Neovim 替代系统 Vim。
+#
+# 安装：
+#   brew install neovim
+alias vim='nvim'
+alias v='nvim'
+
+
+# ============================================================================
+# 6. 别名 - 基础工具
+# ============================================================================
+
+# 清屏。
+alias c='clear'
+
+# 文件操作安全模式。
+#
+# cp -i：
+#   覆盖文件前确认。
+#
+# mv -i：
+#   覆盖目标前确认。
+alias cp='cp -i'
+alias mv='mv -i'
+
+# rm 安全替代。
+#
+# 优先使用 trash，把文件移入 macOS 废纸篓。
+# 如果未安装 trash，则退回 rm -i，删除前确认。
+#
+# 安装 trash：
+#   brew install trash
+if command -v trash >/dev/null 2>&1; then
+  alias rm='trash'
+else
+  alias rm='rm -i'
 fi
 
 
 # ============================================================================
-# 4. 编辑器环境变量
+# 7. 别名 - ls 替代品
 # ============================================================================
 
-# [ADD] 设置默认编辑器为 VS Code
-# 以下工具会读取这些变量自动调用正确的编辑器：
-#   - git commit（无 -m 时打开编辑器）
-#   - kubectl edit
-#   - crontab -e
-#   - visudo
-#   - 各类 CLI 工具
-export EDITOR='code'
-export VISUAL='code'
+# eza：exa 的维护分支。
+#
+# 特点：
+#   - 支持图标
+#   - 支持 Git 状态
+#   - 支持超链接
+#   - 输出更现代
+#
+# 安装：
+#   brew install eza
+#
+# 如果 eza 未安装，则保留系统 ls，避免 alias 指向不存在的命令。
+if command -v eza >/dev/null 2>&1; then
+  alias ls='eza --hyperlink'
+  alias ll='ls -l --icons'
+  alias l='ll'
+  alias la='l -a'
+  alias lh='l -h'
+  alias lha='l -ha'
+  alias lt='eza -T -L 2'
+else
+  alias ll='ls -l'
+  alias l='ll'
+  alias la='ls -la'
+  alias lh='ls -lh'
+  alias lha='ls -lha'
+fi
 
 
 # ============================================================================
-# 5. 别名 - 基础工具
+# 8. 别名 - Git 工作流
 # ============================================================================
 
-# 清屏
-alias c='clear'
+# 基础操作。
+alias g='git'
+alias ginit='git init'
+alias ga='git add'
+alias gadd='git add'
+alias gs='git status -s'
+alias gc='git commit'
+alias gcommit='git commit'
 
-# 文件操作（安全模式）
-alias cp='cp -i'      # 覆盖前确认
-alias mv='mv -i'      # 移动前确认
+# 查看差异。
+alias gd='git diff'
+alias gdc='git diff --cached'
 
-# [FIX] rm 不再直接删除，改为移入废纸篓
-#   原来：alias rm='rm -rf'  ← 无法恢复，极其危险
-#   现在：使用 trash 命令，文件进入 macOS 废纸篓，可从 Finder 恢复
-#   安装：brew install trash
-alias rm='trash'
+# 日志和历史。
+alias gl='git log --color --graph --oneline --decorate'
+alias gshow='git show'
 
-# ── ls 替代品（eza）────────────────────────────────────────────────────────
-# eza 是 exa 的维护分支，支持图标、Git 状态、超链接等
-# 安装：brew install eza
-alias ls='eza --hyperlink'         # 基础列表，路径显示为可点击超链接
-alias ll='ls -l --icons'           # 详细列表 + 文件类型图标
-alias l='ll'                       # 快捷方式
-alias la='l -a'                    # 显示隐藏文件（. 开头）
-alias lh='l -h'                    # 人类可读的文件大小（KB/MB）
-alias lha='l -ha'                  # 隐藏文件 + 可读大小
-alias lt='eza -T -L 2'            # 树状显示，最多展开 2 层
+# 远程操作。
+alias gf='git fetch'
+alias gpull='git pull origin'
+alias gpush='git push origin'
+alias gremote='git remote'
+alias gclone='git clone'
 
-# 注意：y（Yazi 文件管理器）定义在第 3 节的函数中，此处不重复定义
+# 分支管理。
+alias gcheckout='git checkout'
+alias gbranch='git branch'
+alias gmerge='git merge'
+alias gt='git tag -a'
 
-# ============================================================================
-# 6. 别名 - Git 工作流
-# ============================================================================
+# FZF 交互式切换分支。
+#
+# 作用：
+#   - 列出本地分支
+#   - 用 fzf 选择目标分支
+#   - 右侧预览该分支最近一次提交
+#   - 回车后 checkout
+#
+# 写成函数比 alias 更稳：
+#   - 更容易处理空选择
+#   - 更容易扩展
+#   - 引号行为更安全
+gcb() {
+  local branch
 
-# 基础操作
-alias g='git'                           # Git 快捷方式
-alias ginit='git init'                  # 初始化仓库
-alias ga='git add'                      # 添加到暂存区
-alias gadd='git add'                    # （同义词）
-alias gs='git status -s'                # 简洁状态（短格式）
-alias gc='git commit'                   # 提交（会打开 $EDITOR）
-alias gcommit='git commit'              # （同义词）
+  branch=$(
+    git branch --format='%(refname:short)' |
+      fzf --preview 'git log -1 --color=always --decorate --stat {}'
+  ) || return
 
-# 查看差异
-# [ADD] 新增查看 diff 的别名
-alias gd='git diff'                     # 查看工作区的未暂存改动
-alias gdc='git diff --cached'           # 查看已暂存（staged）的改动，提交前必看
+  git checkout "$branch"
+}
 
-# 日志和历史
-alias gl="git log --color --graph --oneline --decorate"   # 带分支树的精简日志
-alias gshow='git show'                  # 查看某次提交的详细改动
+# 撤销和回退。
+alias greset='git reset'
+alias gcherry='git cherry-pick'
 
-# 远程操作
-alias gf='git fetch'                    # 获取远程数据（不合并）
-alias gpull='git pull origin'           # 拉取当前分支的远程更新
-alias gpush='git push origin'           # 推送当前分支到远程
-alias gremote='git remote'              # 管理远程仓库（add/remove/show）
-alias gclone='git clone'                # 克隆仓库
-
-# 分支管理
-alias gcheckout='git checkout'          # 切换分支或恢复文件
-alias gbranch='git branch'              # 列出本地分支
-alias gmerge='git merge'                # 合并分支
-alias gt='git tag -a'                   # 创建带注释的标签
-
-# [ADD] FZF 交互式切换分支（带预览）
-# 执行后弹出分支列表，右侧实时预览该分支最新提交，回车确认切换
-alias gcb="git branch | fzf --preview 'git show --color=always {-1}' | cut -c 3- | xargs git checkout"
-
-# 撤销和回退
-alias greset='git reset'                # 重置（默认 --mixed，保留工作区改动）
-alias gcherry='git cherry-pick'         # 将指定提交应用到当前分支
-
-# [ADD] 撤销最后一次提交，改动退回工作区（未 push 时的后悔药）
+# 撤销最后一次提交。
+#
+# 注意：
+#   该命令会撤销 commit，但保留工作区改动。
+#   适合未 push 前修改最后一次提交。
 alias gundo='git reset HEAD~1'
 
-# 暂存区管理（临时保存未完成的改动，切换分支时很有用）
-alias gstash='git stash'                # 暂存当前改动
-alias gpop='git stash pop'              # 恢复最近一次暂存
+# 暂存区管理。
+alias gstash='git stash'
+alias gpop='git stash pop'
 
-# [ADD] 快速保存当前工作进度（WIP = Work In Progress）
-# 使用场景：需要临时切换分支处理紧急问题，但当前工作不想 stash
+# 快速保存当前工作进度。
+#
+# 注意：
+#   这会真的创建一个 commit。
+#   如果团队不希望出现 WIP commit，使用前需要确认工作流。
 alias gwip='git add -A && git commit -m "WIP: work in progress"'
 
 
 # ============================================================================
-# 7. 别名 - Docker
+# 9. 别名 - Docker
 # ============================================================================
 
-alias d='docker'                        # Docker 快捷方式
-alias dp='docker ps'                    # 列出运行中的容器
-alias dpa='docker ps -a'                # 列出所有容器（包括已停止的）
-alias de='docker exec -it'              # 进入容器交互模式（后跟容器名和 shell）
-alias di='docker inspect'               # 查看容器/镜像的详细配置信息
+# Docker 快捷方式。
+alias d='docker'
 
-# Lazydocker：Docker 的 TUI 管理界面，可查看日志、状态、资源占用
-# 安装：brew install lazydocker
+# 列出运行中的容器。
+alias dp='docker ps'
+
+# 列出所有容器，包括已停止容器。
+alias dpa='docker ps -a'
+
+# 进入容器交互模式。
+#
+# 用法：
+#   de <container> <command>
+#
+# 示例：
+#   de my-container bash
+alias de='docker exec -it'
+
+# 查看容器或镜像详细信息。
+alias di='docker inspect'
+
+# Lazydocker：Docker TUI 管理工具。
+#
+# 安装：
+#   brew install lazydocker
 alias ld='lazydocker'
 
 
 # ============================================================================
-# 8. 别名 - Kubernetes
+# 10. 别名 - Kubernetes
 # ============================================================================
 
-alias k='kubectl'                       # kubectl 快捷方式（高频使用）
+# kubectl 快捷方式。
+alias k='kubectl'
 
-# 切换当前上下文的默认命名空间
-# 使用：kcd <namespace>
+# 切换当前 context 的默认 namespace。
+#
+# 用法：
+#   kcd <namespace>
 alias kcd='kubectl config set-context $(kubectl config current-context) --namespace'
 
-# Pod 管理
-alias kp='kubectl get pods'             # 列出当前命名空间的 Pod
-alias kl='kubectl logs'                 # 查看 Pod 日志
-alias klf='kubectl logs -f --tail=100'  # 实时追踪日志（最后 100 行起）
-alias kd='kubectl describe pod'         # 查看 Pod 详细信息（排查问题常用）
-alias ke='kubectl exec -it'             # 进入 Pod 的交互式 Shell
+# Pod 管理。
+alias kp='kubectl get pods'
+alias kl='kubectl logs'
+alias klf='kubectl logs -f --tail=100'
+alias kd='kubectl describe pod'
+alias ke='kubectl exec -it'
 
 
 # ============================================================================
-# 9. 别名 - 开发工具
+# 11. 别名 - 开发工具
 # ============================================================================
 
-# 编辑器（使用 Neovim 替代系统 Vim）
-alias vim='nvim'
-alias v='nvim'
-
-# Git TUI（Lazygit：键盘驱动的 Git 图形界面）
-# 安装：brew install lazygit
+# Lazygit：Git TUI 工具。
+#
+# 安装：
+#   brew install lazygit
 alias lg='lazygit'
 
-# 剪贴板（将命令输出复制到剪贴板）
-# 用法：cat file.txt | pb
+# 剪贴板。
+#
+# 用法：
+#   cat file.txt | pb
 alias pb='pbcopy'
 
-# Tmux 会话管理
-# 安装：brew install tmux
-alias tnew='tmux new -s'                # 创建新命名会话：tnew <name>
-alias ta='tmux a -t'                    # 附加到已有会话：ta <name>
+# Tmux 会话管理。
+#
+# 安装：
+#   brew install tmux
+alias tnew='tmux new -s'
+alias ta='tmux a -t'
 
-# Homebrew 全量更新（更新索引 + 升级所有包 + 清理旧版本和缓存）
+# Homebrew 全量更新。
+#
+# 包含：
+#   - 更新 Homebrew 索引
+#   - 升级所有包
+#   - 清理旧版本
+#   - 清理下载缓存
 alias brew14all='brew update && brew upgrade && brew cleanup --prune=all && command rm -rf "$(brew --cache)"/*'
 
-# Claude Code
+# Claude Code。
 alias cc='claude --dangerously-skip-permissions'
 
-# Codex
+# Codex。
 alias cx='codex'
 
 
-# ============================================================================
-# 10. 环境变量 - Java 和 JVM 工具
-# ============================================================================
-
-# Maven：Java 项目构建工具
-export M2_HOME='/opt/homebrew/opt/maven'
-
-# [FIX] Java 多版本路径改为动态查询
-#   原来：硬编码 jdk1.8.0_361.jdk，升级 JDK 小版本后路径失效
-#   现在：通过 macOS 内置的 java_home 工具按主版本号查找，自动适配升级
-#   /usr/libexec/java_home -v <version> 返回对应 JDK 的 Home 路径
-export JDK8_HOME=$(/usr/libexec/java_home -v 1.8 2>/dev/null)
-export JDK11_HOME=$(/usr/libexec/java_home -v 11 2>/dev/null)
-export JDK17_HOME=$(/usr/libexec/java_home -v 17 2>/dev/null)
-
-# 默认使用 JDK 17
-export JAVA_HOME=$JDK17_HOME
-
-# Java 版本快速切换（切换后立即打印版本号确认）
-alias jdk8='export JAVA_HOME=$JDK8_HOME && java -version'
-alias jdk11='export JAVA_HOME=$JDK11_HOME && java -version'
-alias jdk17='export JAVA_HOME=$JDK17_HOME && java -version'
-
-
-# ============================================================================
-# 11. 环境变量 - Node.js（Volta）
+# 12. 网络代理
 # ============================================================================
 
-# Volta：比 NVM 更快的 Node.js 版本管理器
-#   特点：按项目自动切换版本（读取 package.json 中的 volta 字段）
-#         不需要手动 nvm use，切换零感知
-# 安装：https://docs.volta.sh/guide/getting-started
-# [FIX] 替换硬编码路径为 $HOME
-export VOLTA_HOME="$HOME/.volta"
-
-
-# ============================================================================
-# 12. 其他编程语言（按需取消注释）
-# ============================================================================
-
-# Go
-# export GO_HOME='/usr/local/go'
-
-# Rust（通过 rustup 安装）
-export RUST_HOME="$HOME/.cargo"
-
-# Groovy
-# export GROOVY_HOME='/opt/homebrew/opt/groovy/libexec'
-
-
-# ============================================================================
-# 13. 数据库工具（按需取消注释）
-# ============================================================================
-
-# MySQL Client 8.4
-# export MYSQL_CLIENT_HOME='/opt/homebrew/opt/mysql-client@8.4'
-
-# MySQL 命令行提示符格式：username@hostname [database]>
-# export MYSQL_PS1="\u@\h [\d]> "
-
-
-# ============================================================================
-# 14. PATH 配置
-# ============================================================================
-
-# ── Homebrew ─────────────────────────────────────────────────────────────────
-export PATH="/opt/homebrew/bin:$PATH"
-export PATH="/opt/homebrew/sbin:$PATH"
-
-# ── 按需追加 PATH 的辅助函数 ─────────────────────────────────────────────────
-# [FIX] 原来把所有工具路径拼成一条长 PATH，其中引用了未定义的变量
-#       （GO_HOME、RUST_HOME 等被注释掉了，但 PATH 里仍然引用它们）
-#       未定义变量展开为空字符串，导致 PATH 里出现裸 :/bin，有安全隐患
+# ClashX / Clash Verge 本地代理。
 #
-#       改为：只在目录真实存在时才追加，避免无效路径污染 PATH
-_prepend_path() {
-  [[ -n "$1" && -d "$1" ]] && export PATH="$1:$PATH"
-}
-
-# 各工具 bin 路径（按优先级从低到高追加，后追加的优先级更高）
-_prepend_path "$MYSQL_CLIENT_HOME/bin"   # MySQL Client（如未定义则跳过）
-_prepend_path "$RUST_HOME/bin"           # Rust cargo（如未定义则跳过）
-_prepend_path "$GO_HOME/bin"             # Go（如未定义则跳过）
-_prepend_path "$JAVA_HOME/bin"           # Java（已定义）
-_prepend_path "$M2_HOME/bin"             # Maven（已定义）
-_prepend_path "$VOLTA_HOME/bin"          # Volta Node.js（已定义，优先级最高）
-
-# 清理辅助函数（避免污染 Shell 环境）
-unset -f _prepend_path
-
-# ============================================================================
-# 15. 网络代理（按需取消注释）
-# ============================================================================
-
-# ClashX / Clash Verge 本地代理（需要代理软件在后台运行）
-# 启用代理
+# 需要代理软件在后台运行。
+#
+# 启用代理：
 # alias pon='export https_proxy=http://127.0.0.1:7890 http_proxy=http://127.0.0.1:7890 all_proxy=socks5://127.0.0.1:7890'
-# 禁用代理
+#
+# 禁用代理：
 # alias poff='unset https_proxy; unset http_proxy; unset all_proxy'
 
 
 # ============================================================================
-# 16. 清理和最后的初始化
+# 13. Bun 补全
 # ============================================================================
 
-# 取消 Homebrew 镜像源设置（如果之前配置过国内镜像，换回官方源时取消此行注释）
-unset HOMEBREW_BOTTLE_DOMAIN
+# Bun 补全文件。
+#
+# BUN_INSTALL 通常在 ~/.zprofile 中定义。
+# 这里增加默认值兜底，避免某些非 login interactive shell 中变量为空。
+: "${BUN_INSTALL:=$HOME/.bun}"
 
-# Bun 配置 (已去重) 
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
-[ -s "$BUN_INSTALL/_bun" ] && source "$BUN_INSTALL/_bun"
+[[ -s "$BUN_INSTALL/_bun" ]] && source "$BUN_INSTALL/_bun"
 
-# Added by Antigravity
-export PATH="$HOME/.antigravity/antigravity/bin:$PATH"
 
-# ── zoxide ──────────────────────────────────────────────────────────────────
-# 智能目录导航，记忆访问频率，比 autojump 更快
-# 使用：z <目录关键词>（支持模糊匹配）
-#       zi <关键词>（交互式选择，结合 fzf）
-# 安装：brew install zoxide
-eval "$(zoxide init zsh)"
+# ============================================================================
+# 14. zoxide
+# ============================================================================
 
-# ── zsh-syntax-highlighting ─────────────────────────────────────────────────
-# 实时命令着色：合法命令绿色，未知命令红色，参数高亮
-# 安装：brew install zsh-syntax-highlighting
-# [FIX] zsh-syntax-highlighting 必须是最后一个加载的插件（它会 wrap ZLE widgets）
+# zoxide：智能目录导航工具。
+#
+# 用法：
+#   z <目录关键词>
+#   zi <目录关键词>
+#
+# 安装：
+#   brew install zoxide
+#
+# 加 command -v 判断，避免未安装时报错。
+command -v zoxide >/dev/null 2>&1 && eval "$(zoxide init zsh)"
+
+
+# ============================================================================
+# 15. zsh-syntax-highlighting
+# ============================================================================
+
+# zsh-syntax-highlighting：实时命令着色。
+#
+# 效果：
+#   - 合法命令高亮
+#   - 未知命令提示
+#   - 参数和路径着色
+#
+# 注意：
+#   该插件应该尽量放在 ~/.zshrc 最后加载。
+#   因为它会 wrap ZLE widgets，过早加载可能影响其他插件。
+#
+# 安装：
+#   brew install zsh-syntax-highlighting
 [[ -f /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]] && \
   source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
 
 # Kiro CLI post block. Keep at the bottom of this file.
 [[ -f "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.post.zsh" ]] && builtin source "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.post.zsh"

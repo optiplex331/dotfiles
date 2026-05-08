@@ -1,9 +1,9 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
-#增加超时时间
+# 增加模块命令超时时间，避免 Git / runtime 探测偶发超时
 command_timeout = 1000
 
-# 右侧提示符：显示命令耗时和环境变量
+# 右侧提示符：显示命令耗时和代理环境变量
 right_format = """
 $cmd_duration\
 $env_var
@@ -21,23 +21,26 @@ read_only = " 󰌾"            # 只读目录图标
 
 # ── Git ──────────────────────────────────────────────────────────────────────
 [git_branch]
-symbol = " "
+symbol = " "
 format = '[$symbol$branch(:$remote_branch)]($style) '
 
 [git_status]
 style = 'bold #82AAFF'
 format = '([\[$all_status$ahead_behind\]]($style) )'
-conflicted = '✘${count}'
+conflicted = '=${count}'
 modified = '!${count}'
 untracked = '?${count}'
 ahead = '⇡${count}'
 behind = '⇣${count}'
+diverged = '⇕⇡${ahead_count}⇣${behind_count}'
 staged = '+${count}'
 deleted = '✘${count}'
 renamed = '»${count}'
+stashed = '\$${count}'
+typechanged = '~${count}'
 
 [git_commit]
-tag_symbol = '  '
+tag_symbol = '  '
 
 # ── 时间 ─────────────────────────────────────────────────────────────────────
 [time]
@@ -48,11 +51,11 @@ disabled = true
 [env_var.all_proxy]
 variable = 'all_proxy'
 format = "[$env_value]($style) "
-default = ''                 # 未设置时显示空字符串
 style = 'bold #82AAFF'
 
 # ── 命令耗时 ──────────────────────────────────────────────────────────────────
 [cmd_duration]
+min_time = 500
 format = '[$duration]($style) '
 
 # ── 主机名（已禁用） ──────────────────────────────────────────────────────────

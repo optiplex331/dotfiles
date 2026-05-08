@@ -1,15 +1,15 @@
 approvals_reviewer = "user"
 model = "gpt-5.5"
 model_reasoning_effort = "high"
-notify = ["/usr/bin/env", "node", "/Users/$(whoami)/.tokentracker/bin/notify.cjs"]
+notify = ["/usr/bin/env", "node", "{{HOME_DIR}}/.tokentracker/bin/notify.cjs"]
 
-[projects."/Users/$(whoami)/Projects/CodexFullSkills"]
+[projects."{{HOME_DIR}}/Projects/CodexFullSkills"]
 trust_level = "trusted"
 
-[projects."/Users/$(whoami)/Projects/Skiing"]
+[projects."{{HOME_DIR}}/Projects/Skiing"]
 trust_level = "trusted"
 
-[projects."/Users/$(whoami)/Projects/ClaudeCodeFullSkills"]
+[projects."{{HOME_DIR}}/Projects/ClaudeCodeFullSkills"]
 trust_level = "trusted"
 
 [projects."{{DOTFILES_DIR}}"]

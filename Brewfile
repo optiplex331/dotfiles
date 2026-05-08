@@ -28,6 +28,7 @@ brew "eza"
 brew "fastfetch"
 brew "jq"
 brew "ripgrep"
+brew "trash"
 brew "tree"
 
 # ── Development ───────────────────────────────────────────────────────────
@@ -41,6 +42,7 @@ brew "yt-dlp"
 
 # ── DevOps ────────────────────────────────────────────────────────────────
 brew "lazydocker"
+brew "kubectl"
 
 # ── Fonts ─────────────────────────────────────────────────────────────────
 cask "font-symbols-only-nerd-font"
