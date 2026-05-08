@@ -9,6 +9,7 @@ BACKUP_DIR="$HOME/.dotfiles_backup/$(date +%Y%m%d_%H%M%S)"
 
 log()  { printf '\033[0;32m[restore]\033[0m %s\n' "$*"; }
 warn() { printf '\033[0;33m[restore]\033[0m %s\n' "$*"; }
+die()  { printf '\033[0;31m[restore]\033[0m %s\n' "$*" >&2; exit 1; }
 
 backup_existing() {
   local dst="$1"
@@ -25,13 +26,17 @@ link() {
   local dst="$HOME/$2"
   local dir; dir="$(dirname "$dst")"
 
+  [ -e "$src" ] || die "missing source: $src"
+
   mkdir -p "$dir"
 
-  if [ -e "$dst" ] && [ ! -L "$dst" ]; then
+  if [ -L "$dst" ]; then
+    rm -f "$dst"
+  elif [ -e "$dst" ]; then
     backup_existing "$dst"
   fi
 
-  ln -sfn "$src" "$dst"
+  ln -s "$src" "$dst"
   log "linked: $dst"
 }
 
@@ -45,29 +50,35 @@ unlink_obsolete() {
 }
 
 # Render helper: replace explicit template placeholders before installing.
-render_codex_config() {
+render_template() {
   local src="$DOTFILES/$1"
   local dst="$HOME/$2"
   local dir tmp
   dir="$(dirname "$dst")"
 
+  [ -f "$src" ] || die "missing template: $src"
+
   mkdir -p "$dir"
   tmp="$(mktemp "${TMPDIR:-/tmp}/dotfiles-render.XXXXXX")"
 
-  if ! DOTFILES_FOR_TEMPLATE="$DOTFILES" awk '
+  if ! DOTFILES_FOR_TEMPLATE="$DOTFILES" HOME_FOR_TEMPLATE="$HOME" awk '
     BEGIN {
       dotfiles = ENVIRON["DOTFILES_FOR_TEMPLATE"]
-      placeholder = "{{DOTFILES_DIR}}"
+      home = ENVIRON["HOME_FOR_TEMPLATE"]
+      found_dotfiles = 0
     }
     {
-      while ((idx = index($0, placeholder)) > 0) {
-        $0 = substr($0, 1, idx - 1) dotfiles substr($0, idx + length(placeholder))
-        found = 1
+      while ((idx = index($0, "{{DOTFILES_DIR}}")) > 0) {
+        $0 = substr($0, 1, idx - 1) dotfiles substr($0, idx + length("{{DOTFILES_DIR}}"))
+        found_dotfiles = 1
+      }
+      while ((idx = index($0, "{{HOME_DIR}}")) > 0) {
+        $0 = substr($0, 1, idx - 1) home substr($0, idx + length("{{HOME_DIR}}"))
       }
       print
     }
     END {
-      if (!found) {
+      if (!found_dotfiles) {
         print "restore: codex config template is missing {{DOTFILES_DIR}}" > "/dev/stderr"
         exit 1
       }
@@ -94,6 +105,7 @@ render_codex_config() {
 }
 
 # ── Shell ──────────────────────────────────────────────────────────────────
+link zsh/.zprofile      .zprofile
 link zsh/.zshrc         .zshrc
 
 # ── Editors ───────────────────────────────────────────────────────────────
@@ -127,9 +139,15 @@ link vscode/settings.json    "Library/Application Support/Code/User/settings.jso
 # ── Claude Code ───────────────────────────────────────────────────────────
 link claude/statusline.sh .claude/statusline.sh
 link claude/CLAUDE.md .claude/CLAUDE.md
+unlink_obsolete .claude/agents
+unlink_obsolete .claude/rules
 
 # ── Codex ─────────────────────────────────────────────────────────────────
-render_codex_config codex/config.toml .codex/config.toml
+unlink_obsolete .Codex/statusline.sh
+unlink_obsolete .Codex/AGENTS.md
+unlink_obsolete .codex/agents
+unlink_obsolete .codex/rules
+render_template codex/config.toml .codex/config.toml
 link claude/CLAUDE.md .codex/AGENTS.md
 
 log "Done."
