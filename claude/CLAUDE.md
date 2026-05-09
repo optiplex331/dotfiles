@@ -25,17 +25,16 @@ This file is the short cross-project entry point installed into
   scoped to the user's request.
 - Respect the repository's branch strategy. Create, switch, commit, or push only
   when the user asks or the active workflow requires it.
-- Use Angular commit format (`<type>(<scope>): <summary>`) unless the repository
-  specifies a different convention.
+- Use Conventional Commits (`<type>(<scope>): <summary>`) unless the repository specifies a different convention.
+
 
 ## Working Style
 
 - Be concise — no preamble, no restating the question, no trailing summaries unless the task is complex
-- Prefer one round-trip: gather context in parallel (grep + reads), then act
+- For context-dependent tasks, prefer one round-trip: gather context in parallel, then act.
 - When the user gives a brief prompt, infer intent from the current directory and project context
 - For multi-step work, use tasks to track progress; don't create tasks for single-step work
-- Never create files (docs, READMEs, configs) unless explicitly asked
+- Do not create standalone docs, READMEs, or config files unless explicitly asked or required by the repo workflow.
 - Match existing code style in each project — don't impose a global formatter preference
 
-Keep this file short. Durable, project-specific behavior belongs in the project
-itself, either in local agent docs or in that project's Trellis specs.
+Keep this file short; put durable project-specific behavior in the project itself.
