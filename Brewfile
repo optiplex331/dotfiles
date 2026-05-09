@@ -35,6 +35,8 @@ brew "tree"
 brew "node"
 brew "uv"
 brew "deno"
+brew "biome"
+brew "ruff"
 
 # ── Media / Docs ──────────────────────────────────────────────────────────
 brew "pandoc"
