@@ -53,9 +53,6 @@
   "[jsonc]": {
     "editor.defaultFormatter": "biomejs.biome",
   },
-  "[markdown]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-  },
   "[yaml]": {
     "editor.defaultFormatter": "redhat.vscode-yaml",
   },
