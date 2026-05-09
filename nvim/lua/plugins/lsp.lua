@@ -4,6 +4,8 @@ return {
     "neovim/nvim-lspconfig",
     opts = {
       servers = {
+        biome = {},
+        ruff = {},
         ["*"] = {
           inlay_hints = {
             enabled = true,

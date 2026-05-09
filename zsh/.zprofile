@@ -1,3 +1,7 @@
+
+# Kiro CLI pre block. Keep at the top of this file.
+[[ -f "${HOME}/Library/Application Support/kiro-cli/shell/zprofile.pre.zsh" ]] && builtin source "${HOME}/Library/Application Support/kiro-cli/shell/zprofile.pre.zsh"
+
 # ============================================================================
 # ~/.zprofile - Zsh Login Shell 环境配置文件
 # 最后更新: 2026-05
@@ -158,3 +162,7 @@ export PATH
 # 如果之前配置过国内 Homebrew bottle 镜像源，
 # 取消该变量可以恢复使用官方源。
 unset HOMEBREW_BOTTLE_DOMAIN
+
+
+# Kiro CLI post block. Keep at the bottom of this file.
+[[ -f "${HOME}/Library/Application Support/kiro-cli/shell/zprofile.post.zsh" ]] && builtin source "${HOME}/Library/Application Support/kiro-cli/shell/zprofile.post.zsh"
