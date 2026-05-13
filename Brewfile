@@ -33,6 +33,7 @@ brew "tree"
 
 # ── Development ───────────────────────────────────────────────────────────
 brew "node"
+brew "pnpm"
 brew "uv"
 brew "deno"
 brew "biome"
