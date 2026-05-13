@@ -75,9 +75,6 @@ export VISUAL='code --wait'
 # 4. 语言和工具环境变量
 # ============================================================================
 
-# Rust：通过 rustup 安装时，默认目录为 ~/.cargo。
-export RUST_HOME="$HOME/.cargo"
-
 # Maven：独立安装，不依赖 Homebrew 的 OpenJDK formula。
 export M2_HOME="$HOME/Library/Maven/apache-maven-3.9.15"
 
@@ -142,7 +139,6 @@ _prepend_path "${MYSQL_CLIENT_HOME:+$MYSQL_CLIENT_HOME/bin}"
 _prepend_path "${JAVA_HOME:+$JAVA_HOME/bin}"
 _prepend_path "${M2_HOME:+$M2_HOME/bin}"
 _prepend_path "${GRADLE_HOME:+$GRADLE_HOME/bin}"
-_prepend_path "${RUST_HOME:+$RUST_HOME/bin}"
 _prepend_path "${GO_HOME:+$GO_HOME/bin}"
 
 # uv（Python 版本 + 包管理）。
@@ -150,9 +146,6 @@ _prepend_path "$HOME/.local/bin"
 
 # Antigravity CLI。
 _prepend_path "$HOME/.antigravity/antigravity/bin"
-
-# Rust cargo 环境（包含 cargo bin 路径）。
-[[ -f "$HOME/.cargo/env" ]] && . "$HOME/.cargo/env"
 
 # 清理辅助函数，避免污染 shell 环境。
 unset -f _prepend_path

@@ -1,3 +1,6 @@
 [user]
 	name = Qinhuihao Zeng
 	email = 67191689+optiplex331@users.noreply.github.com
+
+[core]
+	excludesfile = ~/.config/git/ignore
