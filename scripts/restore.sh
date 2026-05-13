@@ -105,7 +105,7 @@ render_template() {
 }
 
 # ── Shell ──────────────────────────────────────────────────────────────────
-link zsh/.zprofile      .zprofile
+unlink_obsolete .zprofile
 link zsh/.zshrc         .zshrc
 
 # ── Editors ───────────────────────────────────────────────────────────────
