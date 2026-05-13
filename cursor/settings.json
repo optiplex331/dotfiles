@@ -174,36 +174,6 @@
   "update.releaseTrack": "prerelease",
 
   // ============================================================
-  // Code Runner
-  // ============================================================
-
-  "code-runner.runInTerminal": true,
-  "code-runner.saveFileBeforeRun": true,
-  "code-runner.clearPreviousOutput": true,
-
-  "code-runner.executorMap": {
-    "javascript": "node",
-    "typescript": "ts-node",
-    "python": "python3 -u",
-    "c": "cd $dir && gcc $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
-    "cpp": "cd $dir && g++ $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
-    "go": "go run",
-    "rust": "cd $dir && rustc $fileName && $dir$fileNameWithoutExt",
-    "swift": "swift",
-    "ruby": "ruby",
-    "lua": "lua",
-    "r": "Rscript",
-    "julia": "julia",
-    "shellscript": "bash",
-    "dart": "dart",
-    "scala": "scala",
-    "php": "php",
-    "perl": "perl",
-    "haskell": "runhaskell",
-    "applescript": "osascript",
-  },
-
-  // ============================================================
   // 其他
   // ============================================================
 
