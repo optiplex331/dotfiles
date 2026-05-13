@@ -71,7 +71,6 @@
   "workbench.activityBar.orientation": "vertical",
   "workbench.editor.empty.hint": "hidden",
   "window.zoomLevel": 1,
-  "window.newWindowProfile": "默认",
   "window.commandCenter": true,
   // ============================================================
   // 文件管理器 & 文件关联
@@ -89,9 +88,6 @@
   // 终端
   // ============================================================
   "terminal.integrated.inheritEnv": false,
-  "terminal.integrated.commandsToSkipShell": [
-    "language-julia.interrupt"
-  ],
   "terminal.integrated.env.osx": {
     "Q_NEW_SESSION": "1",
   },
@@ -114,20 +110,11 @@
   },
   "markdown.extension.toc.updateOnSave": true,
   "markdown.extension.tableFormatter.enabled": true,
-  // ============================================================
-  // Live Preview / Live Server
-  // ============================================================
-  "livePreview.notifyOnOpenLooseFile": false,
-  "liveServer.settings.donotShowInfoMsg": true,
-  "liveServer.settings.donotVerifyTags": true,
-  // ============================================================
-  // Git / GitLens
+  // Git
   // ============================================================
   "git.confirmSync": false,
   "git.enableSmartCommit": true,
   "git.autofetch": true,
-  "gitlens.ai.model": "vscode",
-  "gitlens.ai.vscode.model": "copilot:gpt-5.3-codex",
   // ============================================================
   // Chat & AI 助手
   // ============================================================
@@ -144,7 +131,6 @@
   // ============================================================
   // 其他
   // ============================================================
-  "lean4.alwaysAskBeforeInstallingLeanVersions": true,
   "notebook.multiCursor.enabled": true,
   "workbench.tree.indent": 15,
   "workbench.tree.renderIndentGuides": "always",
@@ -170,7 +156,8 @@
   "[markdown]": {
     "editor.defaultFormatter": "yzhang.markdown-all-in-one"
   },
-  "workbench.iconTheme": "symbols",
-  "workbench.colorTheme": "One Dark Pro",
   "github.copilot.nextEditSuggestions.eagerness": "auto",
+  "workbench.colorTheme": "One Dark Pro Flat",
+  "workbench.iconTheme": "symbols",
+  "workbench.secondarySideBar.defaultVisibility": "visible"
 }
