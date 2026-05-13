@@ -61,7 +61,7 @@ bash ~/Projects/dotfiles/scripts/restore.sh
 
 ### Shell (Zsh)
 
-- **职责拆分**: `.zprofile` 管 login 环境、PATH、语言运行时；`.zshrc` 管补全、prompt、alias、交互函数
+- **统一配置**: 所有 shell 配置（环境变量、PATH、补全、prompt、alias）统一在 `.zshrc` 管理
 - **提示符**: Starship（自定义 git 状态、云环境、50+ 语言模块）
 - **高亮**: zsh-syntax-highlighting（实时命令着色）
 - **导航**: zoxide（智能 `cd`，学习常用目录）
@@ -346,7 +346,6 @@ bash ~/Projects/dotfiles/scripts/restore.sh
 │   ├── keymap.toml
 │   └── theme.toml
 ├── zsh/                    # Zsh Shell 配置
-│   ├── .zprofile
 │   └── .zshrc
 └── Brewfile                # Homebrew 软件清单
 ```

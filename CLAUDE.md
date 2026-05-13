@@ -39,7 +39,6 @@ brew update && brew upgrade && brew cleanup --prune=all
 
 | Repo path | Symlinked to |
 |-----------|-------------|
-| `zsh/.zprofile` | `~/.zprofile` |
 | `zsh/.zshrc` | `~/.zshrc` |
 | `vim/vimrc` | `~/.vimrc` |
 | `nvim/` | `~/.config/nvim` |
