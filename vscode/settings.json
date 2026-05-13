@@ -2,15 +2,12 @@
   // ============================================================
   // 编辑器 · 基础体验
   // ============================================================
-
   "editor.tabCompletion": "on",
   "workbench.startupEditor": "none",
-
   "editor.fontSize": 15,
   "editor.lineHeight": 24,
   "editor.fontFamily": "JetBrains Mono, Monaco, monospace",
   "editor.fontLigatures": false,
-
   "editor.wordWrap": "on",
   "editor.lineNumbers": "relative",
   "editor.cursorBlinking": "phase",
@@ -19,14 +16,11 @@
   "editor.linkedEditing": true,
   "editor.accessibilitySupport": "off",
   "editor.largeFileOptimizations": true,
-
   "javascript.suggest.paths": false,
   "typescript.suggest.paths": false,
-
   // ============================================================
   // 保存 & 格式化
   // ============================================================
-
   "files.autoSave": "onFocusChange",
   "files.autoSaveDelay": 500,
   "editor.formatOnSave": true,
@@ -34,7 +28,6 @@
     "source.fixAll.biome": "explicit",
     "source.organizeImports.biome": "explicit",
   },
-
   "[javascript]": {
     "editor.defaultFormatter": "biomejs.biome",
   },
@@ -51,7 +44,7 @@
     "editor.defaultFormatter": "biomejs.biome",
   },
   "[jsonc]": {
-    "editor.defaultFormatter": "biomejs.biome",
+    "editor.defaultFormatter": "vscode.json-language-features",
   },
   "[yaml]": {
     "editor.defaultFormatter": "redhat.vscode-yaml",
@@ -75,194 +68,89 @@
       "strings": true,
     },
   },
-
-  // ============================================================
-  // 主题 & 图标
-  // ============================================================
-
-  "workbench.colorTheme": "IntelliJ Neo Dark",
-  "workbench.iconTheme": "material-icon-theme",
   "workbench.activityBar.orientation": "vertical",
   "workbench.editor.empty.hint": "hidden",
-  "workbench.tree.indent": 20,
   "window.zoomLevel": 1,
   "window.newWindowProfile": "默认",
   "window.commandCenter": true,
-
   // ============================================================
   // 文件管理器 & 文件关联
   // ============================================================
-
   "explorer.confirmDragAndDrop": false,
   "explorer.confirmDelete": false,
-
   "workbench.editorAssociations": {
-    "*.ipynb": "jupyter.notebook.ipynb",
     "*.drawio": "hediet.vscode-drawio",
     "*.dio": "hediet.vscode-drawio",
     "*.drawio.svg": "hediet.vscode-drawio",
-    "*.drawio.png": "hediet.vscode-drawio",
+    "*.drawio.png": "hediet.vscode-drawio"
   },
-
-  "security.workspace.trust.untrustedFiles": "prompt",
-
+  "security.workspace.trust.untrustedFiles": "open",
   // ============================================================
   // 终端
   // ============================================================
-
   "terminal.integrated.inheritEnv": false,
-  "terminal.integrated.commandsToSkipShell": ["language-julia.interrupt"],
+  "terminal.integrated.commandsToSkipShell": [
+    "language-julia.interrupt"
+  ],
   "terminal.integrated.env.osx": {
     "Q_NEW_SESSION": "1",
   },
   "terminal.external.osxExec": "Ghostty.app",
   "terminal.integrated.fontFamily": "Maple Mono Normal NF CN, monospace",
   "terminal.integrated.fontSize": 14,
-
   // ============================================================
   // Python / Pyrefly
   // ============================================================
-
   "python.defaultInterpreterPath": "/opt/homebrew/bin/python3",
   "python.languageServer": "None",
   "python.analysis.typeCheckingMode": "off",
   "python.pyrefly.displayTypeErrors": "force-on",
-
   // ============================================================
   // Markdown
   // ============================================================
-
   "markdown.preview.lineHeight": 0.9,
   "markdown.copyFiles.destination": {
     "**/*": "${documentDirName}/",
   },
   "markdown.extension.toc.updateOnSave": true,
   "markdown.extension.tableFormatter.enabled": true,
-
   // ============================================================
   // Live Preview / Live Server
   // ============================================================
-
   "livePreview.notifyOnOpenLooseFile": false,
   "liveServer.settings.donotShowInfoMsg": true,
   "liveServer.settings.donotVerifyTags": true,
-
   // ============================================================
   // Git / GitLens
   // ============================================================
-
   "git.confirmSync": false,
   "git.enableSmartCommit": true,
   "git.autofetch": true,
   "gitlens.ai.model": "vscode",
   "gitlens.ai.vscode.model": "copilot:gpt-5.3-codex",
-
   // ============================================================
   // Chat & AI 助手
   // ============================================================
-
   "chat.tips.enabled": false,
   "chat.viewSessions.orientation": "stacked",
   "claudeCode.preferredLocation": "panel",
   "claudeCode.allowDangerouslySkipPermissions": true,
-
   // ============================================================
   // 隐私 & 更新
   // ============================================================
-
   "telemetry.telemetryLevel": "off",
   "redhat.telemetry.enabled": false,
   "update.showReleaseNotes": false,
-
-  // ============================================================
-  // Code Runner
-  // ============================================================
-
-  "code-runner.runInTerminal": true,
-  "code-runner.saveFileBeforeRun": true,
-  "code-runner.clearPreviousOutput": true,
-
-  "code-runner.executorMap": {
-    "javascript": "node",
-    "typescript": "ts-node",
-    "python": "python3 -u",
-    "c": "cd $dir && gcc $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
-    "cpp": "cd $dir && g++ $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
-    "go": "go run",
-    "rust": "cd $dir && rustc $fileName && $dir$fileNameWithoutExt",
-    "swift": "swift",
-    "ruby": "ruby",
-    "lua": "lua",
-    "r": "Rscript",
-    "julia": "julia",
-    "shellscript": "bash",
-    "dart": "dart",
-    "scala": "scala",
-    "php": "php",
-    "perl": "perl",
-    "haskell": "runhaskell",
-    "applescript": "osascript",
-  },
-
   // ============================================================
   // 其他
   // ============================================================
-
   "lean4.alwaysAskBeforeInstallingLeanVersions": true,
   "notebook.multiCursor.enabled": true,
-
   "workbench.tree.indent": 15,
   "workbench.tree.renderIndentGuides": "always",
   "workbench.colorCustomizations": {
     "tree.indentGuidesStroke": "#05ef3c",
   },
-
-  // ============================================================
-  // 拼写检查
-  // ============================================================
-
-  "cSpell.userWords": [
-    "addnumbers",
-    "ADMINPASSWORD",
-    "ADMINUSERNAME",
-    "agentchat",
-    "alertmanager",
-    "autogen",
-    "blockinfile",
-    "bootcamp",
-    "boto",
-    "clusterrole",
-    "clusterrolebinding",
-    "cursorignore",
-    "cursorrules",
-    "dotenv",
-    "ehthumbs",
-    "hostnames",
-    "INITDB",
-    "kubeconfig",
-    "lineinfile",
-    "mkdocs",
-    "mkdocstrings",
-    "mosquitto",
-    "myapp",
-    "mypy",
-    "nanajanashia",
-    "ndarray",
-    "ntlp",
-    "pycache",
-    "pydocstyle",
-    "pyproject",
-    "Qdrant",
-    "serviceaccount",
-    "sonatype",
-    "sshagent",
-    "tfstate",
-    "usermod",
-    "venv",
-    "webservers",
-    "zengqhh",
-    "zqhh",
-  ],
   "json.schemaDownload.trustedDomains": {
     "https://schemastore.azurewebsites.net/": true,
     "https://raw.githubusercontent.com/microsoft/vscode/": true,
@@ -273,4 +161,16 @@
     "https://developer.microsoft.com/json-schemas/": true,
     "https://biomejs.dev": true,
   },
+  "github.copilot.enable": {
+    "*": true,
+    "plaintext": false,
+    "markdown": true,
+    "scminput": false
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "yzhang.markdown-all-in-one"
+  },
+  "workbench.iconTheme": "symbols",
+  "workbench.colorTheme": "One Dark Pro",
+  "github.copilot.nextEditSuggestions.eagerness": "auto",
 }
