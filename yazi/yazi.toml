@@ -3,8 +3,9 @@
 # ║                  Yazi 是一个高性能的终端文件管理器                        ║
 # ║                   JSON Schema: https://yazi-rs.github.io/schemas/yazi.json ║
 # ╚═══════════════════════════════════════════════════════════════════════════╝
-
-"$schema" = "https://yazi-rs.github.io/schemas/yazi.json"
+#
+# Do not add a "$schema" key here: current Yazi validates config keys strictly
+# and rejects non-kebab-case keys before loading the preset settings.
 
 # ═══════════════════════════════════════════════════════════════════════════
 #                          📂 [MANAGER] - 文件管理器配置
@@ -215,7 +216,7 @@ rules = [
     # ─────────────────────────────────────────────────────────────────────
     # 文件夹 - 三种打开方式可选
     # ─────────────────────────────────────────────────────────────────────
-    { name = "*/", use = [ "edit", "open", "reveal" ] },
+    { url = "*/", use = [ "edit", "open", "reveal" ] },
     
     # ─────────────────────────────────────────────────────────────────────
     # 文本文件 - 用编辑器编辑
@@ -251,7 +252,7 @@ rules = [
     # ─────────────────────────────────────────────────────────────────────
     # 其他文件 - 默认打开
     # ─────────────────────────────────────────────────────────────────────
-    { name = "*", use = [ "open", "reveal" ] },
+    { url = "*", use = [ "open", "reveal" ] },
 ]
 
 
@@ -313,7 +314,9 @@ suppress_preload = false
 
 fetchers = [
     # 用 mime 插件检测文件类型
-    { id = "mime", name = "*", run = "mime", if = "!mime", prio = "high" },
+    { url = "*/", run = "mime.dir", prio = "high", group = "mime" },
+    { url = "local://*", run = "mime.local", prio = "high", group = "mime" },
+    { url = "remote://*", run = "mime.remote", prio = "high", group = "mime" },
 ]
 
 # ─────────────────────────────────────────────────────────────────────────
@@ -322,7 +325,7 @@ fetchers = [
 
 spotters = [
     # 文件夹快速预览
-    { name = "*/", run = "folder" },
+    { url = "*/", run = "folder" },
     # 代码文件高亮预览
     { mime = "text/*", run = "code" },
     { mime = "*/{xml,javascript,wine-extension-ini}", run = "code" },
@@ -332,7 +335,7 @@ spotters = [
     # 视频缩略图
     { mime = "video/*", run = "video" },
     # 其他文件类型预览
-    { name = "*", run = "file" },
+    { url = "*", run = "file" },
 ]
 
 # ─────────────────────────────────────────────────────────────────────────
@@ -358,7 +361,7 @@ preloaders = [
 
 previewers = [
     # 文件夹内容预览
-    { name = "*/", run = "folder", sync = true },
+    { url = "*/", run = "folder" },
     
     # 代码文件语法高亮
     { mime = "text/*", run = "code" },
@@ -380,12 +383,12 @@ previewers = [
     # 压缩包内容预览
     { mime = "application/{zip,rar,7z*,tar,gzip,xz,zstd,bzip*,lzma,compress,archive,cpio,arj,xar,ms-cab*}", run = "archive" },
     { mime = "application/{debian*-package,redhat-package-manager,rpm,android.package-archive}", run = "archive" },
-    { name = "*.{AppImage,appimage}", run = "archive" },
+    { url = "*.{AppImage,appimage}", run = "archive" },
     
     # 虚拟磁盘/磁盘镜像
     { mime = "application/{iso9660-image,qemu-disk,ms-wim,apple-diskimage}", run = "archive" },
     { mime = "application/virtualbox-{vhd,vhdx}", run = "archive" },
-    { name = "*.{img,fat,ext,ext2,ext3,ext4,squashfs,ntfs,hfs,hfsx}", run = "archive" },
+    { url = "*.{img,fat,ext,ext2,ext3,ext4,squashfs,ntfs,hfs,hfsx}", run = "archive" },
     
     # 字体预览
     { mime = "font/*", run = "font" },
@@ -395,7 +398,7 @@ previewers = [
     { mime = "inode/empty", run = "empty" },
     
     # 其他文件的通用预览
-    { name = "*", run = "file" },
+    { url = "*", run = "file" },
 ]
 
 

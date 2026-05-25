@@ -65,10 +65,11 @@ bash ~/Projects/dotfiles/scripts/restore.sh
 - **提示符**: Starship（自定义 git 状态、云环境、50+ 语言模块）
 - **高亮**: zsh-syntax-highlighting（实时命令着色）
 - **导航**: zoxide（智能 `cd`，学习常用目录）
-- **模糊查找**: fzf（`Ctrl+R` 历史搜索、`Ctrl+T` 文件搜索）
+- **模糊查找**: fzf（真实 TTY 中通过 `fzf --zsh` 初始化；`Ctrl+R` 历史搜索、`Ctrl+T` 文件搜索、`Alt+C` 目录跳转）
 - **文件列表**: eza 替代 ls（图标 + 超链接）
 - **安全删除**: trash 优先，缺失时回退到 `rm -i`
 - **Python**: uv（统一的版本 + 包 + 环境管理）
+- **JSON**: Homebrew `jq` 优先于系统 `/usr/bin/jq`
 - **Node.js**: Volta（版本管理）
 
 #### 常用别名
@@ -222,6 +223,7 @@ bash ~/Projects/dotfiles/scripts/restore.sh
 
 ### Yazi
 
+- **配置兼容**: 不在 Yazi TOML 配置里写入 `$schema` key；当前 Yazi 会严格校验配置 key，并要求打开/预览/主题规则使用新版 `url` / `mime` 匹配字段
 - **布局**: 三栏比例 1:4:4
 - **排序**: 字母序，目录优先
 - **显示**: 隐藏文件默认关闭，显示软链接目标
@@ -243,6 +245,8 @@ bash ~/Projects/dotfiles/scripts/restore.sh
 
 - **配置文件**: `~/.codex/config.toml`
 - **管理方式**: 仓库内 `codex/config.toml` 保存 Codex 配置模板；`scripts/restore.sh` 会渲染 `{{DOTFILES_DIR}}` 和 `{{HOME_DIR}}` 占位符
+- **路径约定**: 机器相关的 home 目录路径使用 `{{HOME_DIR}}`，dotfiles 仓库路径使用 `{{DOTFILES_DIR}}`，避免把本机绝对路径固化到模板
+- **内容范围**: 模板包含 model、通知、trusted projects、桌面偏好、插件、marketplace、MCP 和 feature flag 配置
 
 ---
 

@@ -3,8 +3,9 @@
 # ║                  控制 Yazi 的颜色、样式和视觉外观                        ║
 # ║             JSON Schema: https://yazi-rs.github.io/schemas/theme.json    ║
 # ╚═══════════════════════════════════════════════════════════════════════════╝
-
-"$schema" = "https://yazi-rs.github.io/schemas/theme.json"
+#
+# Keep schema URLs in comments only: Yazi validates config keys strictly before
+# loading presets and rejects "$schema" as a non-kebab-case key.
 
 # vim:fileencoding=utf-8:foldmethod=marker
 
@@ -87,9 +88,6 @@ tab_active = { reversed = true }
 
 # 非活跃标签页（其他标签）
 tab_inactive = {}
-
-# 标签页宽度（字符数）
-tab_width = 1
 
 # ─────────────────────────────────────────────────────────────────────────
 # 操作计数样式（显示复制/剪切/选中的文件数量）
@@ -333,20 +331,20 @@ rules = [
     # ─────────────────────────────────────────────────────────────────────
     
     # 孤立文件（损坏的符号链接）：红色背景
-    { name = "*", is = "orphan", bg = "red" },
+    { url = "*", is = "orphan", bg = "red" },
     
     # 可执行文件：绿色
-    { name = "*", is = "exec", fg = "green" },
+    { url = "*", is = "exec", fg = "green" },
 
     # 虚拟文件：红色背景
-    { name = "*", is = "dummy", bg = "red" },
-    { name = "*/", is = "dummy", bg = "red" },
+    { url = "*", is = "dummy", bg = "red" },
+    { url = "*/", is = "dummy", bg = "red" },
 
     # ─────────────────────────────────────────────────────────────────────
     # 文件夹：蓝色（默认）
     # ─────────────────────────────────────────────────────────────────────
     
-    { name = "*/", fg = "blue" }
+    { url = "*/", fg = "blue" }
 ]
 
 
