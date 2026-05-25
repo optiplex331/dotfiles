@@ -70,6 +70,8 @@ export LC_ALL=en_US.UTF-8
 export EDITOR='code --wait'
 export VISUAL='code --wait'
 
+# bat：语法高亮的 cat 替代品。
+export BAT_THEME='Catppuccin Mocha'
 
 # ============================================================================
 # 4. 语言和工具环境变量
@@ -320,7 +322,17 @@ setopt HIST_VERIFY
 #
 # 安装：
 #   brew install fzf
-[[ -f "$HOME/.fzf.zsh" ]] && source "$HOME/.fzf.zsh"
+#
+# Homebrew 的 fzf 不一定生成 ~/.fzf.zsh；直接使用 fzf 自带的 zsh
+# 集成可以稳定启用 Ctrl+R / Ctrl+T / Alt+C。
+export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_ALT_C_COMMAND='fd --type d --hidden --follow --exclude .git'
+export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
+
+if command -v fzf >/dev/null 2>&1 && [[ -t 0 && -t 1 ]]; then
+  source <(fzf --zsh)
+fi
 
 
 # ── Yazi ────────────────────────────────────────────────────────────────────
@@ -365,6 +377,14 @@ alias v='nvim'
 
 # 清屏。
 alias c='clear'
+
+# bat：cat 替代品，支持语法高亮、行号、Git diff 标记。
+#
+# 安装：
+#   brew install bat
+if command -v bat >/dev/null 2>&1; then
+  alias cat='bat --paging=never'
+fi
 
 # 文件操作安全模式。
 #

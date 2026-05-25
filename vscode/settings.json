@@ -1,163 +1,169 @@
 {
-  // ============================================================
-  // 编辑器 · 基础体验
-  // ============================================================
-  "editor.tabCompletion": "on",
-  "workbench.startupEditor": "none",
-  "editor.fontSize": 15,
-  "editor.lineHeight": 24,
-  "editor.fontFamily": "JetBrains Mono, Monaco, monospace",
-  "editor.fontLigatures": false,
-  "editor.wordWrap": "on",
-  "editor.lineNumbers": "relative",
-  "editor.cursorBlinking": "phase",
-  "editor.cursorSmoothCaretAnimation": "on",
-  "editor.minimap.enabled": false,
-  "editor.linkedEditing": true,
-  "editor.accessibilitySupport": "off",
-  "editor.largeFileOptimizations": true,
-  "javascript.suggest.paths": false,
-  "typescript.suggest.paths": false,
-  // ============================================================
-  // 保存 & 格式化
-  // ============================================================
-  "files.autoSave": "onFocusChange",
-  "files.autoSaveDelay": 500,
-  "editor.formatOnSave": true,
-  "editor.codeActionsOnSave": {
-    "source.fixAll.biome": "explicit",
-    "source.organizeImports.biome": "explicit",
-  },
-  "[javascript]": {
-    "editor.defaultFormatter": "biomejs.biome",
-  },
-  "[javascriptreact]": {
-    "editor.defaultFormatter": "biomejs.biome",
-  },
-  "[typescript]": {
-    "editor.defaultFormatter": "biomejs.biome",
-  },
-  "[typescriptreact]": {
-    "editor.defaultFormatter": "biomejs.biome",
-  },
-  "[json]": {
-    "editor.defaultFormatter": "biomejs.biome",
-  },
-  "[jsonc]": {
-    "editor.defaultFormatter": "vscode.json-language-features",
-  },
-  "[yaml]": {
-    "editor.defaultFormatter": "redhat.vscode-yaml",
-  },
-  "[python]": {
-    "editor.defaultFormatter": "charliermarsh.ruff",
-    "editor.formatOnSave": true,
-    "editor.codeActionsOnSave": {
-      "source.fixAll.ruff": "explicit",
-      "source.organizeImports.ruff": "explicit",
-    },
-  },
-  "[terraform]": {
-    "editor.defaultFormatter": "hashicorp.terraform",
-  },
-  "[terraform-vars]": {
-    "editor.defaultFormatter": "hashicorp.terraform",
-  },
-  "[dockerfile]": {
-    "editor.quickSuggestions": {
-      "strings": true,
-    },
-  },
-  "workbench.activityBar.orientation": "vertical",
-  "workbench.editor.empty.hint": "hidden",
-  "window.zoomLevel": 1,
-  "window.commandCenter": true,
-  // ============================================================
-  // 文件管理器 & 文件关联
-  // ============================================================
-  "explorer.confirmDragAndDrop": false,
-  "explorer.confirmDelete": false,
-  "workbench.editorAssociations": {
-    "*.drawio": "hediet.vscode-drawio",
-    "*.dio": "hediet.vscode-drawio",
-    "*.drawio.svg": "hediet.vscode-drawio",
-    "*.drawio.png": "hediet.vscode-drawio"
-  },
-  "security.workspace.trust.untrustedFiles": "open",
-  // ============================================================
-  // 终端
-  // ============================================================
-  "terminal.integrated.inheritEnv": false,
-  "terminal.integrated.env.osx": {
-    "Q_NEW_SESSION": "1",
-  },
-  "terminal.external.osxExec": "Ghostty.app",
-  "terminal.integrated.fontFamily": "Maple Mono Normal NF CN, monospace",
-  "terminal.integrated.fontSize": 14,
-  // ============================================================
-  // Python / Pyrefly
-  // ============================================================
-  "python.defaultInterpreterPath": "/opt/homebrew/bin/python3",
-  "python.languageServer": "None",
-  "python.analysis.typeCheckingMode": "off",
-  "python.pyrefly.displayTypeErrors": "force-on",
-  // ============================================================
-  // Markdown
-  // ============================================================
-  "markdown.preview.lineHeight": 0.9,
-  "markdown.copyFiles.destination": {
-    "**/*": "${documentDirName}/",
-  },
-  "markdown.extension.toc.updateOnSave": true,
-  "markdown.extension.tableFormatter.enabled": true,
-  // Git
-  // ============================================================
-  "git.confirmSync": false,
-  "git.enableSmartCommit": true,
-  "git.autofetch": true,
-  // ============================================================
-  // Chat & AI 助手
-  // ============================================================
-  "chat.tips.enabled": false,
-  "chat.viewSessions.orientation": "stacked",
-  "claudeCode.preferredLocation": "panel",
-  "claudeCode.allowDangerouslySkipPermissions": true,
-  // ============================================================
-  // 隐私 & 更新
-  // ============================================================
-  "telemetry.telemetryLevel": "off",
-  "redhat.telemetry.enabled": false,
-  "update.showReleaseNotes": false,
-  // ============================================================
-  // 其他
-  // ============================================================
-  "notebook.multiCursor.enabled": true,
-  "workbench.tree.indent": 15,
-  "workbench.tree.renderIndentGuides": "always",
-  "workbench.colorCustomizations": {
-    "tree.indentGuidesStroke": "#05ef3c",
-  },
-  "json.schemaDownload.trustedDomains": {
-    "https://schemastore.azurewebsites.net/": true,
-    "https://raw.githubusercontent.com/microsoft/vscode/": true,
-    "https://raw.githubusercontent.com/devcontainers/spec/": true,
-    "https://www.schemastore.org/": true,
-    "https://json.schemastore.org/": true,
-    "https://json-schema.org/": true,
-    "https://developer.microsoft.com/json-schemas/": true,
-    "https://biomejs.dev": true,
-  },
-  "github.copilot.enable": {
-    "*": true,
-    "plaintext": false,
-    "markdown": true,
-    "scminput": false
-  },
-  "[markdown]": {
-    "editor.defaultFormatter": "yzhang.markdown-all-in-one"
-  },
-  "github.copilot.nextEditSuggestions.eagerness": "auto",
-  "workbench.colorTheme": "One Dark Pro Flat",
-  "workbench.iconTheme": "symbols",
-  "workbench.secondarySideBar.defaultVisibility": "visible"
+	// ============================================================
+	// 编辑器 · 基础体验
+	// ============================================================
+	"editor.tabCompletion": "on",
+	"workbench.startupEditor": "none",
+	"editor.fontSize": 15,
+	"editor.lineHeight": 24,
+	"editor.fontFamily": "JetBrains Mono Nerd Font light, Fira Code Retina,Maple Mono Normal NF CN,Monaco, monospace",
+	"editor.fontLigatures": true,
+	"editor.wordWrap": "on",
+	"editor.lineNumbers": "on",
+	"editor.cursorBlinking": "phase",
+	"editor.cursorSmoothCaretAnimation": "on",
+	"editor.minimap.enabled": false,
+	"editor.linkedEditing": true,
+	"editor.accessibilitySupport": "off",
+	"editor.largeFileOptimizations": true,
+	// ============================================================
+	// 保存 & 格式化
+	// ============================================================
+	"files.autoSave": "onFocusChange",
+	"editor.formatOnSave": true,
+	"editor.codeActionsOnSave": {},
+	"[javascript]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[javascriptreact]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[typescript]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[typescriptreact]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[json]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[jsonc]": {
+		"editor.defaultFormatter": "vscode.json-language-features"
+	},
+	"[css]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[graphql]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[yaml]": {
+		"editor.defaultFormatter": "redhat.vscode-yaml"
+	},
+	"[python]": {
+		"editor.defaultFormatter": "charliermarsh.ruff",
+		"editor.formatOnSave": true,
+		"editor.codeActionsOnSave": {
+			"source.fixAll.ruff": "always",
+			"source.organizeImports.ruff": "always"
+		}
+	},
+	"[terraform]": {
+		"editor.defaultFormatter": "hashicorp.terraform"
+	},
+	"[terraform-vars]": {
+		"editor.defaultFormatter": "hashicorp.terraform"
+	},
+	"[dockerfile]": {
+		"editor.quickSuggestions": {
+			"strings": true
+		}
+	},
+	"workbench.editor.empty.hint": "hidden",
+	"window.commandCenter": true,
+	// ============================================================
+	// 文件管理器 & 文件关联
+	// ============================================================
+	"explorer.confirmDragAndDrop": false,
+	"explorer.confirmDelete": false,
+	"workbench.editorAssociations": {
+		"*.drawio": "hediet.vscode-drawio",
+		"*.dio": "hediet.vscode-drawio",
+		"*.drawio.svg": "hediet.vscode-drawio",
+		"*.drawio.png": "hediet.vscode-drawio"
+	},
+	"security.workspace.trust.untrustedFiles": "open",
+	// ============================================================
+	// 终端
+	// ============================================================
+	"terminal.integrated.inheritEnv": true,
+	"terminal.integrated.env.osx": {
+		"Q_NEW_SESSION": "1"
+	},
+	"terminal.external.osxExec": "Ghostty.app",
+	"terminal.integrated.fontFamily": "Maple Mono Normal NF CN, monospace",
+	"terminal.integrated.fontSize": 14,
+	"python.defaultInterpreterPath": "/opt/homebrew/bin/python3",
+	"python.languageServer": "None",
+	"python.pyrefly.typeCheckingMode": "auto",
+	// ============================================================
+	// Markdown
+	// ============================================================
+	"[markdown]": {
+		"editor.defaultFormatter": "yzhang.markdown-all-in-one",
+		"editor.formatOnSave": true,
+		"editor.wordWrap": "on"
+	},
+	"markdown.preview.lineHeight": 1.1,
+	"markdown.copyFiles.destination": {
+		"**/*": "${documentDirName}/"
+	},
+	"markdown.extension.toc.updateOnSave": true,
+	"markdown.extension.tableFormatter.enabled": true,
+	// Git
+	// ============================================================
+	"git.confirmSync": false,
+	"git.enableSmartCommit": true,
+	"git.autofetch": true,
+	// ============================================================
+	// Chat & AI 助手
+	// ============================================================
+	"chat.tips.enabled": false,
+	"chat.viewSessions.orientation": "stacked",
+	"claudeCode.preferredLocation": "panel",
+	"claudeCode.allowDangerouslySkipPermissions": true,
+	// ============================================================
+	// 隐私 & 更新
+	// ============================================================
+	"telemetry.telemetryLevel": "off",
+	"redhat.telemetry.enabled": false,
+	"update.showReleaseNotes": false,
+	// ============================================================
+	// 其他
+	// ============================================================
+	"notebook.multiCursor.enabled": true,
+	"workbench.tree.indent": 15,
+	"workbench.tree.renderIndentGuides": "always",
+	"workbench.colorCustomizations": {
+		"tree.indentGuidesStroke": "#05ef3c"
+	},
+	"json.schemaDownload.trustedDomains": {
+		"https://schemastore.azurewebsites.net/": true,
+		"https://raw.githubusercontent.com/microsoft/vscode/": true,
+		"https://raw.githubusercontent.com/devcontainers/spec/": true,
+		"https://www.schemastore.org/": true,
+		"https://json.schemastore.org/": true,
+		"https://json-schema.org/": true,
+		"https://developer.microsoft.com/json-schemas/": true,
+		"https://biomejs.dev": true
+	},
+	"github.copilot.enable": {
+		"*": true,
+		"plaintext": false,
+		"markdown": true,
+		"scminput": false
+	},
+	"github.copilot.nextEditSuggestions.eagerness": "auto",
+	"workbench.iconTheme": "symbols",
+	"workbench.secondarySideBar.defaultVisibility": "visible",
+	"gradle.nestedProjects": true,
+	"remote.SSH.connectTimeout": 120,
+	"files.associations": {
+		"**/.github/workflows/*.{yml,yaml}": "yaml",
+		"**/Taskfile.{yml,yaml}": "yaml"
+	},
+	"docker.extension.enableComposeLanguageServer": false,
+	"git.openRepositoryInParentFolders": "always",
+	"workbench.colorTheme": "One Dark Pro Night Flat",
+	"chatgpt.composerEnterBehavior": "cmdIfMultiline",
+	"chatgpt.reviewDelivery": "detached"
 }

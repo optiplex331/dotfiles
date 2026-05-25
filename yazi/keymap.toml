@@ -3,8 +3,9 @@
 # ║                        Vim 风格的快捷键绑定                               ║
 # ║              JSON Schema: https://yazi-rs.github.io/schemas/keymap.json   ║
 # ╚═══════════════════════════════════════════════════════════════════════════╝
-
-"$schema" = "https://yazi-rs.github.io/schemas/keymap.json"
+#
+# Keep schema URLs in comments only: Yazi validates config keys strictly before
+# loading presets and rejects "$schema" as a non-kebab-case key.
 
 # ═══════════════════════════════════════════════════════════════════════════
 #                      📂 [MANAGER] - 文件管理器快捷键
