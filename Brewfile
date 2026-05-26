@@ -54,7 +54,7 @@ brew "trash"
 brew "tree"
 
 # ── Development ───────────────────────────────────────────────────────────
-brew "node"
+brew "node@24"
 brew "pnpm"
 brew "uv"
 brew "deno"

@@ -70,7 +70,7 @@ bash ~/Projects/dotfiles/scripts/restore.sh
 - **安全删除**: trash 优先，缺失时回退到 `rm -i`
 - **Python**: uv（统一的版本 + 包 + 环境管理）
 - **JSON**: Homebrew `jq` 优先于系统 `/usr/bin/jq`
-- **Node.js**: Homebrew `node` + `pnpm`
+- **Node.js**: Homebrew `node@24` + `pnpm`
 
 #### 常用别名
 
