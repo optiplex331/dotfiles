@@ -4,8 +4,8 @@ This file provides guidance to agentic coding tools when working with code in th
 
 ## What this repo is
 
-Personal macOS developer environment dotfiles. All configs are symlinked into
-`$HOME` via `scripts/restore.sh`.
+Personal macOS developer environment dotfiles. Configs are symlinked or rendered
+into `$HOME` via `scripts/restore.sh`.
 
 ## Key scripts
 
