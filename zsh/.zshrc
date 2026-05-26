@@ -608,12 +608,6 @@ alias ta='tmux a -t'
 #   - 清理下载缓存
 alias brew14all='brew update && brew upgrade && brew cleanup --prune=all && command rm -rf "$(brew --cache)"/*'
 
-# 将文件引用复制到 macOS 剪贴板。
-alias cf='f(){ osascript -e "set the clipboard to (POSIX file \"$(pwd)/$1\")"; }; f'
-
-# 禁用 tldr 自动更新缓存。
-export TLDR_AUTO_UPDATE_DISABLED
-
 # Claude Code。
 alias cc='claude --dangerously-skip-permissions'
 
