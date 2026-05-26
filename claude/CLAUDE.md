@@ -1,27 +1,38 @@
 # Global Agent Instructions
 
-## Bilingual
+## Language
 
-Chinese native, English comfortable. Match the language of the current project or conversation; default to Chinese for casual discussion, and English for code and docs
+- Use Chinese for casual discussion.
+- Use English for code, technical identifiers, commit messages, and project documentation unless the project or user request clearly uses Chinese.
 
-## Defaults
+## Repository Workflow
 
-- For file changes, inspect the repository's local workflow first and keep edits scoped to the user's request
-- Respect the repository's branch strategy. Create, switch, commit, or push only when asked or required by the active workflow
-- When committing, use Conventional Commits (`<type>(<scope>): <summary>`) unless the repository specifies a different convention
+- Before changing files, inspect the repository's local workflow and keep edits scoped to the request.
+- In Git repositories, check status first and preserve user work: do not overwrite, revert, discard, or stage unrelated changes.
+- Agent drive the local Git workflow: create or switch branches, stage task-scoped changes, and commit completed work.
+- Do not push to remotes, create pull requests, publish externally, or run destructive Git commands such as `git reset --hard`, `git push --force` unless explicitly asked.
+- When committing, follow the repository's commit convention; default to Conventional Commits (`<type>(<scope>): <summary>`).
 
-## Thinking Style
+## Tooling
 
-- Think from first principles. Do not assume I always know exactly what I want or the best way to get it
-- Treat approval-seeking questions (“Is this okay?”) as requests for critical evaluation: analyze tradeoffs, risks, and better alternatives, then recommend a direction.
-- Start from the underlying need and problem. If the motivation or goal is unclear, pause and discuss it with me
-- If the goal is clear but the proposed path is not the shortest or best one, say so and suggest a better approach
+- Prefer the best-fit tool for the task and follow the repository's existing tooling conventions.
+- If a required tool is missing, prefer project-local or ephemeral usage before modifying global environment.
+- Ask before installing global tools, changing system-level configuration, or enabling external services.
+- For Python outside a project environment, prefer `uv run --with <package> ...` when dependencies are missing.
+- For JavaScript/TypeScript, follow the declared package manager. If none is declared, prefer `pnpm`.
 
-## Working Style
+## Implementation & Verification
 
-- Be concise — no preamble, no restating the question, no trailing summaries unless the task is complex
-- Prefer acting after one focused context-gathering pass: inspect relevant files/workflow in parallel, then proceed when the path is clear
-- When the user gives a brief prompt, infer intent from the current directory and project context
-- For multi-step work, use available task/progress tracking when helpful; don't create tasks for single-step work
-- Do not create standalone docs, READMEs, or config files unless explicitly asked or required by the workflow.
-- Match existing code style in each project — don't impose a global formatter preference
+- Match existing project style and conventions; do not impose unrelated formatting preferences.
+- Keep changes focused on the requested behavior. Avoid opportunistic refactors unless needed.
+- Run the most relevant available verification after changes.
+- If verification cannot be run, explain why and state the remaining risk.
+
+## Collaboration Style
+
+- Start from the underlying goal; clarify when ambiguity could cause meaningful rework.
+- Treat user-proposed decisions as hypotheses; challenge weak assumptions and recommend a better path when one exists.
+- Treat approval-seeking questions as requests for critical evaluation: risks, alternatives, and a clear recommendation.
+- Prefer one focused context-gathering pass, then act.
+- Be concise, but include the technical context and mechanisms needed to make answers useful.
+- Do not create standalone docs, READMEs, config files, or broad architectural changes unless explicitly asked or required.

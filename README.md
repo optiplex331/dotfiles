@@ -22,7 +22,7 @@
 |------|------|
 | **终端** | Ghostty（当前主力）+ Kitty（保留备用配置） |
 | **Shell** | Zsh + Starship 提示符 + zoxide |
-| **编辑器** | Neovim（基于 LazyVim）+ Cursor + VS Code |
+| **编辑器** | Neovim（基于 LazyVim）+ VS Code |
 | **复用器** | Tmux（Oh My Tmux! + 电池/主机名状态栏） |
 | **文件管理** | Yazi（终端文件管理器） |
 | **版本控制** | Git + Lazygit |
@@ -259,21 +259,6 @@ bash ~/Projects/dotfiles/scripts/restore.sh
 
 ---
 
-### Cursor
-
-- **主题**: IntelliJ Neo Dark
-- **字体**: JetBrains Mono 15pt，Monaco 兜底
-- **行号**: 相对行号（配合跳转使用）
-- **格式化**: 保存时自动格式化 + 整理 import
-  - 默认：Prettier
-  - Python：Ruff
-  - Terraform：官方插件
-- **光标**: 呼吸式闪烁，平滑移动动画
-- **外部终端**: Ghostty
-- **AI 补全**: Markdown 中关闭
-
----
-
 ### VS Code
 
 - **主题**: IntelliJ Neo Dark
@@ -300,9 +285,6 @@ bash ~/Projects/dotfiles/scripts/restore.sh
 ├── codex/                  # Codex 配置模板与兼容入口
 │   ├── AGENTS.md -> ../claude/CLAUDE.md
 │   └── config.toml
-├── cursor/                 # Cursor 编辑器配置
-│   ├── settings.json
-│   └── keybindings.json
 ├── vscode/                 # VS Code 编辑器配置
 │   └── settings.json
 ├── git/                    # Git 全局配置

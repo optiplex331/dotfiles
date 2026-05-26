@@ -51,8 +51,6 @@ brew update && brew upgrade && brew cleanup --prune=all
 | `lazygit/` | `~/.config/lazygit` |
 | `yazi/` | `~/.config/yazi` |
 | `lazydocker/config.yml` | `~/Library/Application Support/lazydocker/config.yml` |
-| `cursor/settings.json` | `~/Library/Application Support/Cursor/User/settings.json` |
-| `cursor/keybindings.json` | `~/Library/Application Support/Cursor/User/keybindings.json` |
 | `vscode/settings.json` | `~/Library/Application Support/Code/User/settings.json` |
 | `claude/statusline.sh` | `~/.claude/statusline.sh` |
 | `claude/CLAUDE.md` | `~/.claude/CLAUDE.md` |
