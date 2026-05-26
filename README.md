@@ -281,10 +281,15 @@ bash ~/Projects/dotfiles/scripts/restore.sh
 
 ```
 .
+├── AGENTS.md              # Codex / Agent 全局说明
+├── CLAUDE.md              # Claude 兼容版 Agent 说明
+├── .claude/
+│   └── settings.local.json
 ├── claude/                 # Claude Code 全局指令与 statusline
 │   ├── CLAUDE.md
 │   └── statusline.sh
 ├── codex/                  # Codex 配置模板
+│   ├── AGENTS.md           # 指向 claude/CLAUDE.md 的软链接
 │   └── config.toml
 ├── vscode/                 # VS Code 编辑器配置
 │   └── settings.json
@@ -300,6 +305,7 @@ bash ~/Projects/dotfiles/scripts/restore.sh
 ├── lazygit/                # Lazygit Git TUI
 │   └── config.yml
 ├── nvim/                   # Neovim 配置 (LazyVim)
+│   ├── .neoconf.json
 │   ├── init.lua
 │   ├── lazyvim.json
 │   └── lua/
