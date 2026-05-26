@@ -70,7 +70,7 @@ bash ~/Projects/dotfiles/scripts/restore.sh
 - **安全删除**: trash 优先，缺失时回退到 `rm -i`
 - **Python**: uv（统一的版本 + 包 + 环境管理）
 - **JSON**: Homebrew `jq` 优先于系统 `/usr/bin/jq`
-- **Node.js**: Volta（版本管理）
+- **Node.js**: Homebrew `node` + `pnpm`
 
 #### 常用别名
 
@@ -236,7 +236,7 @@ bash ~/Projects/dotfiles/scripts/restore.sh
 
 ### Git
 
-- **用户**: `Qinhuihao Zeng <optiplex331@gmail.com>`
+- **用户**: `Qinhuihao Zeng <67191689+optiplex331@users.noreply.github.com>`
 - **全局 ignore**: `.claude/settings.local.json`
 
 ---
@@ -261,17 +261,19 @@ bash ~/Projects/dotfiles/scripts/restore.sh
 
 ### VS Code
 
-- **主题**: IntelliJ Neo Dark
-- **图标**: Material Icon Theme
+- **主题**: One Dark Pro Night Flat
+- **图标**: Symbols
 - **字号**: 15pt，行高 1.6
 - **Minimap**: 关闭
 - **格式化**: 保存时自动格式化
-  - 默认：Prettier
-  - Python：YAPF
+  - JavaScript / TypeScript / JSON / CSS / GraphQL：Biome
+  - Python：Ruff
+  - YAML：Red Hat YAML
+  - Terraform：官方插件
 - **自动保存**: 失去焦点时保存
 - **终端**: 继承父进程环境变量
-- **Code Runner**: 配置 20+ 语言的一键运行命令
-- **遥测**: 全部关闭（VS Code / Red Hat / Julia 扩展）
+- **AI 助手**: Claude Code 面板位置与权限偏好
+- **遥测**: 关闭 VS Code / Red Hat 扩展遥测
 
 ---
 
@@ -282,8 +284,7 @@ bash ~/Projects/dotfiles/scripts/restore.sh
 ├── claude/                 # Claude Code 全局指令与 statusline
 │   ├── CLAUDE.md
 │   └── statusline.sh
-├── codex/                  # Codex 配置模板与兼容入口
-│   ├── AGENTS.md -> ../claude/CLAUDE.md
+├── codex/                  # Codex 配置模板
 │   └── config.toml
 ├── vscode/                 # VS Code 编辑器配置
 │   └── settings.json
