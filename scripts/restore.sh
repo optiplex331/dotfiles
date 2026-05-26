@@ -13,7 +13,7 @@ die()  { printf '\033[0;31m[restore]\033[0m %s\n' "$*" >&2; exit 1; }
 
 backup_existing() {
   local dst="$1"
-  local backup="$BACKUP_DIR/${dst#$HOME/}"
+  local backup="$BACKUP_DIR/${dst#"$HOME"/}"
 
   mkdir -p "$(dirname "$backup")"
   warn "Backing up: $dst -> $backup"
