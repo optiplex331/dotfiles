@@ -129,9 +129,9 @@ link lazygit           .config/lazygit
 link yazi              .config/yazi
 link lazydocker/config.yml "Library/Application Support/lazydocker/config.yml"
 
-# ── Cursor ────────────────────────────────────────────────────────────────
-link cursor/settings.json    "Library/Application Support/Cursor/User/settings.json"
-link cursor/keybindings.json "Library/Application Support/Cursor/User/keybindings.json"
+# ── Obsolete Cursor config ────────────────────────────────────────────────
+unlink_obsolete "Library/Application Support/Cursor/User/settings.json"
+unlink_obsolete "Library/Application Support/Cursor/User/keybindings.json"
 
 # ── VS Code ───────────────────────────────────────────────────────────────
 link vscode/settings.json    "Library/Application Support/Code/User/settings.json"
