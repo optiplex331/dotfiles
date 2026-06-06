@@ -146,9 +146,6 @@ _prepend_path "${GO_HOME:+$GO_HOME/bin}"
 # uv（Python 版本 + 包管理）。
 _prepend_path "$HOME/.local/bin"
 
-# Antigravity CLI。
-_prepend_path "$HOME/.antigravity/antigravity/bin"
-
 # 清理辅助函数，避免污染 shell 环境。
 unset -f _prepend_path
 
