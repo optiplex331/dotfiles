@@ -52,6 +52,7 @@ brew update && brew upgrade && brew cleanup --prune=all
 | `yazi/` | `~/.config/yazi` |
 | `lazydocker/config.yml` | `~/Library/Application Support/lazydocker/config.yml` |
 | `vscode/settings.json` | `~/Library/Application Support/Code/User/settings.json` |
+| `vscode/keybindings.json` | `~/Library/Application Support/Code/User/keybindings.json` |
 | `claude/statusline.sh` | `~/.claude/statusline.sh` |
 | `claude/CLAUDE.md` | `~/.claude/CLAUDE.md` |
 | `claude/CLAUDE.md` | `~/.codex/AGENTS.md` |
