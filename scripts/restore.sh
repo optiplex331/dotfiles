@@ -135,6 +135,7 @@ unlink_obsolete "Library/Application Support/Cursor/User/keybindings.json"
 
 # ── VS Code ───────────────────────────────────────────────────────────────
 link vscode/settings.json    "Library/Application Support/Code/User/settings.json"
+link vscode/keybindings.json "Library/Application Support/Code/User/keybindings.json"
 
 # ── Claude Code ───────────────────────────────────────────────────────────
 link claude/statusline.sh .claude/statusline.sh

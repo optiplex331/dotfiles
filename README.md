@@ -292,7 +292,8 @@ bash ~/Projects/dotfiles/scripts/restore.sh
 │   ├── AGENTS.md           # 指向 claude/CLAUDE.md 的软链接
 │   └── config.toml
 ├── vscode/                 # VS Code 编辑器配置
-│   └── settings.json
+│   ├── settings.json
+│   └── keybindings.json
 ├── git/                    # Git 全局配置
 │   ├── gitconfig
 │   └── ignore
