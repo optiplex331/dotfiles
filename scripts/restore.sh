@@ -49,61 +49,6 @@ unlink_obsolete() {
   fi
 }
 
-# Render helper: replace explicit template placeholders before installing.
-render_template() {
-  local src="$DOTFILES/$1"
-  local dst="$HOME/$2"
-  local dir tmp
-  dir="$(dirname "$dst")"
-
-  [ -f "$src" ] || die "missing template: $src"
-
-  mkdir -p "$dir"
-  tmp="$(mktemp "${TMPDIR:-/tmp}/dotfiles-render.XXXXXX")"
-
-  if ! DOTFILES_FOR_TEMPLATE="$DOTFILES" HOME_FOR_TEMPLATE="$HOME" awk '
-    BEGIN {
-      dotfiles = ENVIRON["DOTFILES_FOR_TEMPLATE"]
-      home = ENVIRON["HOME_FOR_TEMPLATE"]
-      found_dotfiles = 0
-    }
-    {
-      while ((idx = index($0, "{{DOTFILES_DIR}}")) > 0) {
-        $0 = substr($0, 1, idx - 1) dotfiles substr($0, idx + length("{{DOTFILES_DIR}}"))
-        found_dotfiles = 1
-      }
-      while ((idx = index($0, "{{HOME_DIR}}")) > 0) {
-        $0 = substr($0, 1, idx - 1) home substr($0, idx + length("{{HOME_DIR}}"))
-      }
-      print
-    }
-    END {
-      if (!found_dotfiles) {
-        print "restore: codex config template is missing {{DOTFILES_DIR}}" > "/dev/stderr"
-        exit 1
-      }
-    }
-  ' "$src" > "$tmp"; then
-    rm -f "$tmp"
-    return 1
-  fi
-
-  if [ -L "$dst" ]; then
-    rm -f "$dst"
-  elif [ -e "$dst" ]; then
-    if cmp -s "$tmp" "$dst"; then
-      rm -f "$tmp"
-      log "unchanged: $dst"
-      return
-    fi
-
-    backup_existing "$dst"
-  fi
-
-  mv "$tmp" "$dst"
-  log "rendered: $dst"
-}
-
 # ── Shell ──────────────────────────────────────────────────────────────────
 unlink_obsolete .zprofile
 link zsh/.zshrc         .zshrc
@@ -148,7 +93,7 @@ unlink_obsolete .Codex/statusline.sh
 unlink_obsolete .Codex/AGENTS.md
 unlink_obsolete .codex/agents
 unlink_obsolete .codex/rules
-render_template codex/config.toml .codex/config.toml
+link codex/config.toml .codex/config.toml
 link claude/CLAUDE.md .codex/AGENTS.md
 
 log "Done."

@@ -1,59 +1,50 @@
 model = "gpt-5.5"
-model_reasoning_effort = "high"
+model_reasoning_effort = "medium"
 
-notify = ["{{HOME_DIR}}/.codex/computer-use/Codex Computer Use.app/Contents/SharedSupport/SkyComputerUseClient.app/Contents/MacOS/SkyComputerUseClient", "turn-ended", "--previous-notify", "[\"\\/usr\\/bin\\/env\",\"node\",\"{{HOME_DIR}}\\/.tokentracker\\/bin\\/notify.cjs\"]"]
+notify = [
+    "/Users/jackdaw/.codex/computer-use/Codex Computer Use.app/Contents/SharedSupport/SkyComputerUseClient.app/Contents/MacOS/SkyComputerUseClient",
+    "turn-ended",
+    "--previous-notify",
+    "[\"\\/usr\\/bin\\/env\",\"node\",\"/Users/jackdaw\\/.tokentracker\\/bin\\/notify.cjs\"]",
+]
 personality = "pragmatic"
+service_tier = "default"
+approval_policy = "never"
+sandbox_mode = "danger-full-access"
 
-[projects."{{HOME_DIR}}/Projects/ClaudeCodeFullSkills"]
+[projects."/Users/jackdaw/Projects/ClaudeCodeFullSkills"]
 trust_level = "trusted"
 
-[projects."{{DOTFILES_DIR}}"]
+[projects."/Users/jackdaw/Projects/dotfiles"]
 trust_level = "trusted"
 
-[projects."{{HOME_DIR}}/Projects/Halligalli-workbench"]
+[projects."/Users/jackdaw/Projects/Halligalli-workbench"]
 trust_level = "trusted"
 
-[projects."{{HOME_DIR}}/Documents/Codex/2026-05-22/pull-request-branches-master-push-branches"]
+[projects."/Users/jackdaw/Projects/Devops-bootcamp/devops-directive-github-actions-course"]
 trust_level = "trusted"
 
-[projects."{{HOME_DIR}}/Documents/Codex/2026-05-22/pnpm-frozen-lockfile"]
+[projects."/Users/jackdaw/Projects/Devops-bootcamp/devops-directive-github-actions-course/capstone"]
 trust_level = "trusted"
 
-[projects."{{HOME_DIR}}/Documents/Codex/2026-05-23/jsx"]
+[projects."/Users/jackdaw/Projects/Halligalli"]
 trust_level = "trusted"
 
-[projects."{{HOME_DIR}}/Projects/Devops-bootcamp/devops-directive-github-actions-course"]
+[projects."/Users/jackdaw/Projects/Devops-bootcamp"]
 trust_level = "trusted"
 
-[projects."{{HOME_DIR}}/Documents/Codex/2026-05-24/hey-my-friend-says-he-improved"]
-trust_level = "trusted"
-
-[projects."{{HOME_DIR}}/Documents/Codex/2026-05-24/1-0-10-1-1-0"]
-trust_level = "trusted"
-
-[projects."{{HOME_DIR}}/Documents/Codex/2026-05-24/telegram"]
-trust_level = "trusted"
-
-[projects."{{HOME_DIR}}/Projects/Devops-bootcamp/devops-directive-github-actions-course/capstone"]
-trust_level = "trusted"
-
-[projects."{{HOME_DIR}}/Documents/Codex/2026-05-25/davidanson-markdownlint-https-github-com-davidanson"]
-trust_level = "trusted"
-
-[projects."{{HOME_DIR}}/Documents/Codex/2026-05-25/https-x-com-jxnlco-status-2057153744630890620"]
-trust_level = "trusted"
-
-[projects."{{HOME_DIR}}/Projects/Halligalli"]
-trust_level = "trusted"
-
-[projects."{{HOME_DIR}}/Documents/Codex/2026-05-25/new-chat"]
-trust_level = "trusted"
-
-[projects."{{HOME_DIR}}/Documents/Codex/2026-05-25/amazon-nl"]
+[projects."/Users/jackdaw/Documents/Codex/2026-06-07/new-chat"]
 trust_level = "trusted"
 
 [tui]
-status_line = ["model-with-reasoning", "current-dir", "git-branch", "context-used", "five-hour-limit", "weekly-limit"]
+status_line = [
+    "model-with-reasoning",
+    "current-dir",
+    "git-branch",
+    "context-used",
+    "five-hour-limit",
+    "weekly-limit",
+]
 
 [desktop]
 ambient-suggestions-enabled = false
@@ -74,6 +65,25 @@ git-branch-prefix = ""
 notifications-turn-mode = "always"
 conversationDetailMode = "STEPS_COMMANDS"
 followUpQueueMode = "queue"
+show-context-window-usage = true
+git-pull-request-merge-method = "squash"
+git-show-sidebar-pr-icons = true
+git-pr-instructions = """
+Write PR titles in English using a concise Conventional Commit-style summary when appropriate.
+
+PR descriptions should include:
+- Summary of user-visible or behavior changes
+- Verification performed
+- Risks, limitations, or tests not run
+
+Keep the description focused on task-scoped changes. Do not overstate verification."""
+git-commit-instructions = """
+Use Conventional Commits by default: <type>(<scope>): <summary>.
+
+Keep the subject concise and imperative.
+Use English for commit messages.
+Mention only task-scoped changes.
+Do not include unrelated files or unrelated refactors in the message."""
 
 [desktop.appearanceLightChromeTheme]
 accent = "#cc7d5e"
@@ -106,14 +116,14 @@ diffRemoved = "#ff5f38"
 skill = "#cc7d5e"
 
 [marketplaces.openai-bundled]
-last_updated = "2026-05-25T14:24:26Z"
+last_updated = "2026-06-06T21:11:07Z"
 source_type = "local"
-source = "{{HOME_DIR}}/.codex/.tmp/bundled-marketplaces/openai-bundled"
+source = "/Users/jackdaw/.codex/.tmp/bundled-marketplaces/openai-bundled"
 
 [marketplaces.openai-primary-runtime]
-last_updated = "2026-05-25T14:30:41Z"
+last_updated = "2026-06-06T21:37:07Z"
 source_type = "local"
-source = "{{HOME_DIR}}/.cache/codex-runtimes/codex-primary-runtime/plugins/openai-primary-runtime"
+source = "/Users/jackdaw/.cache/codex-runtimes/codex-primary-runtime/plugins/openai-primary-runtime"
 
 [plugins."documents@openai-primary-runtime"]
 enabled = true
@@ -122,6 +132,9 @@ enabled = true
 enabled = true
 
 [plugins."presentations@openai-primary-runtime"]
+enabled = true
+
+[plugins."sites@openai-bundled"]
 enabled = true
 
 [plugins."browser@openai-bundled"]
@@ -133,16 +146,17 @@ command = "/Applications/Codex.app/Contents/Resources/node_repl"
 startup_timeout_sec = 120
 
 [mcp_servers.node_repl.env]
-BROWSER_USE_AVAILABLE_BACKENDS = "iab"
-BROWSER_USE_MARKETPLACE_NAME = "openai-bundled"
-CODEX_CLI_PATH = "/Applications/Codex.app/Contents/Resources/codex"
-CODEX_HOME = "{{HOME_DIR}}/.codex"
 NODE_REPL_NATIVE_PIPE_CONNECT_TIMEOUT_MS = "1000"
 NODE_REPL_NODE_MODULE_DIRS = ""
 NODE_REPL_NODE_PATH = "/Applications/Codex.app/Contents/Resources/node"
-NODE_REPL_TRUSTED_BROWSER_CLIENT_SHA256S = "167fdf579477181fba1773c1efb067b00c5a64fe85dafb50a2001bde198dc739"
-NODE_REPL_TRUSTED_CODE_PATHS = "{{HOME_DIR}}/.codex"
-NODE_REPL_UNTRUSTED_ENV_ALLOWLIST = "BROWSER_USE_MARKETPLACE_NAME"
+NODE_REPL_TRUSTED_CODE_PATHS = "/Users/jackdaw/.codex"
+CODEX_HOME = "/Users/jackdaw/.codex"
+NODE_REPL_TRUSTED_BROWSER_CLIENT_SHA256S = "2de792ebdf729e85542c94275f6654821dddce546d9c7374c915f2297529e313"
+BROWSER_USE_AVAILABLE_BACKENDS = "iab"
+NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER = "Control the in-app browser in conjunction with the Browser Plugin."
+BROWSER_USE_CODEX_APP_BUILD_FLAVOR = "prod"
+BROWSER_USE_CODEX_APP_VERSION = "26.602.40724"
+CODEX_CLI_PATH = "/Applications/Codex.app/Contents/Resources/codex"
 
 [features]
 js_repl = false
