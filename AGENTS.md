@@ -4,15 +4,15 @@ This file provides guidance to agentic coding tools when working with code in th
 
 ## What this repo is
 
-Personal macOS developer environment dotfiles. Configs are symlinked or rendered
-into `$HOME` via `scripts/restore.sh`.
+Personal macOS developer environment dotfiles. Configs are symlinked into
+`$HOME` via `scripts/restore.sh`.
 
 ## Key scripts
 
 | Script | Purpose |
 |--------|---------|
 | `scripts/setup.sh` | Bootstrap a new machine (SSH → Homebrew → clone → restore → brew bundle) |
-| `scripts/restore.sh` | (Re-)create all symlinks idempotently and refresh path-aware configs; existing non-symlink files are backed up to `~/.dotfiles_backup/` |
+| `scripts/restore.sh` | (Re-)create all symlinks idempotently; existing non-symlink files are backed up to `~/.dotfiles_backup/` |
 
 **Apply changes after editing any config:**
 ```bash
@@ -56,7 +56,7 @@ brew update && brew upgrade && brew cleanup --prune=all
 | `claude/statusline.sh` | `~/.claude/statusline.sh` |
 | `claude/CLAUDE.md` | `~/.claude/CLAUDE.md` |
 | `claude/CLAUDE.md` | `~/.codex/AGENTS.md` |
-| `codex/config.toml` | rendered to `~/.codex/config.toml` with `{{DOTFILES_DIR}}` and `{{HOME_DIR}}` replaced |
+| `codex/config.toml` | `~/.codex/config.toml` |
 
 ## Neovim
 
