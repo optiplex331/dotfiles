@@ -244,9 +244,9 @@ bash ~/Projects/dotfiles/scripts/restore.sh
 ### Codex
 
 - **配置文件**: `~/.codex/config.toml`
-- **管理方式**: 仓库内 `codex/config.toml` 保存 Codex 配置模板；`scripts/restore.sh` 会渲染 `{{DOTFILES_DIR}}` 和 `{{HOME_DIR}}` 占位符
-- **路径约定**: 机器相关的 home 目录路径使用 `{{HOME_DIR}}`，dotfiles 仓库路径使用 `{{DOTFILES_DIR}}`，避免把本机绝对路径固化到模板
-- **内容范围**: 模板包含 model、通知、trusted projects、桌面偏好、插件、marketplace、MCP 和 feature flag 配置
+- **管理方式**: 仓库内 `codex/config.toml` 通过 `scripts/restore.sh` 软链接到 `~/.codex/config.toml`
+- **路径约定**: 这是个人 macOS dotfiles，Codex 配置可以包含本机绝对路径
+- **内容范围**: 配置包含 model、通知、trusted projects、桌面偏好、插件、marketplace、MCP 和 feature flag 配置
 
 ---
 
@@ -405,7 +405,7 @@ bash ~/Projects/dotfiles/scripts/restore.sh
 | 脚本 | 用途 |
 |------|------|
 | `scripts/setup.sh` | 新机器一键初始化（SSH + Homebrew + 克隆 + 恢复 + brew bundle） |
-| `scripts/restore.sh` | 幂等软链接创建，渲染路径敏感配置，已有文件自动备份至 `~/.dotfiles_backup/` |
+| `scripts/restore.sh` | 幂等软链接创建，已有文件自动备份至 `~/.dotfiles_backup/` |
 
 ---
 
