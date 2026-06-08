@@ -55,7 +55,7 @@ brew update && brew upgrade && brew cleanup --prune=all
 | `claude/statusline.sh` | `~/.claude/statusline.sh` |
 | `claude/CLAUDE.md` | `~/.claude/CLAUDE.md` |
 | `claude/CLAUDE.md` | `~/.codex/AGENTS.md` |
-| `codex/config.toml` | rendered to `~/.codex/config.toml` with `{{DOTFILES_DIR}}` and `{{HOME_DIR}}` replaced |
+| `codex/config.toml` | `~/.codex/config.toml` |
 
 ## Neovim
 

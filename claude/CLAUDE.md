@@ -8,6 +8,7 @@
 - Ask before acting only when ambiguity could cause meaningful rework; otherwise make a reasonable assumption and proceed.
 - Treat user-proposed decisions and approval-seeking questions as requests for critical evaluation: risks, alternatives, and a clear recommendation.
 - Prefer one focused context-gathering pass, then act.
+- In learning materials, avoid vague jargon and document self-description; after a reading path, go directly into concrete objects, actions, sequences, commands, checks, and failure modes.
 
 ## Repository Workflow
 
