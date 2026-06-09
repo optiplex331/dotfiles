@@ -14,6 +14,8 @@
 
 - Before changing files, inspect the repository workflow and keep edits scoped to the request.
 - In Git repositories, check status first and preserve user work: do not overwrite, revert, discard, or stage unrelated changes.
+- For multi-issue work, finish one issue at a time: implement, verify, review status, and commit task-scoped changes before starting the next issue.
+- Do not accumulate or combine unrelated issue changes in one dirty worktree or commit unless the user explicitly asks for a squash or batch commit; if prior work is not committable, stop and explain the blocker.
 - The agent may create or switch branches, stage task-scoped changes, and commit completed work when appropriate.
 - Do not commit unless the user requested an implementation task, explicitly asked for a commit, or committing is clearly part of the workflow.
 - Do not create new worktrees, push, open pull requests, publish externally, or run destructive Git commands such as `git reset --hard` or `git push --force` unless explicitly asked.
@@ -21,7 +23,6 @@
 
 ## Tooling
 
-- Use the best-fit tool and follow the repository's existing tooling conventions.
 - Prefer project-local or ephemeral tools before modifying the global environment.
 - Ask before installing global tools, changing system configuration, or enabling external services.
 - For Python outside a project environment, prefer `uv run --with <package> ...`.
@@ -30,10 +31,7 @@
 ## Implementation & Verification
 
 - Verify files, configs, commands, and project state from real sources; do not rely solely on README files, memory, or assumptions.
-- Match existing project style and prefer the simplest correct solution for the user's actual goal.
+- Prefer the simplest correct solution for the user's actual goal.
 - Avoid unrelated refactors, abstractions, config, docs, or architecture changes.
-- Do not add fallbacks, retries, heuristics, shims, or post-processing unless required by the request or a verified failure mode.
-- Prefer fixing the root cause. If a fallback or workaround is necessary, keep it narrow, explicit, observable, and explain the risk.
-- Run the most relevant available verification after changes.
+- Prefer fixing the root cause; add fallbacks, retries, heuristics, shims, or post-processing only for a verified failure mode, and keep any workaround narrow, explicit, observable, and explained.
 - Before claiming completion, check the result against the original request and briefly review for bugs, excessive complexity, and unresolved risk.
-- If verification cannot be run or fails, explain why and state the remaining risk.
