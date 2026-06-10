@@ -177,5 +177,8 @@
 	"hediet.vscode-drawio.resizeImages": null,
 	"hediet.vscode-drawio.theme": "kennedy",
 	"hediet.vscode-drawio.appearance": "automatic",
-	"docker.extension.dockerEngineAvailabilityPrompt": false
+	"docker.extension.dockerEngineAvailabilityPrompt": false,
+	"azureResourceGroups.selectedSubscriptions": [
+		"462a9c9c-2da6-4bfb-b318-0f83043fe49b/7dcd53d4-565b-4316-b311-793ed9bc0f16"
+	]
 }
