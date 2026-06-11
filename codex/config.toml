@@ -1,5 +1,5 @@
 model = "gpt-5.5"
-model_reasoning_effort = "high"
+model_reasoning_effort = "medium"
 
 notify = [
     "/Users/jackdaw/.codex/computer-use/Codex Computer Use.app/Contents/SharedSupport/SkyComputerUseClient.app/Contents/MacOS/SkyComputerUseClient",
@@ -70,6 +70,12 @@ trust_level = "trusted"
 trust_level = "trusted"
 
 [projects."/Users/jackdaw/Documents/Codex/2026-06-09/hiii"]
+trust_level = "trusted"
+
+[projects."/Users/jackdaw/Documents/Codex/2026-06-10/yaml"]
+trust_level = "trusted"
+
+[projects."/Users/jackdaw/Documents/Codex/2026-06-10/macos-intel-mac-arm"]
 trust_level = "trusted"
 
 [tui]
@@ -152,7 +158,7 @@ diffRemoved = "#ff5f38"
 skill = "#cc7d5e"
 
 [marketplaces.openai-bundled]
-last_updated = "2026-06-09T14:46:49Z"
+last_updated = "2026-06-11T08:53:56Z"
 source_type = "local"
 source = "/Users/jackdaw/.codex/.tmp/bundled-marketplaces/openai-bundled"
 
@@ -181,20 +187,20 @@ enabled = true
 
 [mcp_servers.node_repl]
 args = []
-command = "/Applications/Codex.app/Contents/Resources/node_repl"
+command = "/Applications/Codex.app/Contents/Resources/cua_node/bin/node_repl"
 startup_timeout_sec = 120
 
 [mcp_servers.node_repl.env]
 NODE_REPL_NATIVE_PIPE_CONNECT_TIMEOUT_MS = "1000"
-NODE_REPL_NODE_MODULE_DIRS = ""
-NODE_REPL_NODE_PATH = "/Applications/Codex.app/Contents/Resources/node"
+NODE_REPL_NODE_MODULE_DIRS = "/Applications/Codex.app/Contents/Resources/cua_node/lib/node_modules"
+NODE_REPL_NODE_PATH = "/Applications/Codex.app/Contents/Resources/cua_node/bin/node"
 NODE_REPL_TRUSTED_CODE_PATHS = "/Users/jackdaw/.codex"
 CODEX_HOME = "/Users/jackdaw/.codex"
-NODE_REPL_TRUSTED_BROWSER_CLIENT_SHA256S = "4946b004b23af02244ece97240aceb8d123475207fa6a6fc399486bd7086049f"
+NODE_REPL_TRUSTED_BROWSER_CLIENT_SHA256S = "72614174f4dad67a58d46a3ac759cffb45c92fa48a293af4c4ea35102ba391ba"
 BROWSER_USE_AVAILABLE_BACKENDS = "iab"
 NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER = "Control the in-app browser in conjunction with the Browser Plugin."
 BROWSER_USE_CODEX_APP_BUILD_FLAVOR = "prod"
-BROWSER_USE_CODEX_APP_VERSION = "26.602.71036"
+BROWSER_USE_CODEX_APP_VERSION = "26.608.12217"
 CODEX_CLI_PATH = "/Applications/Codex.app/Contents/Resources/codex"
 
 [features]
