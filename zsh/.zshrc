@@ -120,7 +120,15 @@ typeset -U path PATH
 #
 # 这样可以避免未定义变量导致奇怪路径进入 PATH。
 _prepend_path() {
-  [[ -n "$1" && -d "$1" ]] && path=("$1" $path)
+  [[ -n "$1" && -d "$1" ]] || return
+  path=("${(@)path:#$1}")
+  path=("$1" $path)
+}
+
+_append_path() {
+  [[ -n "$1" && -d "$1" ]] || return
+  path=("${(@)path:#$1}")
+  path=($path "$1")
 }
 
 # Homebrew 基础路径。
@@ -143,11 +151,12 @@ _prepend_path "${M2_HOME:+$M2_HOME/bin}"
 _prepend_path "${GRADLE_HOME:+$GRADLE_HOME/bin}"
 _prepend_path "${GO_HOME:+$GO_HOME/bin}"
 
-# uv（Python 版本 + 包管理）。
-_prepend_path "$HOME/.local/bin"
+# User-local CLI tools. Keep this after Homebrew so brew-managed tools win.
+_append_path "$HOME/.local/bin"
 
 # 清理辅助函数，避免污染 shell 环境。
 unset -f _prepend_path
+unset -f _append_path
 
 # 显式导出 PATH，供子进程继承。
 export PATH
