@@ -46,9 +46,9 @@
 	"[graphql]": {
 		"editor.defaultFormatter": "biomejs.biome"
 	},
-	"[yaml]": {
-		"editor.defaultFormatter": "redhat.vscode-yaml"
-	},
+	//"[yaml]": {
+	//	"editor.defaultFormatter": "redhat.vscode-yaml"
+	//},
 	"[python]": {
 		"editor.defaultFormatter": "charliermarsh.ruff",
 		"editor.formatOnSave": true,
@@ -119,8 +119,6 @@
 	// ============================================================
 	"chat.tips.enabled": false,
 	"chat.viewSessions.orientation": "stacked",
-	"claudeCode.preferredLocation": "panel",
-	"claudeCode.allowDangerouslySkipPermissions": true,
 	// ============================================================
 	// 隐私 & 更新
 	// ============================================================
@@ -155,12 +153,7 @@
 	"github.copilot.nextEditSuggestions.eagerness": "auto",
 	"workbench.iconTheme": "symbols",
 	"workbench.secondarySideBar.defaultVisibility": "visible",
-	"gradle.nestedProjects": true,
 	"remote.SSH.connectTimeout": 120,
-	"files.associations": {
-		"**/.github/workflows/*.{yml,yaml}": "yaml",
-		"**/Taskfile.{yml,yaml}": "yaml"
-	},
 	"docker.extension.enableComposeLanguageServer": false,
 	"git.openRepositoryInParentFolders": "always",
 	"workbench.colorTheme": "One Dark Pro Night Flat",
