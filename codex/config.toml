@@ -1,5 +1,5 @@
 model = "gpt-5.5"
-model_reasoning_effort = "medium"
+model_reasoning_effort = "high"
 
 notify = [
     "/Users/jackdaw/.codex/computer-use/Codex Computer Use.app/Contents/SharedSupport/SkyComputerUseClient.app/Contents/MacOS/SkyComputerUseClient",
@@ -76,6 +76,24 @@ trust_level = "trusted"
 trust_level = "trusted"
 
 [projects."/Users/jackdaw/Documents/Codex/2026-06-10/macos-intel-mac-arm"]
+trust_level = "trusted"
+
+[projects."/Users/jackdaw/Documents/Codex/2026-06-11/files-mentioned-by-the-user-brew14all"]
+trust_level = "trusted"
+
+[projects."/Users/jackdaw/Documents/Codex/2026-06-11/bash"]
+trust_level = "trusted"
+
+[projects."/Users/jackdaw/Documents/Codex/2026-06-11/new-chat"]
+trust_level = "trusted"
+
+[projects."/Users/jackdaw/Documents/Codex/2026-06-11/new-chat-2"]
+trust_level = "trusted"
+
+[projects."/Users/jackdaw/Projects/powder-stack-workbench"]
+trust_level = "trusted"
+
+[projects."/Users/jackdaw/Documents/Codex/2026-06-12/k3s"]
 trust_level = "trusted"
 
 [tui]
@@ -158,7 +176,7 @@ diffRemoved = "#ff5f38"
 skill = "#cc7d5e"
 
 [marketplaces.openai-bundled]
-last_updated = "2026-06-11T08:53:56Z"
+last_updated = "2026-06-11T21:43:20Z"
 source_type = "local"
 source = "/Users/jackdaw/.codex/.tmp/bundled-marketplaces/openai-bundled"
 
@@ -196,12 +214,17 @@ NODE_REPL_NODE_MODULE_DIRS = "/Applications/Codex.app/Contents/Resources/cua_nod
 NODE_REPL_NODE_PATH = "/Applications/Codex.app/Contents/Resources/cua_node/bin/node"
 NODE_REPL_TRUSTED_CODE_PATHS = "/Users/jackdaw/.codex"
 CODEX_HOME = "/Users/jackdaw/.codex"
-NODE_REPL_TRUSTED_BROWSER_CLIENT_SHA256S = "72614174f4dad67a58d46a3ac759cffb45c92fa48a293af4c4ea35102ba391ba"
+NODE_REPL_TRUSTED_BROWSER_CLIENT_SHA256S = "a3f3ca79fe2bff56076b895f1f13a8f673168160bd79d880cc34b4500e08a71c"
 BROWSER_USE_AVAILABLE_BACKENDS = "iab"
 NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER = "Control the in-app browser in conjunction with the Browser Plugin."
 BROWSER_USE_CODEX_APP_BUILD_FLAVOR = "prod"
-BROWSER_USE_CODEX_APP_VERSION = "26.608.12217"
+BROWSER_USE_CODEX_APP_VERSION = "26.609.30741"
 CODEX_CLI_PATH = "/Applications/Codex.app/Contents/Resources/codex"
 
 [features]
 js_repl = false
+
+[hooks.state]
+
+[hooks.state."/Users/jackdaw/Projects/powder-stack-workbench/.codex/hooks.json:user_prompt_submit:0:0"]
+trusted_hash = "sha256:2e7f66e3a5449c7d12c4c9376e836fc2d655d08db5177ece2d74b4012fd5f5b0"
