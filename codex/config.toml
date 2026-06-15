@@ -1,5 +1,5 @@
 model = "gpt-5.5"
-model_reasoning_effort = "high"
+model_reasoning_effort = "medium"
 
 notify = [
     "/Users/jackdaw/.codex/computer-use/Codex Computer Use.app/Contents/SharedSupport/SkyComputerUseClient.app/Contents/MacOS/SkyComputerUseClient",
@@ -96,6 +96,39 @@ trust_level = "trusted"
 [projects."/Users/jackdaw/Documents/Codex/2026-06-12/k3s"]
 trust_level = "trusted"
 
+[projects."/Users/jackdaw/Documents/Codex/2026-06-12/k8s-mysql-init-container-sidecar"]
+trust_level = "trusted"
+
+[projects."/Users/jackdaw/Documents/Codex/2026-06-12/brew"]
+trust_level = "trusted"
+
+[projects."/Users/jackdaw/Documents/Codex/2026-06-12/azurefargate"]
+trust_level = "trusted"
+
+[projects."/Users/jackdaw/Documents/Codex/2026-06-13/files-mentioned-by-the-user-factuur"]
+trust_level = "trusted"
+
+[projects."/Users/jackdaw/Documents/Codex/2026-06-13/tf"]
+trust_level = "trusted"
+
+[projects."/Users/jackdaw/Documents/Codex/2026-06-13/https-www-freecodecamp-org-catalog-python"]
+trust_level = "trusted"
+
+[projects."/Users/jackdaw/Documents/Codex/2026-06-13/new-chat"]
+trust_level = "trusted"
+
+[projects."/Users/jackdaw/Documents/Codex/2026-06-13/def-apply-discount-price-discount-if"]
+trust_level = "trusted"
+
+[projects."/Users/jackdaw/Documents/Codex/2026-06-13/even-numbers-for-num-in-range"]
+trust_level = "trusted"
+
+[projects."/Users/jackdaw/Documents/Codex/2026-06-14/npm-run-dev-vite-binary"]
+trust_level = "trusted"
+
+[projects."/Users/jackdaw/Documents/Codex/2026-06-14/python-tuple"]
+trust_level = "trusted"
+
 [tui]
 status_line = [
     "model-with-reasoning",
@@ -176,12 +209,12 @@ diffRemoved = "#ff5f38"
 skill = "#cc7d5e"
 
 [marketplaces.openai-bundled]
-last_updated = "2026-06-11T21:43:20Z"
+last_updated = "2026-06-12T22:52:00Z"
 source_type = "local"
 source = "/Users/jackdaw/.codex/.tmp/bundled-marketplaces/openai-bundled"
 
 [marketplaces.openai-primary-runtime]
-last_updated = "2026-06-09T14:47:08Z"
+last_updated = "2026-06-15T00:52:33Z"
 source_type = "local"
 source = "/Users/jackdaw/.cache/codex-runtimes/codex-primary-runtime/plugins/openai-primary-runtime"
 
@@ -203,6 +236,9 @@ enabled = true
 [plugins."browser@openai-bundled"]
 enabled = true
 
+[plugins."pdf@openai-primary-runtime"]
+enabled = true
+
 [mcp_servers.node_repl]
 args = []
 command = "/Applications/Codex.app/Contents/Resources/cua_node/bin/node_repl"
@@ -214,11 +250,11 @@ NODE_REPL_NODE_MODULE_DIRS = "/Applications/Codex.app/Contents/Resources/cua_nod
 NODE_REPL_NODE_PATH = "/Applications/Codex.app/Contents/Resources/cua_node/bin/node"
 NODE_REPL_TRUSTED_CODE_PATHS = "/Users/jackdaw/.codex"
 CODEX_HOME = "/Users/jackdaw/.codex"
-NODE_REPL_TRUSTED_BROWSER_CLIENT_SHA256S = "a3f3ca79fe2bff56076b895f1f13a8f673168160bd79d880cc34b4500e08a71c"
+NODE_REPL_TRUSTED_BROWSER_CLIENT_SHA256S = "27dca86fd6b571c49414a4b78e46b57bcf683a46cd1319799c11fbb6cfae3110"
 BROWSER_USE_AVAILABLE_BACKENDS = "iab"
 NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER = "Control the in-app browser in conjunction with the Browser Plugin."
 BROWSER_USE_CODEX_APP_BUILD_FLAVOR = "prod"
-BROWSER_USE_CODEX_APP_VERSION = "26.609.30741"
+BROWSER_USE_CODEX_APP_VERSION = "26.609.41114"
 CODEX_CLI_PATH = "/Applications/Codex.app/Contents/Resources/codex"
 
 [features]
