@@ -70,12 +70,15 @@ export LC_ALL=en_US.UTF-8
 export EDITOR='code --wait'
 export VISUAL='code --wait'
 
-# bat：语法高亮的 cat 替代品。
-export BAT_THEME='Catppuccin Mocha'
-
 # ============================================================================
 # 4. 语言和工具环境变量
 # ============================================================================
+
+# Codex：CLI、automation 和本地状态目录。
+export CODEX_HOME="$HOME/.codex"
+
+# bat：语法高亮的 cat 替代品。
+export BAT_THEME='Catppuccin Mocha'
 
 # Maven：独立安装，不依赖 Homebrew 的 OpenJDK formula。
 export M2_HOME="$HOME/Library/Maven/apache-maven-3.9.15"
