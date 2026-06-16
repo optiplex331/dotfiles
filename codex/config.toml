@@ -1,5 +1,5 @@
 model = "gpt-5.5"
-model_reasoning_effort = "medium"
+model_reasoning_effort = "low"
 
 notify = [
     "/Users/jackdaw/.codex/computer-use/Codex Computer Use.app/Contents/SharedSupport/SkyComputerUseClient.app/Contents/MacOS/SkyComputerUseClient",
@@ -129,6 +129,9 @@ trust_level = "trusted"
 [projects."/Users/jackdaw/Documents/Codex/2026-06-14/python-tuple"]
 trust_level = "trusted"
 
+[projects."/Users/jackdaw/Documents/Codex/2026-06-15/git-branch"]
+trust_level = "trusted"
+
 [tui]
 status_line = [
     "model-with-reasoning",
@@ -209,12 +212,12 @@ diffRemoved = "#ff5f38"
 skill = "#cc7d5e"
 
 [marketplaces.openai-bundled]
-last_updated = "2026-06-12T22:52:00Z"
+last_updated = "2026-06-15T10:33:34Z"
 source_type = "local"
 source = "/Users/jackdaw/.codex/.tmp/bundled-marketplaces/openai-bundled"
 
 [marketplaces.openai-primary-runtime]
-last_updated = "2026-06-15T00:52:33Z"
+last_updated = "2026-06-15T17:51:18Z"
 source_type = "local"
 source = "/Users/jackdaw/.cache/codex-runtimes/codex-primary-runtime/plugins/openai-primary-runtime"
 
@@ -230,13 +233,13 @@ enabled = true
 [plugins."github@openai-curated"]
 enabled = true
 
+[plugins."pdf@openai-primary-runtime"]
+enabled = true
+
 [plugins."sites@openai-bundled"]
 enabled = true
 
 [plugins."browser@openai-bundled"]
-enabled = true
-
-[plugins."pdf@openai-primary-runtime"]
 enabled = true
 
 [mcp_servers.node_repl]
