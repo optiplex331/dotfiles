@@ -1,5 +1,5 @@
 model = "gpt-5.5"
-model_reasoning_effort = "low"
+model_reasoning_effort = "xhigh"
 
 notify = [
     "/Users/jackdaw/.codex/computer-use/Codex Computer Use.app/Contents/SharedSupport/SkyComputerUseClient.app/Contents/MacOS/SkyComputerUseClient",
@@ -8,7 +8,7 @@ notify = [
     "[\"\\/usr\\/bin\\/env\",\"node\",\"/Users/jackdaw\\/.tokentracker\\/bin\\/notify.cjs\"]",
 ]
 personality = "pragmatic"
-service_tier = "default"
+service_tier = "priority"
 approval_policy = "never"
 sandbox_mode = "danger-full-access"
 
@@ -141,6 +141,12 @@ trust_level = "trusted"
 [projects."/Users/jackdaw/Documents/Codex/2026-06-16/s-s"]
 trust_level = "trusted"
 
+[projects."/Users/jackdaw/Documents/Codex/2026-06-17/category-category-ledger-category-deposit-amount"]
+trust_level = "trusted"
+
+[projects."/Users/jackdaw/Documents/Codex/2026-06-17/look-across-my-threads-and-projects"]
+trust_level = "trusted"
+
 [tui]
 status_line = [
     "model-with-reasoning",
@@ -221,12 +227,12 @@ diffRemoved = "#ff5f38"
 skill = "#cc7d5e"
 
 [marketplaces.openai-bundled]
-last_updated = "2026-06-16T14:54:29Z"
+last_updated = "2026-06-18T08:37:00Z"
 source_type = "local"
 source = "/Users/jackdaw/.codex/.tmp/bundled-marketplaces/openai-bundled"
 
 [marketplaces.openai-primary-runtime]
-last_updated = "2026-06-15T17:51:18Z"
+last_updated = "2026-06-17T18:48:00Z"
 source_type = "local"
 source = "/Users/jackdaw/.cache/codex-runtimes/codex-primary-runtime/plugins/openai-primary-runtime"
 
@@ -262,12 +268,12 @@ NODE_REPL_NODE_MODULE_DIRS = "/Applications/Codex.app/Contents/Resources/cua_nod
 NODE_REPL_NODE_PATH = "/Applications/Codex.app/Contents/Resources/cua_node/bin/node"
 NODE_REPL_TRUSTED_CODE_PATHS = "/Users/jackdaw/.codex"
 CODEX_HOME = "/Users/jackdaw/.codex"
-NODE_REPL_TRUSTED_BROWSER_CLIENT_SHA256S = "89809670b247cbaffbc4f87d9fa9742a9038c0f4a06fb822d7f85ff19bf24215"
+NODE_REPL_TRUSTED_BROWSER_CLIENT_SHA256S = "eb55d24cf065cd5311af6f99b16bade2b7a670790ff2db9accf60d012dd55dd1"
 BROWSER_USE_AVAILABLE_BACKENDS = "chrome,iab"
 NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER = "Control the in-app browser in conjunction with the Browser Plugin."
 NODE_REPL_INSTRUCTIONS_USE_CASE_CHROME = "Control the Chrome browser in conjunction with the Chrome Plugin. Prefer this method of controlling Chrome over alternatives (such as Computer Use) unless the user explicitly mentions an alternative."
 BROWSER_USE_CODEX_APP_BUILD_FLAVOR = "prod"
-BROWSER_USE_CODEX_APP_VERSION = "26.609.71450"
+BROWSER_USE_CODEX_APP_VERSION = "26.611.62324"
 CODEX_CLI_PATH = "/Applications/Codex.app/Contents/Resources/codex"
 
 [features]
