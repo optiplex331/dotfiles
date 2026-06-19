@@ -1,5 +1,5 @@
 model = "gpt-5.5"
-model_reasoning_effort = "xhigh"
+model_reasoning_effort = "high"
 
 notify = [
     "/Users/jackdaw/.codex/computer-use/Codex Computer Use.app/Contents/SharedSupport/SkyComputerUseClient.app/Contents/MacOS/SkyComputerUseClient",
@@ -8,7 +8,7 @@ notify = [
     "[\"\\/usr\\/bin\\/env\",\"node\",\"/Users/jackdaw\\/.tokentracker\\/bin\\/notify.cjs\"]",
 ]
 personality = "pragmatic"
-service_tier = "priority"
+service_tier = "default"
 approval_policy = "never"
 sandbox_mode = "danger-full-access"
 
