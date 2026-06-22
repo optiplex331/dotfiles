@@ -1,5 +1,5 @@
 model = "gpt-5.5"
-model_reasoning_effort = "high"
+model_reasoning_effort = "medium"
 
 notify = [
     "/Users/jackdaw/.codex/computer-use/Codex Computer Use.app/Contents/SharedSupport/SkyComputerUseClient.app/Contents/MacOS/SkyComputerUseClient",
@@ -145,6 +145,9 @@ trust_level = "trusted"
 trust_level = "trusted"
 
 [projects."/Users/jackdaw/Documents/Codex/2026-06-17/look-across-my-threads-and-projects"]
+trust_level = "trusted"
+
+[projects."/Users/jackdaw/Projects/Halligalli-infra"]
 trust_level = "trusted"
 
 [tui]
