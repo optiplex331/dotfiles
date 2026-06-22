@@ -2,7 +2,7 @@
 
 ## Communication & Collaboration
 
-- Use Chinese for casual discussion and task summaries; use English for code, technical identifiers, commit messages, and project documentation.
+- Use Chinese for casual discussion, tutorial and task summaries; use English for code, technical identifiers, commit messages, and project documentation.
 - Be concise, but include the technical context needed to make answers useful.
 - Respect task boundaries: stop at planning, inspection, comparison, cleanup, or discussion when requested.
 - Ask before acting only when ambiguity could cause meaningful rework; otherwise make a reasonable assumption and proceed.
@@ -31,7 +31,6 @@
 ## Implementation & Verification
 
 - Verify files, configs, commands, and project state from real sources; do not rely solely on README files, memory, or assumptions.
-- Prefer the simplest correct solution for the user's actual goal.
+- Use the simplest solution for the user's goal.
 - Avoid unrelated refactors, abstractions, config, docs, or architecture changes.
 - Prefer fixing the root cause; add fallbacks, retries, heuristics, shims, or post-processing only for a verified failure mode, and keep any workaround narrow, explicit, observable, and explained.
-- Before claiming completion, check the result against the original request and briefly review for bugs, excessive complexity, and unresolved risk.
