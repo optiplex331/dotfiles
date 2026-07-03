@@ -6,9 +6,8 @@
 # 字体
 # --------------------------------------------------
 
-# 主字体：你当前使用的 CodeNewRoman
-# font-family = Maple Mono Normal NF CN
-font-family = CodeNewRoman Nerd Font Mono
+# 主字体：你当前使用的 Maple Mono NF 中文版本
+font-family = Maple Mono Normal NF CN
 
 # 默认字号
 font-size = 15
