@@ -1,68 +1,29 @@
 # AGENTS.md
 
-This file provides guidance to agentic coding tools when working with code in this repository.
+Project instructions for the personal macOS dotfiles repository.
 
-## What this repo is
+## Repository Context
 
-Personal macOS developer environment dotfiles. Configs are symlinked into
-`$HOME` via `scripts/restore.sh`.
+- This repo manages developer environment configuration and renders or symlinks files into `$HOME` with `scripts/restore.sh`.
+- Keep project documentation and technical identifiers in English unless updating existing Chinese user-facing README content.
+- After editing any managed config, run `bash scripts/restore.sh` to refresh local links.
+- Existing non-symlink destination files are backed up to `~/.dotfiles_backup/` by the restore script.
 
-## Key scripts
+## Load On Demand
 
-| Script | Purpose |
-|--------|---------|
-| `scripts/setup.sh` | Bootstrap a new machine (SSH → Homebrew → clone → restore → brew bundle) |
-| `scripts/restore.sh` | (Re-)create all symlinks idempotently; existing non-symlink files are backed up to `~/.dotfiles_backup/` |
+| Scenario | Read |
+| --- | --- |
+| Full setup, tool overview, directory structure, shortcuts, and maintenance | `README.md` |
+| New machine bootstrap flow | `scripts/setup.sh` |
+| Symlink/render targets and restore behavior | `scripts/restore.sh` |
+| Homebrew package set | `Brewfile` |
+| Neovim / LazyVim configuration | `nvim/` |
+| VS Code settings and keybindings | `vscode/` |
+| Global Claude/Codex interaction rules | `claude/CLAUDE.md` |
+| Codex local configuration template | `codex/config.toml` |
 
-**Apply changes after editing any config:**
-```bash
-bash scripts/restore.sh
-```
+## Editing Rules
 
-## Adding a new tool config
-
-1. Place the config file/directory under a matching tool subdirectory in this repo.
-2. Add a `link <src> <dst>` line in `scripts/restore.sh`.
-3. Run `bash scripts/restore.sh`.
-
-## Install / update software
-
-```bash
-# Install everything from Brewfile
-brew bundle --file="${DOTFILES:-$HOME/Projects/dotfiles}/Brewfile"
-
-# Update all Homebrew packages
-brew update && brew upgrade && brew cleanup --prune=all
-```
-
-## Symlink map (restore.sh targets)
-
-| Repo path | Symlinked to |
-|-----------|-------------|
-| `zsh/.zshrc` | `~/.zshrc` |
-| `vim/vimrc` | `~/.vimrc` |
-| `nvim/` | `~/.config/nvim` |
-| `kitty/` | `~/.config/kitty` |
-| `ghostty/` | `~/.config/ghostty` |
-| `tmux/tmux.conf.local` | `~/.tmux.conf.local` |
-| `git/gitconfig` | `~/.gitconfig` |
-| `git/ignore` | `~/.config/git/ignore` |
-| `starship/starship.toml` | `~/.config/starship.toml` |
-| `lazygit/` | `~/.config/lazygit` |
-| `yazi/` | `~/.config/yazi` |
-| `lazydocker/config.yml` | `~/Library/Application Support/lazydocker/config.yml` |
-| `vscode/settings.json` | `~/Library/Application Support/Code/User/settings.json` |
-| `vscode/keybindings.json` | `~/Library/Application Support/Code/User/keybindings.json` |
-| `claude/statusline.sh` | `~/.claude/statusline.sh` |
-| `claude/CLAUDE.md` | `~/.claude/CLAUDE.md` |
-| `claude/CLAUDE.md` | `~/.codex/AGENTS.md` |
-| `codex/config.toml` | `~/.codex/config.toml` |
-
-## Neovim
-
-Config is LazyVim-based (`nvim/`). Structure:
-- `lua/config/` — options, keymaps, autocmds, lazy bootstrap
-- `lua/plugins/` — one file per plugin override/addition
-- `lazyvim.json` — enabled LazyVim extras
-
-Update plugins from within Neovim: `:Lazy update` / `:TSUpdate`
+- Add new managed configs under the matching tool directory, then add the corresponding `link <src> <dst>` entry in `scripts/restore.sh`.
+- Prefer project-local commands and scripts; do not modify global machine state directly unless the task explicitly requires it.
+- Before committing, check `git status --short` and keep commits scoped to the requested dotfiles change.
