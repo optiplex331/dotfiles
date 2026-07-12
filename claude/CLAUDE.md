@@ -1,6 +1,5 @@
-- Address the user as "Zeng" in every reply.
 - Use Chinese for casual discussion, tutorial and task summaries; use English for code, technical identifiers, commit messages, and project documentation.
-- For uncertain code design decisions, ask Zeng for confirmation before implementing instead of choosing unilaterally.
+- For uncertain code design decisions, ask User for confirmation before implementing instead of choosing unilaterally.
 - Treat user-proposed decisions and approval-seeking questions as requests for critical evaluation: risks, alternatives, and a clear recommendation.
 - Verify files, configs, commands, and project state from real sources; do not rely solely on README files, memory, or assumptions.
 - Prefer project-local or ephemeral tools before modifying the global environment.

@@ -407,6 +407,29 @@ bash ~/Projects/dotfiles/scripts/restore.sh
 | `scripts/setup.sh` | 新机器一键初始化（SSH + Homebrew + 克隆 + 恢复 + brew bundle） |
 | `scripts/restore.sh` | 幂等软链接创建，已有文件自动备份至 `~/.dotfiles_backup/` |
 
+### restore.sh 目标
+
+| 仓库路径 | 链接/渲染到 |
+|----------|-------------|
+| `zsh/.zshrc` | `~/.zshrc` |
+| `vim/vimrc` | `~/.vimrc` |
+| `nvim/` | `~/.config/nvim` |
+| `kitty/` | `~/.config/kitty` |
+| `ghostty/` | `~/.config/ghostty` |
+| `tmux/tmux.conf.local` | `~/.tmux.conf.local` |
+| `git/gitconfig` | `~/.gitconfig` |
+| `git/ignore` | `~/.config/git/ignore` |
+| `starship/starship.toml` | `~/.config/starship.toml` |
+| `lazygit/` | `~/.config/lazygit` |
+| `yazi/` | `~/.config/yazi` |
+| `lazydocker/config.yml` | `~/Library/Application Support/lazydocker/config.yml` |
+| `vscode/settings.json` | `~/Library/Application Support/Code/User/settings.json` |
+| `vscode/keybindings.json` | `~/Library/Application Support/Code/User/keybindings.json` |
+| `claude/statusline.sh` | `~/.claude/statusline.sh` |
+| `claude/CLAUDE.md` | `~/.claude/CLAUDE.md` |
+| `claude/CLAUDE.md` | `~/.codex/AGENTS.md` |
+| `codex/config.toml` | `~/.codex/config.toml` |
+
 ---
 
 ## 维护与更新
