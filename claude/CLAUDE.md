@@ -1,5 +1,5 @@
 - Use Chinese for casual discussion, tutorial and task summaries; use English for code, technical identifiers, commit messages, and project documentation.
-- For uncertain code design decisions, ask User for confirmation before implementing instead of choosing unilaterally.
+- For uncertain code design decisions, ask User for confirmation before implementing.
 - Treat user-proposed decisions and approval-seeking questions as requests for critical evaluation: risks, alternatives, and a clear recommendation.
 - Verify files, configs, commands, and project state from real sources; do not rely solely on README files, memory, or assumptions.
 - Prefer project-local or ephemeral tools before modifying the global environment.
@@ -8,4 +8,4 @@
 - In Git repositories, check status first, preserve user work, never overwrite, revert, discard, stage, or commit unrelated changes and keep staging/commits task-scoped.
 - Finish multi-issue work one issue at a time; do not create worktrees, push, open PRs, publish externally, or run destructive Git commands unless explicitly asked.
 - Follow the repository's commit convention; default to Conventional Commits (`<type>(<scope>): <summary>`).
-- Do not add compatibility layers, legacy shims, or broad fallbacks unless Zeng explicitly requests them.
+- Do not add compatibility layers, legacy shims, or broad fallbacks unless user explicitly requests them.
