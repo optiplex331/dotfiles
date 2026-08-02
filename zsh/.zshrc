@@ -6,7 +6,7 @@
 # 最后更新: 2026-05
 # ============================================================================
 #
-# 所有 shell 配置统一在此文件管理，不再拆分 .zprofile。
+# 用户环境变量与交互式配置统一在此文件管理。
 #
 # 结构：
 #   第一部分 — 环境变量与 PATH
@@ -15,8 +15,7 @@
 # 不适合放这里的：
 #   - 非交互式场景也需要的变量（如 scp、rsync）→ 放 ~/.zshenv
 #
-# 注意：
-#   不再维护 .zprofile，避免两份配置的同步负担。
+# ~/.zprofile 仅保留第三方工具要求的登录 shell 初始化。
 # ============================================================================
 
 
@@ -48,9 +47,9 @@ fi
 # 2. 语言和字符编码
 # ============================================================================
 
-# 设置默认字符编码，避免终端、脚本、CLI 工具在处理中英文时出现乱码。
+# 设置默认字符编码。保留各 LC_* 变量按需覆盖 LANG 的能力。
 export LANG=en_US.UTF-8
-export LC_ALL=en_US.UTF-8
+unset LC_ALL
 
 
 # ============================================================================
@@ -80,28 +79,11 @@ export CODEX_HOME="$HOME/.codex"
 # bat：语法高亮的 cat 替代品。
 export BAT_THEME='Catppuccin Mocha'
 
-# Maven：独立安装，不依赖 Homebrew 的 OpenJDK formula。
-export M2_HOME="$HOME/Library/Maven/apache-maven-3.9.15"
-
-# Gradle：独立安装，不依赖 Homebrew 的 OpenJDK formula。
-export GRADLE_HOME="$HOME/Library/Gradle/gradle-9.5.1"
-
 # Go：如果通过官方安装包安装，可以按需取消注释。
 # export GO_HOME='/usr/local/go'
 
-# Groovy：如果需要 Groovy，可以按需取消注释。
-# export GROOVY_HOME='/opt/homebrew/opt/groovy/libexec'
-
 # MySQL Client：如果需要独立 MySQL 客户端，可以按需取消注释。
 # export MYSQL_CLIENT_HOME='/opt/homebrew/opt/mysql-client@8.4'
-
-# Java：默认使用本机已安装的 Java 21 LTS。
-if [[ -x /usr/libexec/java_home ]]; then
-  _java_home_21="$(/usr/libexec/java_home -v 21 2>/dev/null)"
-  [[ -n "$_java_home_21" ]] && export JAVA_HOME="$_java_home_21"
-  unset _java_home_21
-fi
-
 
 # ============================================================================
 # 5. PATH 配置
@@ -114,6 +96,10 @@ fi
 #   - 保留第一次出现的路径
 #   - 避免 PATH 在多次启动 shell 后无限膨胀
 typeset -U path PATH
+
+# macOS path_helper 不会展开 /etc/paths.d 中的 "~"。
+# 当前未安装 .NET global tools，因此移除无效的字面量路径。
+path=("${(@)path:#\~/.dotnet/tools}")
 
 # 安全追加 PATH 的辅助函数。
 #
@@ -149,9 +135,6 @@ _prepend_path "/opt/homebrew/sbin"
 # 在 GO_HOME 未定义时错误展开成：
 #   "/bin"
 _prepend_path "${MYSQL_CLIENT_HOME:+$MYSQL_CLIENT_HOME/bin}"
-_prepend_path "${JAVA_HOME:+$JAVA_HOME/bin}"
-_prepend_path "${M2_HOME:+$M2_HOME/bin}"
-_prepend_path "${GRADLE_HOME:+$GRADLE_HOME/bin}"
 _prepend_path "${GO_HOME:+$GO_HOME/bin}"
 
 # User-local CLI tools. Keep this after Homebrew so brew-managed tools win.
