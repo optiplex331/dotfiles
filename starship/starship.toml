@@ -129,9 +129,6 @@ symbol = " "
 [golang]
 symbol = " "
 
-[gradle]
-symbol = " "
-
 [guix_shell]
 symbol = " "
 
