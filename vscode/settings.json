@@ -16,14 +16,12 @@
 	"editor.tabCompletion": "on",
 	"editor.wordWrap": "on",
 	"editor.inlineSuggest.enabled": true,
-
 	// ============================================================
 	// 保存与格式化
 	// ============================================================
 	"files.autoSave": "onFocusChange",
 	"editor.formatOnSave": true,
 	"editor.codeActionsOnSave": {},
-
 	"[css]": {
 		"editor.defaultFormatter": "biomejs.biome"
 	},
@@ -72,7 +70,6 @@
 	"[typescriptreact]": {
 		"editor.defaultFormatter": "biomejs.biome"
 	},
-
 	// ============================================================
 	// Markdown
 	// ============================================================
@@ -82,7 +79,6 @@
 	},
 	"markdown.extension.toc.updateOnSave": true,
 	"markdown.extension.tableFormatter.enabled": true,
-
 	// ============================================================
 	// 文件管理与文件关联
 	// ============================================================
@@ -95,7 +91,6 @@
 		"*.drawio.png": "hediet.vscode-drawio",
 		"*.drawio.svg": "hediet.vscode-drawio"
 	},
-
 	// ============================================================
 	// 终端与语言工具
 	// ============================================================
@@ -108,7 +103,6 @@
 	"terminal.integrated.inheritEnv": true,
 	"python.languageServer": "Default",
 	"python.pyrefly.typeCheckingMode": "auto",
-
 	// ============================================================
 	// Git
 	// ============================================================
@@ -116,7 +110,6 @@
 	"git.confirmSync": false,
 	"git.enableSmartCommit": true,
 	"git.openRepositoryInParentFolders": "always",
-
 	// ============================================================
 	// Copilot 内联建议
 	// ============================================================
@@ -136,7 +129,6 @@
 	"chat.titleBar.openInAgentsWindow.enabled": false,
 	"chatgpt.composerEnterBehavior": "cmdIfMultiline",
 	"chatgpt.reviewDelivery": "detached",
-
 	// ============================================================
 	// 界面与主题
 	// ============================================================
@@ -151,7 +143,6 @@
 	"workbench.colorCustomizations": {
 		"tree.indentGuidesStroke": "#05ef3c"
 	},
-
 	// ============================================================
 	// Docker、Remote 与 Azure
 	// ============================================================
@@ -161,14 +152,12 @@
 	"azureResourceGroups.selectedSubscriptions": [
 		"462a9c9c-2da6-4bfb-b318-0f83043fe49b/7dcd53d4-565b-4316-b311-793ed9bc0f16"
 	],
-
 	// ============================================================
 	// Draw.io
 	// ============================================================
 	"hediet.vscode-drawio.resizeImages": null,
 	"hediet.vscode-drawio.theme": "kennedy",
 	"hediet.vscode-drawio.appearance": "automatic",
-
 	// ============================================================
 	// YAML
 	// ============================================================
@@ -180,7 +169,6 @@
 		"**/.forgejo/workflows/*.yml",
 		"**/.forgejo/workflows/*.yaml"
 	],
-
 	// ============================================================
 	// 隐私、安全与更新
 	// ============================================================
@@ -188,7 +176,6 @@
 	"telemetry.telemetryLevel": "off",
 	"redhat.telemetry.enabled": false,
 	"update.showReleaseNotes": false,
-
 	// ============================================================
 	// JSON Schema 信任域
 	// ============================================================
@@ -202,9 +189,11 @@
 		"https://developer.microsoft.com/json-schemas/": true,
 		"https://biomejs.dev": true
 	},
-
 	// ============================================================
 	// Notebook
 	// ============================================================
-	"notebook.multiCursor.enabled": true
+	"notebook.multiCursor.enabled": true,
+	"files.associations": {
+		"*.template": "plaintext"
+	}
 }
