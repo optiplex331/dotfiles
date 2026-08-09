@@ -137,8 +137,8 @@ _prepend_path "/opt/homebrew/sbin"
 _prepend_path "${MYSQL_CLIENT_HOME:+$MYSQL_CLIENT_HOME/bin}"
 _prepend_path "${GO_HOME:+$GO_HOME/bin}"
 
-# User-local CLI tools. Keep this after Homebrew so brew-managed tools win.
-_append_path "$HOME/.local/bin"
+# User-local CLI tools, including the uv-managed default Python.
+_prepend_path "$HOME/.local/bin"
 
 # 清理辅助函数，避免污染 shell 环境。
 unset -f _prepend_path
