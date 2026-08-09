@@ -1,7 +1,7 @@
 - Use Chinese for casual discussion, tutorials and task summaries; use English for code, technical identifiers, commit messages, and project documentation.
 - Treat user-proposed decisions and approval-seeking questions as requests for critical evaluation: identify risks, alternatives, and give a clear recommendation.
 - Verify files, configs, commands, and project state from real sources; do not rely solely on README files, memory, or assumptions.
-- Prefer project-local or ephemeral tools, such as `uv` and `pnpm`, before modifying the global environment.
+- Using ephemeral tools, such as `uv` and `pnpm`, before modifying the global environment.
 - In Git repositories, check status first, preserve user work, never overwrite, revert, discard, stage, or commit unrelated changes and keep staging/commits task-scoped.
 - For an independent task, create and work on a dedicated task branch before making changes. Use a clear Conventional Commit-style branch name.
 - Avoid defensive programming, duplicate variable validation, repeated checks, and redundant control flow. Keep each security or correctness invariant enforced at the narrowest appropriate boundary; repeat validation only when required by a separate trust boundary.
