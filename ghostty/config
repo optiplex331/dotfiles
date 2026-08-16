@@ -46,6 +46,10 @@ mouse-hide-while-typing = true
 # 外观 / 窗口留白
 # --------------------------------------------------
 
+# 自定义图标
+macos-icon = custom
+macos-custom-icon = /Users/jackdaw/Projects/dotfiles/ghostty/Ghostty_Light__Full__-_macOS_27-959496687d.icns
+
 # One Dark 风格主题，和当前默认背景色 / README 描述保持一致
 theme = Atom One Dark
 
