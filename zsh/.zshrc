@@ -1,9 +1,6 @@
-# Kiro CLI pre block. Keep at the top of this file.
-[[ -f "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.pre.zsh" ]] && builtin source "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.pre.zsh"
-
 # ============================================================================
 # ~/.zshrc - Zsh 统一配置文件
-# 最后更新: 2026-05
+# 最后更新: 2026-08
 # ============================================================================
 #
 # 用户环境变量与交互式配置统一在此文件管理。
@@ -79,29 +76,20 @@ export CODEX_HOME="$HOME/.codex"
 # bat：语法高亮的 cat 替代品。
 export BAT_THEME='Catppuccin Mocha'
 
-# Go：如果通过官方安装包安装，可以按需取消注释。
-# export GO_HOME='/usr/local/go'
-
-# MySQL Client：如果需要独立 MySQL 客户端，可以按需取消注释。
-# export MYSQL_CLIENT_HOME='/opt/homebrew/opt/mysql-client@8.4'
-
 # ============================================================================
 # 5. PATH 配置
 # ============================================================================
 
-# zsh 原生数组 path 与 PATH 绑定。
+# zsh 原生数组 path 与 PATH 绑定；fpath 用于补全函数搜索路径。
 #
 # typeset -U 的作用：
 #   - 自动去重
 #   - 保留第一次出现的路径
 #   - 避免 PATH 在多次启动 shell 后无限膨胀
-typeset -U path PATH
+typeset -U path PATH fpath
 
-# macOS path_helper 不会展开 /etc/paths.d 中的 "~"。
-# 当前未安装 .NET global tools，因此移除无效的字面量路径。
-path=("${(@)path:#\~/.dotnet/tools}")
 
-# 安全追加 PATH 的辅助函数。
+# 安全前置 PATH 的辅助函数。
 #
 # 只在满足以下条件时才加入 PATH：
 #   1. 参数非空
@@ -114,35 +102,19 @@ _prepend_path() {
   path=("$1" $path)
 }
 
-_append_path() {
-  [[ -n "$1" && -d "$1" ]] || return
-  path=("${(@)path:#$1}")
-  path=($path "$1")
-}
-
 # Homebrew 基础路径。
 _prepend_path "/opt/homebrew/bin"
 _prepend_path "/opt/homebrew/sbin"
 
-# 各语言和工具路径。
-#
-# ${VAR:+...} 的含义：
-#   只有 VAR 已定义且非空时，才展开后面的路径。
-#
-# 这可以避免：
-#   "$GO_HOME/bin"
-#
-# 在 GO_HOME 未定义时错误展开成：
-#   "/bin"
-_prepend_path "${MYSQL_CLIENT_HOME:+$MYSQL_CLIENT_HOME/bin}"
-_prepend_path "${GO_HOME:+$GO_HOME/bin}"
-
 # User-local CLI tools, including the uv-managed default Python.
 _prepend_path "$HOME/.local/bin"
 
+# pnpm.
+export PNPM_HOME="$HOME/Library/pnpm"
+_prepend_path "$PNPM_HOME/bin"
+
 # 清理辅助函数，避免污染 shell 环境。
 unset -f _prepend_path
-unset -f _append_path
 
 # 显式导出 PATH，供子进程继承。
 export PATH
@@ -174,15 +146,6 @@ unset HOMEBREW_BOTTLE_DOMAIN
 # 这里会用于 .zcompdump 的 24 小时缓存判断：
 #   "${ZDOTDIR:-$HOME}/.zcompdump"(#qN.mh-24)
 setopt EXTENDED_GLOB
-
-# zsh 原生数组去重。
-#
-# path  与 PATH  绑定。
-# fpath 与补全函数搜索路径相关。
-#
-# typeset -U 可以避免重复路径不断累积。
-typeset -U path PATH fpath
-
 
 # ============================================================================
 # 8. 补全系统
@@ -262,12 +225,6 @@ SAVEHIST=5000
 
 # 记录命令执行时间戳和耗时。
 setopt EXTENDED_HISTORY
-
-# 追加写入历史文件，而不是覆盖。
-setopt APPEND_HISTORY
-
-# 命令执行后立即写入历史文件。
-setopt INC_APPEND_HISTORY
 
 # 多终端窗口共享历史记录。
 #
@@ -639,28 +596,17 @@ command -v zoxide >/dev/null 2>&1 && eval "$(zoxide init zsh)"
 
 
 # ============================================================================
-# 21. zsh-syntax-highlighting
+# 21. 第三方 Shell 集成
 # ============================================================================
 
-# zsh-syntax-highlighting：实时命令着色。
-#
-# 效果：
-#   - 合法命令高亮
-#   - 未知命令提示
-#   - 参数和路径着色
-# 安装：
-#   brew install zsh-syntax-highlighting
-#
+# OrbStack：命令行工具和 Shell 集成。
+[[ -r "$HOME/.orbstack/shell/init.zsh" ]] && \
+  source "$HOME/.orbstack/shell/init.zsh"
+
+# inshellisense：命令参数提示。
+[[ -f "$HOME/.local/share/inshellisense/init/zsh/init.zsh" ]] && \
+  source "$HOME/.local/share/inshellisense/init/zsh/init.zsh"
+
+# zsh-syntax-highlighting 必须放在其他初始化之后。
 [[ -f /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]] && \
   source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
-# Kiro CLI post block. Keep at the bottom of this file.
-[[ -f "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.post.zsh" ]] && builtin source "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.post.zsh"
-
-# pnpm
-export PNPM_HOME="/Users/jackdaw/Library/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME/bin:"*) ;;
-  *) export PATH="$PNPM_HOME/bin:$PATH" ;;
-esac
-# pnpm end
