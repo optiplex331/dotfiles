@@ -1,5 +1,5 @@
 model = "gpt-5.6-luna"
-model_reasoning_effort = "medium"
+model_reasoning_effort = "high"
 
 personality = "pragmatic"
 approval_policy = "never"
@@ -9,6 +9,7 @@ service_tier = "default"
 
 notify = ["/Users/jackdaw/.codex/computer-use/Codex Computer Use.app/Contents/SharedSupport/SkyComputerUseClient.app/Contents/MacOS/SkyComputerUseClient", "turn-ended", "--previous-notify", "[\"\\/usr\\/bin\\/env\",\"node\",\"\\/Users\\/jackdaw\\/.tokentracker\\/bin\\/notify.cjs\"]"]
 approvals_reviewer = "user"
+model_verbosity = "low"
 
 [projects."/Users/jackdaw/Projects/ClaudeCodeFullSkills"]
 trust_level = "trusted"
