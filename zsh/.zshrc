@@ -603,8 +603,8 @@ command -v zoxide >/dev/null 2>&1 && eval "$(zoxide init zsh)"
 [[ -r "$HOME/.orbstack/shell/init.zsh" ]] && \
   source "$HOME/.orbstack/shell/init.zsh"
 
-# inshellisense：命令参数提示。
-[[ -f "$HOME/.local/share/inshellisense/init/zsh/init.zsh" ]] && \
+# inshellisense：命令参数提示。当前版本在 Ghostty 中启动 PTY 失败后会退出父 shell。
+[[ "$TERM_PROGRAM" != "ghostty" && -f "$HOME/.local/share/inshellisense/init/zsh/init.zsh" ]] && \
   source "$HOME/.local/share/inshellisense/init/zsh/init.zsh"
 
 # zsh-syntax-highlighting 必须放在其他初始化之后。
