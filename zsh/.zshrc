@@ -548,14 +548,70 @@ alias pb='pbcopy'
 alias tnew='tmux new -s'
 alias ta='tmux a -t'
 
-# Homebrew 全量更新。
+# 开发工具全量更新。
 #
 # 包含：
 #   - 更新 Homebrew 索引
-#   - 升级所有包
-#   - 清理旧版本
-#   - 清理下载缓存
-alias brew14all='brew update && brew upgrade && brew cleanup --prune=all && command rm -rf "$(brew --cache)"/*'
+#   - 升级 Homebrew、pnpm、npm 和 uv 管理的全局包
+#   - 更新已安装的 agent skills
+#   - 清理 Homebrew 和 pnpm 缓存
+#
+# 单个工具失败时继续执行其他更新，最后统一返回失败状态。
+update14all() {
+  emulate -L zsh
+
+  local -a failed_steps=()
+
+  print '\n==> Homebrew packages'
+  if ! brew update || ! brew upgrade; then
+    failed_steps+=('Homebrew packages')
+  fi
+
+  print '\n==> Homebrew cleanup'
+  if ! brew cleanup --prune=all --scrub; then
+    failed_steps+=('Homebrew cleanup')
+  fi
+
+  if (( $+commands[pnpm] )); then
+    print '\n==> pnpm global packages'
+    if ! pnpm update --global --latest; then
+      failed_steps+=('pnpm global packages')
+    fi
+
+    print '\n==> pnpm store cleanup'
+    if ! pnpm store prune; then
+      failed_steps+=('pnpm store cleanup')
+    fi
+  fi
+
+  if (( $+commands[npm] )); then
+    print '\n==> npm global packages'
+    if ! npm update --global; then
+      failed_steps+=('npm global packages')
+    fi
+  fi
+
+  if (( $+commands[uv] )); then
+    print '\n==> uv tools'
+    if ! uv tool upgrade --all; then
+      failed_steps+=('uv tools')
+    fi
+  fi
+
+  if (( $+commands[npx] )); then
+    print '\n==> Agent skills'
+    if ! npx --yes skills update; then
+      failed_steps+=('agent skills')
+    fi
+  fi
+
+  if (( ${#failed_steps} )); then
+    print -u2 "\nupdate14all completed with failures: ${(j:, :)failed_steps}"
+    return 1
+  fi
+
+  print '\nupdate14all completed successfully.'
+}
 
 # Claude Code。
 alias cc='claude --dangerously-skip-permissions'
