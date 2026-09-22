@@ -106,6 +106,15 @@ _prepend_path() {
 _prepend_path "/opt/homebrew/bin"
 _prepend_path "/opt/homebrew/sbin"
 
+# Match the Node.js version declared in Brewfile when node@24 is installed.
+for node_prefix in /opt/homebrew/opt/node@24 /usr/local/opt/node@24; do
+  if [[ -x "$node_prefix/bin/node" ]]; then
+    _prepend_path "$node_prefix/bin"
+    break
+  fi
+done
+unset node_prefix
+
 # User-local CLI tools, including the uv-managed default Python.
 _prepend_path "$HOME/.local/bin"
 

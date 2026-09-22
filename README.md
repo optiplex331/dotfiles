@@ -47,13 +47,21 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/optiplex331/dotfiles/mai
 4. 执行 `restore.sh` 创建所有软链接
 5. 执行 `brew bundle` 安装所有软件
 
+初始化后可运行 `bash ~/Projects/dotfiles/scripts/doctor.sh`，检查软链接、Agent 入口和 Brewfile 状态。
+
 ### 已有仓库恢复配置
 
 ```bash
 bash ~/Projects/dotfiles/scripts/restore.sh
 ```
 
-该脚本会将所有配置目录软链接到家目录，已存在的文件自动备份至 `~/.dotfiles_backup/`。
+该脚本会将所有配置目录软链接到家目录。已有文件和非本仓库管理的软链接会备份至 `~/.dotfiles_backup/`；已正确指向本仓库的链接会保留。
+
+预览即将执行的操作：
+
+```bash
+DRY_RUN=1 bash ~/Projects/dotfiles/scripts/restore.sh
+```
 
 ---
 
@@ -149,8 +157,10 @@ bash ~/Projects/dotfiles/scripts/restore.sh
 | `nvim-mini/mini.surround` | 快速添加/修改/删除包围符 |
 | `godlygeek/tabular` | 文本对齐（`<Leader>t`）|
 | `stevearc/conform.nvim` | 按文件类型格式化 |
-| `keaising/im-select.nvim` | macOS 输入法自动切换 |
+| `keaising/im-select.nvim` | 通过 `macism` 自动切换 macOS 输入法 |
 | `snacks.nvim` | 工具集（滚动动画已关闭）|
+
+插件版本记录在 `nvim/lazy-lock.json`。更新插件后提交该锁定文件，确保新机器使用相同版本。
 
 #### 已禁用默认插件
 
@@ -281,16 +291,18 @@ bash ~/Projects/dotfiles/scripts/restore.sh
 
 ```
 .
-├── AGENTS.md              # Codex / Agent 全局说明
-├── CLAUDE.md              # Claude 兼容版 Agent 说明
+├── AGENTS.md              # Dotfiles project instructions
+├── CLAUDE.md              # Imports AGENTS.md for Claude Code
+├── agents/
+│   └── AGENTS.md          # Shared global agent instructions
 ├── .claude/
 │   └── settings.local.json
-├── claude/                 # Claude Code 全局指令与 statusline
-│   ├── CLAUDE.md
+├── claude/                 # Claude Code statusline
 │   └── statusline.sh
 ├── codex/                  # Codex 配置模板
-│   ├── AGENTS.md           # 指向 claude/CLAUDE.md 的软链接
-│   └── config.toml
+│   ├── AGENTS.md           # Symlink to ../agents/AGENTS.md
+│   ├── config.toml         # Shareable seed copied once on restore
+│   └── config.local.toml   # Gitignored machine-local runtime config
 ├── vscode/                 # VS Code 编辑器配置
 │   ├── settings.json
 │   └── keybindings.json
@@ -308,6 +320,7 @@ bash ~/Projects/dotfiles/scripts/restore.sh
 ├── nvim/                   # Neovim 配置 (LazyVim)
 │   ├── .neoconf.json
 │   ├── init.lua
+│   ├── lazy-lock.json      # Locked plugin revisions
 │   ├── lazyvim.json
 │   └── lua/
 │       ├── config/
@@ -328,7 +341,8 @@ bash ~/Projects/dotfiles/scripts/restore.sh
 │           └── tabular.lua
 ├── scripts/                # 自动化脚本
 │   ├── setup.sh            # 新机器一键初始化
-│   └── restore.sh          # 软链接恢复脚本
+│   ├── restore.sh          # 软链接恢复脚本
+│   └── doctor.sh           # 本机链接和依赖检查
 ├── starship/               # Starship 提示符
 │   └── starship.toml
 ├── tmux/                   # Tmux 终端复用器
@@ -426,13 +440,28 @@ bash ~/Projects/dotfiles/scripts/restore.sh
 | `vscode/settings.json` | `~/Library/Application Support/Code/User/settings.json` |
 | `vscode/keybindings.json` | `~/Library/Application Support/Code/User/keybindings.json` |
 | `claude/statusline.sh` | `~/.claude/statusline.sh` |
-| `claude/CLAUDE.md` | `~/.claude/CLAUDE.md` |
-| `claude/CLAUDE.md` | `~/.codex/AGENTS.md` |
-| `codex/config.toml` | `~/.codex/config.toml` |
+| `agents/AGENTS.md` | `~/.claude/CLAUDE.md` |
+| `agents/AGENTS.md` | `~/.codex/AGENTS.md` |
+| `agents/AGENTS.md` | `~/.gemini/GEMINI.md` |
+| `codex/config.local.toml` | `~/.codex/config.toml` |
+
+### 本机私有配置
+
+`codex/config.toml` 只保存新机器的通用初始设置。恢复脚本首次运行时复制为被 Git 忽略的 `codex/config.local.toml`，之后 Codex 只写入本机文件。已有本机配置不会被模板覆盖。
+
+`.claude/settings.local.json`、`.claude/settings.json`、`claude/settings.json`、`.gemini/settings.json`、`.gemini/.env` 和 `kitty/workspace.conf` 属于本机文件，不纳入仓库。
 
 ---
 
 ## 维护与更新
+
+### 检查本机环境
+
+```bash
+bash ~/Projects/dotfiles/scripts/doctor.sh
+```
+
+该脚本只读取状态，不安装软件或改写配置。
 
 ### 更新软件
 

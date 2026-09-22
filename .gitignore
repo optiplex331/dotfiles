@@ -2,11 +2,16 @@
 *.backup
 *.backup.*
 
-# Claude local machine overrides
+# Local machine agent settings and runtime state
 .claude/settings.local.json
-
-# Neovim runtime state
-nvim/lazy-lock.json
+.claude/settings.json
+.gemini/settings.json
+.gemini/.env
+claude/settings.json
+claude/settings.local.json
+kitty/workspace.conf
+codex/config.local.toml
+codex/config.local.*.toml
 
 # Kitty example/generated files
 kitty/kitty.conf.example

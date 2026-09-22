@@ -11,6 +11,8 @@ cask "ghostty"
 
 # ── Editors ───────────────────────────────────────────────────────────────
 brew "neovim"
+tap "laishulu/homebrew"
+brew "macism"
 cask "visual-studio-code"
 vscode "anthropic.claude-code"
 vscode "biomejs.biome"
