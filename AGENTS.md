@@ -19,7 +19,7 @@ Project instructions for the personal macOS dotfiles repository.
 | Homebrew package set | `Brewfile` |
 | Neovim / LazyVim configuration | `nvim/` |
 | VS Code settings and keybindings | `vscode/` |
-| Global Claude/Codex interaction rules | `claude/CLAUDE.md` |
+| Shared agent instructions | `agents/AGENTS.md` |
 | Codex local configuration template | `codex/config.toml` |
 
 ## Editing Rules
