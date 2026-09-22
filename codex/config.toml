@@ -1,0 +1,5 @@
+# Shared seed for a new local Codex configuration.
+# restore.sh copies this file to the gitignored config.local.toml only once.
+model = "gpt-6-astra"
+model_reasoning_effort = "medium"
+personality = "pragmatic"
