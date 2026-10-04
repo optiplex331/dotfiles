@@ -27,6 +27,7 @@
 
 ## 工具与并行
 
-- 只有存在真正独立的工作流，且委派能节省时间或提升质量时才分配subagent。
-- 无须独立判断、无业务逻辑推演的纯机械性任务或简单检索，按所在工具委派：Codex 调用已定义好的 `luna_worker` 子Agent；Claude Code 的子Agent 与主 Agent 使用同一个当前模型；Antigravity 使用当前对话模型。
-- 共享状态、连续决策和简单任务由当前 Agent 直接完成；委派任务必须有明确输入、输出和完成判据，最终结论由主 Agent 汇总并验证。
+- 共享状态、连续决策和简单任务由当前 Agent 直接完成。
+- 委派任务必须有明确输入、输出和完成判据，最终结论由主 Agent 汇总并抽查验证，不重做委派的任务。
+- 需要判断的独立工作流，在委派能节省时间或提升质量时自主分配 subagent，使用与主 Agent 相同的当前模型。
+- 不需要判断、输入输出冗长而结论简短的机械任务（跑长时测试、读长日志、批量检索）交给 gpt-6-luna，只取回结论：Codex 主模型不是 luna 时调用 `luna_worker`；Claude Code 执行 `codex exec -m gpt-6-luna -s read-only --ephemeral --skip-git-repo-check -C <dir> "<任务>" </dev/null 2>/dev/null`，`</dev/null` 防止挂起，需要写文件时用 `-s workspace-write`；Antigravity 分配当前模型完成。
