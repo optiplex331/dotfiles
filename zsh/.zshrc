@@ -675,5 +675,22 @@ command -v zoxide >/dev/null 2>&1 && eval "$(zoxide init zsh)"
 # Inshellisense：只在真实终端中启用，Ghostty 中禁用以避免 PTY 资源耗尽。
 if [[ -t 0 && -t 1 && -n "$TERM_PROGRAM" && "$TERM_PROGRAM" != "ghostty" && \
       -f "$HOME/.local/share/inshellisense/init/zsh/init.zsh" ]]; then
-  source "$HOME/.local/share/inshellisense/init/zsh/init.zsh"
+  # init.zsh 会执行 `is ... ; exit`。brew 升级后资源版本落后时 is 立即退出，
+  # 终端会一打开就关闭，所以先让资源版本对齐 Homebrew 版本；
+  # reinit 失败时跳过加载，保证 shell 仍然可用。
+  _is_brew_version="${${:-/opt/homebrew/opt/inshellisense}:A:t}"
+  _is_data_version="$(<"$HOME/.local/share/inshellisense/version.txt" 2>/dev/null)"
+
+  if [[ "$_is_brew_version" != "$_is_data_version" ]]; then
+    print -u2 "inshellisense: resources ${_is_data_version:-missing} -> $_is_brew_version, running is reinit"
+    is reinit >/dev/null 2>&1 || _is_brew_version=''
+  fi
+
+  if [[ -n "$_is_brew_version" ]]; then
+    unset _is_brew_version _is_data_version
+    source "$HOME/.local/share/inshellisense/init/zsh/init.zsh"
+  else
+    print -u2 'inshellisense: reinit failed, skipped loading'
+    unset _is_brew_version _is_data_version
+  fi
 fi
