@@ -198,5 +198,6 @@
 	"files.associations": {
 		"*.template": "plaintext"
 	},
-	"lean4.alwaysAskBeforeInstallingLeanVersions": true
+	"lean4.alwaysAskBeforeInstallingLeanVersions": true,
+	"claudeCode.preferredLocation": "panel"
 }
