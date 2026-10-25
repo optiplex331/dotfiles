@@ -119,7 +119,8 @@
 		"*": true,
 		"markdown": true,
 		"plaintext": false,
-		"scminput": false
+		"scminput": false,
+		"ignore": true
 	},
 	// ============================================================
 	// Chat 与 AI 界面
