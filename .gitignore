@@ -1,6 +1,10 @@
 .DS_Store
 *.backup
 *.backup.*
+*.backup-*
+*.bak
+*.bak-*
+*.bak.*
 
 # Local machine agent settings and runtime state
 .claude/settings.local.json
