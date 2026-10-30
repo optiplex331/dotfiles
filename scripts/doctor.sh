@@ -79,12 +79,6 @@ for tool in git zsh brew claude codex; do
   fi
 done
 
-if command -v gemini >/dev/null 2>&1; then
-  pass "gemini is available"
-else
-  warn "gemini CLI is not on PATH; Gemini context loading cannot be checked"
-fi
-
 if command -v macism >/dev/null 2>&1; then
   pass "macism is available"
 else

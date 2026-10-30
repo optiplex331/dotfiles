@@ -4,6 +4,7 @@
 brew "zsh-syntax-highlighting"
 brew "zoxide"
 brew "starship"
+brew "inshellisense"
 
 # ── Terminal ──────────────────────────────────────────────────────────────
 brew "tmux"
