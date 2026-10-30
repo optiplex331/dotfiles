@@ -247,14 +247,14 @@ DRY_RUN=1 bash ~/Projects/dotfiles/scripts/restore.sh
 ### Git
 
 - **用户**: `Qinhuihao Zeng <67191689+optiplex331@users.noreply.github.com>`
-- **全局 ignore**: `.claude/settings.local.json`
+- **全局 ignore**: `git/ignore` 链接到 `~/.config/git/ignore`，忽略 `*~`、`.DS_Store` 和任意层级的 `.claude/settings.local.json`
 
 ---
 
 ### Codex
 
 - **配置文件**: `~/.codex/config.toml`
-- **管理方式**: 仓库内 `codex/config.toml` 通过 `scripts/restore.sh` 软链接到 `~/.codex/config.toml`
+- **管理方式**: `scripts/restore.sh` 把被 Git 忽略的 `codex/config.local.toml` 软链接到 `~/.codex/config.toml`；仓库内 `codex/config.toml` 只是首次恢复时复制的模板（见「本机私有配置」）
 - **路径约定**: 这是个人 macOS dotfiles，Codex 配置可以包含本机绝对路径
 - **内容范围**: 配置包含 model、通知、trusted projects、桌面偏好、插件、marketplace、MCP 和 feature flag 配置
 
@@ -300,7 +300,6 @@ DRY_RUN=1 bash ~/Projects/dotfiles/scripts/restore.sh
 ├── claude/                 # Claude Code statusline
 │   └── statusline.sh
 ├── codex/                  # Codex 配置模板
-│   ├── AGENTS.md           # Symlink to ../agents/AGENTS.md
 │   ├── config.toml         # Shareable seed copied once on restore
 │   └── config.local.toml   # Gitignored machine-local runtime config
 ├── vscode/                 # VS Code 编辑器配置
@@ -420,6 +419,7 @@ DRY_RUN=1 bash ~/Projects/dotfiles/scripts/restore.sh
 |------|------|
 | `scripts/setup.sh` | 新机器一键初始化（SSH + Homebrew + 克隆 + 恢复 + brew bundle） |
 | `scripts/restore.sh` | 幂等软链接创建，已有文件自动备份至 `~/.dotfiles_backup/` |
+| `scripts/doctor.sh` | 检查软链接、Agent 入口、命令行工具和 Brewfile 状态 |
 
 ### restore.sh 目标
 
