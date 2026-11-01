@@ -559,63 +559,100 @@ alias ta='tmux a -t'
 
 # 开发工具全量更新。
 #
-# 包含：
-#   - 更新 Homebrew 索引
-#   - 升级 Homebrew、pnpm、npm 和 uv 管理的全局包
-#   - 更新已安装的 agent skills
-#   - 清理 Homebrew 和 pnpm 缓存
+# 用法：
+#   update14all              # 全部执行
+#   update14all brew skills  # 只执行指定分组
+#   update14all -h           # 查看分组
 #
-# 单个工具失败时继续执行其他更新，最后统一返回失败状态。
+# 分组：
+#   brew    Homebrew 索引、formula/cask 升级、移除无用依赖、清理
+#   pnpm    pnpm 全局包升级、store 清理
+#   npm     npm 全局包升级
+#   uv      uv 管理的 Python 工具
+#   skills  agent skills（在 ~/.agents 下执行，等价于手动 cd 后 npx skills update）
+#   gh      gh CLI 扩展
+#   tldr    tldr 页面缓存
+#   claude  Claude Code 原生安装版本
+#   elan    elan 自身（Lean 工具链由各项目 lean-toolchain 固定，不在此升级）
+#
+# 单步失败不中断，最后汇总每步结果与耗时，有失败则返回 1。
+# 结尾检查 dotfiles 仓库（$DOTFILES_DIR，默认 ~/Projects/dotfiles）是否有未提交改动。
+_update14all_step() {
+  local name=$1; shift
+  local start=$SECONDS
+  print -P "\n%F{blue}==>%f %B${name}%b"
+  if "$@"; then
+    _u14_report+=("%F{green}✓%f ${name} ($(( SECONDS - start ))s)")
+  else
+    _u14_report+=("%F{red}✗%f ${name} ($(( SECONDS - start ))s)")
+    _u14_failed+=("$name")
+  fi
+}
+
+# 子 shell 切目录：skills CLI 以 ~/.agents 为工作目录，且不改变调用方的当前目录。
+_update14all_skills() {
+  local agents_dir=${AGENTS_HOME:-$HOME/.agents}
+  [[ -d $agents_dir ]] || { print -u2 "missing $agents_dir"; return 1; }
+  ( builtin cd -q -- "$agents_dir" && npx --yes skills@latest update --global --yes )
+}
+
 update14all() {
   emulate -L zsh
 
-  local -a failed_steps=()
+  local -a all_groups=(brew pnpm npm uv skills gh tldr claude elan)
+  local -a groups _u14_report _u14_failed
+  local total_start=$SECONDS
 
-  print '\n==> Homebrew packages'
-  if ! brew update || ! brew upgrade; then
-    failed_steps+=('Homebrew packages')
+  if [[ $1 == (-h|--help) ]]; then
+    print "usage: update14all [${(j:|:)all_groups}]..."
+    return 0
   fi
 
-  print '\n==> Homebrew cleanup'
-  if ! brew cleanup --prune=all --scrub; then
-    failed_steps+=('Homebrew cleanup')
-  fi
-
-  if (( $+commands[pnpm] )); then
-    print '\n==> pnpm global packages'
-    if ! pnpm update --global --latest; then
-      failed_steps+=('pnpm global packages')
+  groups=(${@:-$all_groups})
+  local g
+  for g in $groups; do
+    if (( ! ${all_groups[(Ie)$g]} )); then
+      print -u2 "update14all: unknown group '$g' (available: ${all_groups})"
+      return 2
     fi
+  done
 
-    print '\n==> pnpm store cleanup'
-    if ! pnpm store prune; then
-      failed_steps+=('pnpm store cleanup')
-    fi
+  _u14_has() { (( ${groups[(Ie)$1]} )) && (( $+commands[$2] )) }
+
+  if _u14_has brew brew; then
+    _update14all_step 'Homebrew update' brew update
+    _update14all_step 'Homebrew upgrade' brew upgrade --yes
+    _update14all_step 'Homebrew autoremove' brew autoremove
+    _update14all_step 'Homebrew cleanup' brew cleanup --prune=all --scrub
   fi
 
-  if (( $+commands[npm] )); then
-    print '\n==> npm global packages'
-    if ! npm update --global; then
-      failed_steps+=('npm global packages')
-    fi
+  if _u14_has pnpm pnpm; then
+    _update14all_step 'pnpm global packages' pnpm update --global --latest
+    _update14all_step 'pnpm store prune' pnpm store prune
   fi
 
-  if (( $+commands[uv] )); then
-    print '\n==> uv tools'
-    if ! uv tool upgrade --all; then
-      failed_steps+=('uv tools')
-    fi
+  _u14_has npm npm && _update14all_step 'npm global packages' npm update --global
+  _u14_has uv uv && _update14all_step 'uv tools' uv tool upgrade --all
+  _u14_has skills npx && _update14all_step 'Agent skills (~/.agents)' _update14all_skills
+  _u14_has gh gh && _update14all_step 'gh extensions' gh extension upgrade --all
+  _u14_has tldr tldr && _update14all_step 'tldr cache' tldr --update
+  _u14_has claude claude && _update14all_step 'Claude Code' claude update
+
+  _u14_has elan elan && _update14all_step 'elan' elan self update
+
+  unfunction _u14_has
+
+  print -P "\n%BSummary%b ($(( SECONDS - total_start ))s)"
+  print -lP -- '  '${^_u14_report}
+
+  local dotfiles_dir=${DOTFILES_DIR:-$HOME/Projects/dotfiles}
+  if [[ -d $dotfiles_dir/.git ]] && [[ -n $(git -C "$dotfiles_dir" status --porcelain 2>/dev/null) ]]; then
+    print -P "\n%F{yellow}!%f dotfiles 有未提交改动（${dotfiles_dir}）："
+    git -C "$dotfiles_dir" status --short
   fi
 
-  if (( $+commands[npx] )); then
-    print '\n==> Agent skills'
-    if ! npx --yes skills update; then
-      failed_steps+=('agent skills')
-    fi
-  fi
-
-  if (( ${#failed_steps} )); then
-    print -u2 "\nupdate14all completed with failures: ${(j:, :)failed_steps}"
+  if (( ${#_u14_failed} )); then
+    print -u2 "\nupdate14all completed with failures: ${(j:, :)_u14_failed}"
     return 1
   fi
 
