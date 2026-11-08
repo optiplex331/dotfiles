@@ -86,7 +86,6 @@
 	"explorer.confirmDragAndDrop": false,
 	"workbench.editor.empty.hint": "hidden",
 	"workbench.editorAssociations": {
-		"*.copilotmd": "vscode.markdown.preview.editor",
 		"*.dio": "hediet.vscode-drawio",
 		"*.drawio": "hediet.vscode-drawio",
 		"*.drawio.png": "hediet.vscode-drawio",
@@ -112,16 +111,6 @@
 	"git.confirmSync": false,
 	"git.enableSmartCommit": true,
 	"git.openRepositoryInParentFolders": "always",
-	// ============================================================
-	// Copilot 内联建议
-	// ============================================================
-	"github.copilot.enable": {
-		"*": true,
-		"markdown": true,
-		"plaintext": false,
-		"scminput": false,
-		"ignore": true
-	},
 	// ============================================================
 	// Chat 与 AI 界面
 	// ============================================================
@@ -199,6 +188,5 @@
 	"files.associations": {
 		"*.template": "plaintext"
 	},
-	"lean4.alwaysAskBeforeInstallingLeanVersions": true,
 	"claudeCode.preferredLocation": "panel"
 }
