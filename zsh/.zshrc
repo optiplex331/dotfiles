@@ -573,7 +573,6 @@ alias ta='tmux a -t'
 #   gh      gh CLI 扩展
 #   tldr    tldr 页面缓存
 #   claude  Claude Code 原生安装版本
-#   elan    elan 自身（Lean 工具链由各项目 lean-toolchain 固定，不在此升级）
 #
 # 单步失败不中断，最后汇总每步结果与耗时，有失败则返回 1。
 # 结尾检查 dotfiles 仓库（$DOTFILES_DIR，默认 ~/Projects/dotfiles）是否有未提交改动。
@@ -599,7 +598,7 @@ _update14all_skills() {
 update14all() {
   emulate -L zsh
 
-  local -a all_groups=(brew pnpm npm uv skills gh tldr claude elan)
+  local -a all_groups=(brew pnpm npm uv skills gh tldr claude)
   local -a groups _u14_report _u14_failed
   local total_start=$SECONDS
 
@@ -638,7 +637,6 @@ update14all() {
   _u14_has tldr tldr && _update14all_step 'tldr cache' tldr --update
   _u14_has claude claude && _update14all_step 'Claude Code' claude update
 
-  _u14_has elan elan && _update14all_step 'elan' elan self update
 
   unfunction _u14_has
 
