@@ -9,9 +9,5 @@
 # Local machine agent settings and runtime state
 .claude/settings.local.json
 .claude/settings.json
-kitty/workspace.conf
 codex/config.local.toml
 codex/config.local.*.toml
-
-# Kitty example/generated files
-kitty/kitty.conf.example

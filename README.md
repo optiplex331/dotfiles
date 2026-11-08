@@ -20,7 +20,7 @@
 
 | 类别 | 工具 |
 |------|------|
-| **终端** | Ghostty（当前主力）+ Kitty（保留备用配置） |
+| **终端** | Ghostty |
 | **Shell** | Zsh + Starship 提示符 + zoxide |
 | **编辑器** | Neovim（基于 LazyVim）+ VS Code |
 | **复用器** | Tmux（Oh My Tmux! + 电池/主机名状态栏） |
@@ -184,30 +184,6 @@ DRY_RUN=1 bash ~/Projects/dotfiles/scripts/restore.sh
 
 ---
 
-### Kitty
-
-> Kitty 暂时不是主力终端，但配置继续保留，便于回切或做兼容参考。
-
-- **字体**: Maple Mono Normal NF CN 14pt
-- **背景色**: `#282c34`（One Dark 风格）
-- **光标**: Block 形状，带轨迹残影特效
-- **功能**: 鼠标选中自动复制
-- **布局**: fat / tall / stack / grid / vertical / horizontal（`Ctrl+Shift+L` 切换）
-- **标签栏**: 底部，`┃` 分隔符风格
-
-#### 标签快捷键
-
-| 快捷键 | 功能 |
-|--------|------|
-| `Cmd + T` | 新建标签页 |
-| `Cmd + W` | 关闭标签页 |
-| `Cmd + Shift + I` | 重命名标签页 |
-| `Ctrl + Shift + ]` | 下一个标签页 |
-| `Ctrl + Shift + [` | 上一个标签页 |
-| `Cmd + 1~9` | 跳转到指定标签页 |
-
----
-
 ### Tmux
 
 - **框架**: Oh My Tmux!（`.tmux.conf.local` 覆盖默认配置）
@@ -310,8 +286,6 @@ DRY_RUN=1 bash ~/Projects/dotfiles/scripts/restore.sh
 │   └── ignore
 ├── ghostty/                # Ghostty 终端配置（当前主力）
 │   └── config
-├── kitty/                  # Kitty 终端配置（保留备用）
-│   └── kitty.conf
 ├── lazydocker/             # Lazydocker Docker TUI
 │   └── config.yml
 ├── lazygit/                # Lazygit Git TUI
@@ -428,7 +402,6 @@ DRY_RUN=1 bash ~/Projects/dotfiles/scripts/restore.sh
 | `zsh/.zshrc` | `~/.zshrc` |
 | `vim/vimrc` | `~/.vimrc` |
 | `nvim/` | `~/.config/nvim` |
-| `kitty/` | `~/.config/kitty` |
 | `ghostty/` | `~/.config/ghostty` |
 | `tmux/tmux.conf.local` | `~/.tmux.conf.local` |
 | `git/gitconfig` | `~/.gitconfig` |
@@ -449,7 +422,7 @@ DRY_RUN=1 bash ~/Projects/dotfiles/scripts/restore.sh
 
 `codex/config.toml` 只保存新机器的通用初始设置。恢复脚本首次运行时复制为被 Git 忽略的 `codex/config.local.toml`，之后 Codex 只写入本机文件。已有本机配置不会被模板覆盖。
 
-`.claude/settings.local.json`、`.claude/settings.json`、`claude/settings.json`、`.gemini/settings.json`、`.gemini/.env` 和 `kitty/workspace.conf` 属于本机文件，不纳入仓库。
+`.claude/settings.local.json`、`.claude/settings.json`、`claude/settings.json`、`.gemini/settings.json` 和 `.gemini/.env` 属于本机文件，不纳入仓库。
 
 ---
 

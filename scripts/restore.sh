@@ -128,7 +128,6 @@ link vim/vimrc         .vimrc
 link nvim              .config/nvim
 
 # ── Terminal ───────────────────────────────────────────────────────────────
-link kitty             .config/kitty
 link ghostty           .config/ghostty
 link tmux/tmux.conf.local .tmux.conf.local
 

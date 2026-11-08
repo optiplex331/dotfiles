@@ -34,7 +34,6 @@ check_link() {
 check_link zsh/.zshrc .zshrc
 check_link vim/vimrc .vimrc
 check_link nvim .config/nvim
-check_link kitty .config/kitty
 check_link ghostty .config/ghostty
 check_link tmux/tmux.conf.local .tmux.conf.local
 check_link git/gitconfig .gitconfig
